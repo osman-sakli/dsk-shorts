@@ -1,0 +1,12 @@
+{
+  "id": "006-glitch-what-school",
+  "title": "Glitch Alert!",
+  "scene": "chat",
+  "lines": [
+    { "who": "GLITCH",  "text": "Hey friend! How old are you? What school do you go to?" },
+    { "who": "PIXEL",   "text": "Umm, I go to—" },
+    { "who": "SHIELDY", "text": "Red flag! Strangers asking personal questions?", "pose": "shock" },
+    { "who": "SHIELDY", "text": "Don't answer. Block. Tell a grown-up." },
+    { "who": "GLITCH",  "text": "Curses!", "pose": "shock" }
+  ]
+}

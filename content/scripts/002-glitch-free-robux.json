@@ -1,0 +1,12 @@
+{
+  "id": "002-glitch-free-robux",
+  "title": "Glitch Alert!",
+  "scene": "popup",
+  "lines": [
+    { "who": "GLITCH",  "text": "FREE ROBUX! Click meee! Only ten seconds left!" },
+    { "who": "PIXEL",   "text": "Ooh, free Robux?!", "pose": "happy" },
+    { "who": "SHIELDY", "text": "Stop! Free PLUS urgent equals TRAP.", "pose": "shock" },
+    { "who": "GLITCH",  "text": "Nooo, not the shield!", "pose": "shock" },
+    { "who": "SHIELDY", "text": "Real free things never rush you." }
+  ]
+}

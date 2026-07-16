@@ -1,0 +1,13 @@
+{
+  "id": "001-knight-rule-1",
+  "title": "Knight Rule #1",
+  "scene": "game-chat",
+  "lines": [
+    { "who": "PIXEL",   "text": "Hi! My name is—", "pose": "happy" },
+    { "who": "SHIELDY", "text": "Woah woah woah! Knight Rule number one!", "pose": "shock" },
+    { "who": "SHIELDY", "text": "Your real name stays OFF the chat." },
+    { "who": "PIXEL",   "text": "But they seem nice!", "pose": "neutral" },
+    { "who": "SHIELDY", "text": "Nice players don't need your name. Nickname only!" },
+    { "who": "PIXEL",   "text": "PixelKnight99 it is!", "pose": "happy" }
+  ]
+}

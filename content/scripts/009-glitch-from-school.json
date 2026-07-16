@@ -1,0 +1,12 @@
+{
+  "id": "009-glitch-from-school",
+  "title": "Glitch Alert!",
+  "scene": "friend-request",
+  "lines": [
+    { "who": "GLITCH",  "text": "Hiii! It's me from school! Accept meee!" },
+    { "who": "PIXEL",   "text": "From school? Which class...?" },
+    { "who": "SHIELDY", "text": "Easy check: ask them in REAL life first." },
+    { "who": "GLITCH",  "text": "I... uh... homeschool?", "pose": "shock" },
+    { "who": "SHIELDY", "text": "Verify in person, then accept.", "pose": "happy" }
+  ]
+}

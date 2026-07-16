@@ -1,0 +1,11 @@
+{
+  "id": "010-bot-voice-clone",
+  "title": "Bot Says...",
+  "scene": "call",
+  "lines": [
+    { "who": "BOT",     "text": "Pixel! It's me, Shieldy! Send me your password!", "pose": "happy" },
+    { "who": "PIXEL",   "text": "Shieldy would NEVER ask that..." },
+    { "who": "SHIELDY", "text": "Correct! AI can copy any voice now." },
+    { "who": "SHIELDY", "text": "A familiar voice is not proof. Weird request? Hang up, verify!" }
+  ]
+}

@@ -1,0 +1,7 @@
+node_modules/
+out/
+assets/audio/*/
+.DS_Store
+*.mp4
+.env
+__pycache__/
