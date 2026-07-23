@@ -41,7 +41,14 @@ def handler(event, context):
 
     body = json.dumps({"content": post["text"]}).encode()
     req = urllib.request.Request(
-        _webhook_url(), data=body, headers={"Content-Type": "application/json"}, method="POST"
+        _webhook_url(),
+        data=body,
+        headers={
+            "Content-Type": "application/json",
+            # Discord's edge rejects the default "Python-urllib/x.y" UA with a 403.
+            "User-Agent": "DSK-Discord-Bot (https://digitalsafetyknights.org, 1.0)",
+        },
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=10) as resp:
         status = resp.status
