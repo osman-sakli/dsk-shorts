@@ -35,13 +35,14 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "osman-sakli/dsk-shorts")
 SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN")
 
-# upload-post.com has no "made for kids" / COPPA field (confirmed against their
-# docs) — YouTube is deliberately excluded from auto-publish and flagged for
-# manual upload instead of silently skipping the COPPA declaration.
+# upload-post.com has no per-video "made for kids" / COPPA field, but the
+# Digital Safety Knights YouTube channel has "Made for Kids" set at the
+# channel level (confirmed with the owner) — every upload inherits that
+# designation, so YouTube is safe to include here.
 # Facebook isn't connected on the upload-post.com "DSK" profile yet — add it
 # back to this list once it's connected there.
-AUTO_PLATFORMS = ["tiktok", "instagram"]
-MANUAL_REVIEW_PLATFORMS = ["youtube", "facebook"]
+AUTO_PLATFORMS = ["tiktok", "instagram", "youtube"]
+MANUAL_REVIEW_PLATFORMS = ["facebook"]
 
 dynamodb = boto3.resource("dynamodb")
 s3 = boto3.client("s3")
@@ -194,8 +195,8 @@ def main():
 
     result = publish_to_platforms(mp4_path, script.get("title", script_id), caption)
     result["manual_review"] = (
-        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload (YouTube: no COPPA "
-        f"'made for kids' field in the API; Facebook: not yet connected on upload-post.com). "
+        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
+        f"(not yet connected on upload-post.com). "
         f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
     )
     record_queue_status(script_id, day, result["status"], json.dumps(result))
