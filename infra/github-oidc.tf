@@ -12,12 +12,20 @@ resource "aws_iam_role" "github_actions_ecr_push" {
       Effect    = "Allow"
       Principal = { Federated = data.aws_iam_openid_connect_provider.github.arn }
       Action    = "sts:AssumeRoleWithWebIdentity"
+      # AWS requires the trust policy to scope on "sub" (or job_workflow_ref)
+      # specifically — a repository/ref-only condition is rejected as
+      # "not scoped". This account has immutable-ID subject claims enabled,
+      # so sub looks like "repo:owner@123/repo@456:ref:...". The numeric IDs
+      # are stable but we wildcard them (StringLike) rather than hardcode,
+      # and pin the repository/ref claims as belt-and-suspenders.
       Condition = {
         StringEquals = {
-          "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+          "token.actions.githubusercontent.com:aud"        = "sts.amazonaws.com"
+          "token.actions.githubusercontent.com:repository" = var.github_repo
+          "token.actions.githubusercontent.com:ref"        = "refs/heads/master"
         }
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/master"
+          "token.actions.githubusercontent.com:sub" = "repo:${split("/", var.github_repo)[0]}@*/${split("/", var.github_repo)[1]}@*:ref:refs/heads/master"
         }
       }
     }]
