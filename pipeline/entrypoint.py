@@ -38,8 +38,10 @@ SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN")
 # upload-post.com has no "made for kids" / COPPA field (confirmed against their
 # docs) — YouTube is deliberately excluded from auto-publish and flagged for
 # manual upload instead of silently skipping the COPPA declaration.
-AUTO_PLATFORMS = ["tiktok", "instagram", "facebook"]
-MANUAL_REVIEW_PLATFORMS = ["youtube"]
+# Facebook isn't connected on the upload-post.com "DSK" profile yet — add it
+# back to this list once it's connected there.
+AUTO_PLATFORMS = ["tiktok", "instagram"]
+MANUAL_REVIEW_PLATFORMS = ["youtube", "facebook"]
 
 dynamodb = boto3.resource("dynamodb")
 s3 = boto3.client("s3")
@@ -191,12 +193,13 @@ def main():
     upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
 
     result = publish_to_platforms(mp4_path, script.get("title", script_id), caption)
-    result["youtube_manual_review"] = (
-        f"YouTube needs a manual 'Made for Kids' upload — upload-post.com has no "
-        f"COPPA flag. File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
+    result["manual_review"] = (
+        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload (YouTube: no COPPA "
+        f"'made for kids' field in the API; Facebook: not yet connected on upload-post.com). "
+        f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
     )
     record_queue_status(script_id, day, result["status"], json.dumps(result))
-    print(f"Day {day} ({script_id}): {result['status']} — {result['youtube_manual_review']}")
+    print(f"Day {day} ({script_id}): {result['status']} — {result['manual_review']}")
 
     if result["status"] == "failed":
         # Don't advance the day index — the video is already safe in S3, and
