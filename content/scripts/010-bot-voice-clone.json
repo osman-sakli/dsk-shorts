@@ -3,9 +3,26 @@
   "title": "Bot Says...",
   "scene": "call",
   "lines": [
-    { "who": "BOT",     "text": "Pixel! It's me, Shieldy! Send me your password!", "pose": "happy" },
-    { "who": "PIXEL",   "text": "Shieldy would NEVER ask that..." },
-    { "who": "SHIELDY", "text": "Correct! AI can copy any voice now." },
-    { "who": "SHIELDY", "text": "A familiar voice is not proof. Weird request? Hang up, verify!" }
+    {
+      "who": "BOT",
+      "text": "Pixel! It's me, Shieldy! Send me your password!",
+      "pose": "happy",
+      "durInFrames": 140
+    },
+    {
+      "who": "PIXEL",
+      "text": "Shieldy would NEVER ask that...",
+      "durInFrames": 58
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Correct! AI can copy any voice now.",
+      "durInFrames": 90
+    },
+    {
+      "who": "SHIELDY",
+      "text": "A familiar voice is not proof. Weird request? Hang up, verify!",
+      "durInFrames": 153
+    }
   ]
 }

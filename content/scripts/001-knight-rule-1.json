@@ -3,11 +3,39 @@
   "title": "Knight Rule #1",
   "scene": "game-chat",
   "lines": [
-    { "who": "PIXEL",   "text": "Hi! My name is—", "pose": "happy" },
-    { "who": "SHIELDY", "text": "Woah woah woah! Knight Rule number one!", "pose": "shock" },
-    { "who": "SHIELDY", "text": "Your real name stays OFF the chat." },
-    { "who": "PIXEL",   "text": "But they seem nice!", "pose": "neutral" },
-    { "who": "SHIELDY", "text": "Nice players don't need your name. Nickname only!" },
-    { "who": "PIXEL",   "text": "PixelKnight99 it is!", "pose": "happy" }
+    {
+      "who": "PIXEL",
+      "text": "Hi! My name is\u2014",
+      "pose": "happy",
+      "durInFrames": 81
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Woah woah woah! Knight Rule number one!",
+      "pose": "shock",
+      "durInFrames": 85
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Your real name stays OFF the chat.",
+      "durInFrames": 61
+    },
+    {
+      "who": "PIXEL",
+      "text": "But they seem nice!",
+      "pose": "neutral",
+      "durInFrames": 44
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Nice players don't need your name. Nickname only!",
+      "durInFrames": 97
+    },
+    {
+      "who": "PIXEL",
+      "text": "PixelKnight99 it is!",
+      "pose": "happy",
+      "durInFrames": 64
+    }
   ]
 }

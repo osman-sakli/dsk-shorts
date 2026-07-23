@@ -1,6 +1,6 @@
 {
-  "SHIELDY": { "voice": "en-US-GuyNeural",    "rate": "+5%",  "pitch": "+2Hz",  "style": "warm, confident hero" },
-  "PIXEL":   { "voice": "en-US-AnaNeural",    "rate": "+12%", "pitch": "+6Hz",  "style": "energetic curious kid" },
-  "GLITCH":  { "voice": "en-US-DavisNeural",  "rate": "-5%",  "pitch": "-8Hz",  "style": "sneaky comic villain" },
-  "BOT":     { "voice": "en-US-JennyNeural",  "rate": "+0%",  "pitch": "-2Hz",  "style": "flat, confidently wrong AI" }
+  "SHIELDY": { "voice": "Matthew", "engine": "neural", "rate": "105%", "style": "warm, confident hero" },
+  "PIXEL":   { "voice": "Ivy",     "engine": "neural", "rate": "112%", "style": "energetic curious kid" },
+  "GLITCH":  { "voice": "Joey",    "engine": "neural", "rate": "95%",  "style": "sneaky comic villain" },
+  "BOT":     { "voice": "Joanna",  "engine": "neural", "rate": "100%", "style": "flat, confidently wrong AI" }
 }

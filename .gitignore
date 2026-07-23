@@ -5,3 +5,10 @@ assets/audio/*/
 *.mp4
 .env
 __pycache__/
+public/audio/
+
+infra/.terraform/
+infra/.build/
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/*.tfvars

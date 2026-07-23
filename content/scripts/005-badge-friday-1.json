@@ -3,9 +3,27 @@
   "title": "Badge Friday!",
   "scene": "hq",
   "lines": [
-    { "who": "SHIELDY", "text": "Knights! It's Badge Friday!", "pose": "happy" },
-    { "who": "SHIELDY", "text": "Mission: teach Knight Rule number one to a friend." },
-    { "who": "PIXEL",   "text": "Real names stay off the chat!", "pose": "happy" },
-    { "who": "SHIELDY", "text": "Earn your Bronze Squire badge at digitalsafetyknights.org!" }
+    {
+      "who": "SHIELDY",
+      "text": "Knights! It's Badge Friday!",
+      "pose": "happy",
+      "durInFrames": 69
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Mission: teach Knight Rule number one to a friend.",
+      "durInFrames": 91
+    },
+    {
+      "who": "PIXEL",
+      "text": "Real names stay off the chat!",
+      "pose": "happy",
+      "durInFrames": 63
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Earn your Bronze Squire badge at digitalsafetyknights.org!",
+      "durInFrames": 104
+    }
   ]
 }

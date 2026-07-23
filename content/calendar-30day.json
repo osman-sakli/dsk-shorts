@@ -2,151 +2,181 @@
   {
     "day": 1,
     "format": "Knight Rule #1",
-    "topic": "Never share your real name in game chat"
+    "topic": "Never share your real name in game chat",
+    "scriptId": "001-knight-rule-1"
   },
   {
     "day": 2,
     "format": "Glitch Alert",
-    "topic": "Free Robux scam"
+    "topic": "Free Robux scam",
+    "scriptId": "002-glitch-free-robux"
   },
   {
     "day": 3,
     "format": "Bot Says",
-    "topic": "AI can be confidently wrong"
+    "topic": "AI can be confidently wrong",
+    "scriptId": "003-bot-vegetarian-sharks"
   },
   {
     "day": 4,
     "format": "Would You Tap?",
-    "topic": "'You won an iPhone!' pop-up"
+    "topic": "'You won an iPhone!' pop-up",
+    "scriptId": "004-would-you-tap-iphone"
   },
   {
     "day": 5,
     "format": "Badge Friday",
-    "topic": "Bronze Squire mission"
+    "topic": "Bronze Squire mission",
+    "scriptId": "005-badge-friday-1"
   },
   {
     "day": 6,
     "format": "Glitch Alert",
-    "topic": "Stranger asks your age"
+    "topic": "Stranger asks your age",
+    "scriptId": "006-glitch-what-school"
   },
   {
     "day": 7,
     "format": "Bot Says",
-    "topic": "Homework hallucination"
+    "topic": "Homework hallucination",
+    "scriptId": "007-bot-homework"
   },
   {
     "day": 8,
     "format": "Knight Rule #2",
-    "topic": "Passwords are secrets"
+    "topic": "Passwords are secrets",
+    "scriptId": "008-knight-rule-2-passwords"
   },
   {
     "day": 9,
     "format": "Glitch Alert",
-    "topic": "Fake friend request"
+    "topic": "Fake friend request",
+    "scriptId": "009-glitch-from-school"
   },
   {
     "day": 10,
     "format": "Bot Says",
-    "topic": "AI voice can fake anyone"
+    "topic": "AI voice can fake anyone",
+    "scriptId": "010-bot-voice-clone"
   },
   {
     "day": 11,
     "format": "Would You Tap?",
-    "topic": "Link from unknown number"
+    "topic": "Link from unknown number",
+    "scriptId": null
   },
   {
     "day": 12,
     "format": "Badge Friday",
-    "topic": "Family code-word mission"
+    "topic": "Family code-word mission",
+    "scriptId": null
   },
   {
     "day": 13,
     "format": "Glitch Alert",
-    "topic": "In-game gift with strings"
+    "topic": "In-game gift with strings",
+    "scriptId": null
   },
   {
     "day": 14,
     "format": "Bot Says",
-    "topic": "Deepfake photo tells"
+    "topic": "Deepfake photo tells",
+    "scriptId": null
   },
   {
     "day": 15,
     "format": "Knight Rule #3",
-    "topic": "Screenshot & tell a trusted adult"
+    "topic": "Screenshot & tell a trusted adult",
+    "scriptId": null
   },
   {
     "day": 16,
     "format": "Glitch Alert",
-    "topic": "'Don't tell your parents' line"
+    "topic": "'Don't tell your parents' line",
+    "scriptId": null
   },
   {
     "day": 17,
     "format": "Bot Says",
-    "topic": "AI friend that agrees with everything"
+    "topic": "AI friend that agrees with everything",
+    "scriptId": null
   },
   {
     "day": 18,
     "format": "Would You Tap?",
-    "topic": "QR code on a poster"
+    "topic": "QR code on a poster",
+    "scriptId": null
   },
   {
     "day": 19,
     "format": "Badge Friday",
-    "topic": "Silver Guard path"
+    "topic": "Silver Guard path",
+    "scriptId": null
   },
   {
     "day": 20,
     "format": "Glitch Alert",
-    "topic": "Voice chat pressure"
+    "topic": "Voice chat pressure",
+    "scriptId": null
   },
   {
     "day": 21,
     "format": "Bot Says",
-    "topic": "Dangerous health advice"
+    "topic": "Dangerous health advice",
+    "scriptId": null
   },
   {
     "day": 22,
     "format": "Knight Rule #4",
-    "topic": "Location off in games & photos"
+    "topic": "Location off in games & photos",
+    "scriptId": null
   },
   {
     "day": 23,
     "format": "Glitch Alert",
-    "topic": "Fake giveaway stream"
+    "topic": "Fake giveaway stream",
+    "scriptId": null
   },
   {
     "day": 24,
     "format": "Bot Says",
-    "topic": "AI-written scam message"
+    "topic": "AI-written scam message",
+    "scriptId": null
   },
   {
     "day": 25,
     "format": "Would You Tap?",
-    "topic": "Game mod from random site"
+    "topic": "Game mod from random site",
+    "scriptId": null
   },
   {
     "day": 26,
     "format": "Badge Friday",
-    "topic": "Teach-a-grownup: deepfakes"
+    "topic": "Teach-a-grownup: deepfakes",
+    "scriptId": null
   },
   {
     "day": 27,
     "format": "Glitch Alert",
-    "topic": "Two accounts, same person"
+    "topic": "Two accounts, same person",
+    "scriptId": null
   },
   {
     "day": 28,
     "format": "Bot Says",
-    "topic": "'I am not a bot' bot"
+    "topic": "'I am not a bot' bot",
+    "scriptId": null
   },
   {
     "day": 29,
     "format": "Knight Rule #5",
-    "topic": "Ask before you download"
+    "topic": "Ask before you download",
+    "scriptId": null
   },
   {
     "day": 30,
     "format": "Badge Friday",
-    "topic": "Month recap + first badge"
+    "topic": "Month recap + first badge",
+    "scriptId": null
   }
 ]

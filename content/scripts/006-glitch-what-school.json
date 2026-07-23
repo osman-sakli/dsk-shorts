@@ -3,10 +3,32 @@
   "title": "Glitch Alert!",
   "scene": "chat",
   "lines": [
-    { "who": "GLITCH",  "text": "Hey friend! How old are you? What school do you go to?" },
-    { "who": "PIXEL",   "text": "Umm, I go to—" },
-    { "who": "SHIELDY", "text": "Red flag! Strangers asking personal questions?", "pose": "shock" },
-    { "who": "SHIELDY", "text": "Don't answer. Block. Tell a grown-up." },
-    { "who": "GLITCH",  "text": "Curses!", "pose": "shock" }
+    {
+      "who": "GLITCH",
+      "text": "Hey friend! How old are you? What school do you go to?",
+      "durInFrames": 153
+    },
+    {
+      "who": "PIXEL",
+      "text": "Umm, I go to\u2014",
+      "durInFrames": 65
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Red flag! Strangers asking personal questions?",
+      "pose": "shock",
+      "durInFrames": 104
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Don't answer. Block. Tell a grown-up.",
+      "durInFrames": 94
+    },
+    {
+      "who": "GLITCH",
+      "text": "Curses!",
+      "pose": "shock",
+      "durInFrames": 33
+    }
   ]
 }

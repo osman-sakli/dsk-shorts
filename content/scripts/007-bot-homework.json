@@ -3,10 +3,33 @@
   "title": "Bot Says...",
   "scene": "homework",
   "lines": [
-    { "who": "PIXEL",   "text": "Bot, when did the dinosaurs live?" },
-    { "who": "BOT",     "text": "Dinosaurs lived in the year 1850! I am 100% sure!", "pose": "happy" },
-    { "who": "PIXEL",   "text": "That's when my great-great-grandma lived?!", "pose": "shock" },
-    { "who": "SHIELDY", "text": "Check AI homework answers with a real source. Every time." },
-    { "who": "BOT",     "text": "Recalculating...", "pose": "shock" }
+    {
+      "who": "PIXEL",
+      "text": "Bot, when did the dinosaurs live?",
+      "durInFrames": 79
+    },
+    {
+      "who": "BOT",
+      "text": "Dinosaurs lived in the year 1850! I am 100% sure!",
+      "pose": "happy",
+      "durInFrames": 150
+    },
+    {
+      "who": "PIXEL",
+      "text": "That's when my great-great-grandma lived?!",
+      "pose": "shock",
+      "durInFrames": 72
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Check AI homework answers with a real source. Every time.",
+      "durInFrames": 115
+    },
+    {
+      "who": "BOT",
+      "text": "Recalculating...",
+      "pose": "shock",
+      "durInFrames": 47
+    }
   ]
 }

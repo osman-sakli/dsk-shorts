@@ -3,10 +3,32 @@
   "title": "Glitch Alert!",
   "scene": "friend-request",
   "lines": [
-    { "who": "GLITCH",  "text": "Hiii! It's me from school! Accept meee!" },
-    { "who": "PIXEL",   "text": "From school? Which class...?" },
-    { "who": "SHIELDY", "text": "Easy check: ask them in REAL life first." },
-    { "who": "GLITCH",  "text": "I... uh... homeschool?", "pose": "shock" },
-    { "who": "SHIELDY", "text": "Verify in person, then accept.", "pose": "happy" }
+    {
+      "who": "GLITCH",
+      "text": "Hiii! It's me from school! Accept meee!",
+      "durInFrames": 126
+    },
+    {
+      "who": "PIXEL",
+      "text": "From school? Which class...?",
+      "durInFrames": 73
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Easy check: ask them in REAL life first.",
+      "durInFrames": 83
+    },
+    {
+      "who": "GLITCH",
+      "text": "I... uh... homeschool?",
+      "pose": "shock",
+      "durInFrames": 94
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Verify in person, then accept.",
+      "pose": "happy",
+      "durInFrames": 71
+    }
   ]
 }

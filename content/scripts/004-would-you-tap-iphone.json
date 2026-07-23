@@ -3,9 +3,26 @@
   "title": "Would You Tap?",
   "scene": "popup",
   "lines": [
-    { "who": "SHIELDY", "text": "CONGRATULATIONS! You won an iPhone!... Would you tap, or is it a trap?" },
-    { "who": "PIXEL",   "text": "I mean... it says congratulations..." },
-    { "who": "SHIELDY", "text": "Three... two... one..." },
-    { "who": "SHIELDY", "text": "TRAP! You can't win a contest you never entered!", "pose": "shock" }
+    {
+      "who": "SHIELDY",
+      "text": "CONGRATULATIONS! You won an iPhone!... Would you tap, or is it a trap?",
+      "durInFrames": 145
+    },
+    {
+      "who": "PIXEL",
+      "text": "I mean... it says congratulations...",
+      "durInFrames": 91
+    },
+    {
+      "who": "SHIELDY",
+      "text": "Three... two... one...",
+      "durInFrames": 77
+    },
+    {
+      "who": "SHIELDY",
+      "text": "TRAP! You can't win a contest you never entered!",
+      "pose": "shock",
+      "durInFrames": 93
+    }
   ]
 }

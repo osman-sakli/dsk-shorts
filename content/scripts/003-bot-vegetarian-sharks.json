@@ -3,10 +3,34 @@
   "title": "Bot Says...",
   "scene": "chat",
   "lines": [
-    { "who": "BOT",     "text": "Fun fact! Sharks are one hundred percent vegetarian!", "pose": "happy" },
-    { "who": "PIXEL",   "text": "Wait... let me check!", "pose": "neutral" },
-    { "who": "PIXEL",   "text": "Bot! Sharks eat FISH!", "pose": "shock" },
-    { "who": "BOT",     "text": "Recalculating... you are right!", "pose": "shock" },
-    { "who": "SHIELDY", "text": "AI is smart, but it can be confidently wrong. Always check!" }
+    {
+      "who": "BOT",
+      "text": "Fun fact! Sharks are one hundred percent vegetarian!",
+      "pose": "happy",
+      "durInFrames": 122
+    },
+    {
+      "who": "PIXEL",
+      "text": "Wait... let me check!",
+      "pose": "neutral",
+      "durInFrames": 68
+    },
+    {
+      "who": "PIXEL",
+      "text": "Bot! Sharks eat FISH!",
+      "pose": "shock",
+      "durInFrames": 75
+    },
+    {
+      "who": "BOT",
+      "text": "Recalculating... you are right!",
+      "pose": "shock",
+      "durInFrames": 87
+    },
+    {
+      "who": "SHIELDY",
+      "text": "AI is smart, but it can be confidently wrong. Always check!",
+      "durInFrames": 124
+    }
   ]
 }

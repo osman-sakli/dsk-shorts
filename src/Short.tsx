@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from "remotion";
+import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
 import { THEME, VIDEO } from "./theme";
 import { Shieldy } from "./characters/Shieldy";
 import { Pixel } from "./characters/Pixel";
@@ -44,6 +44,7 @@ export const Short: React.FC<{ script: Script }> = ({ script }) => {
         const left = l.who === "PIXEL" || l.who === "BOT";
         return (
           <Sequence key={l.key} from={l.from} durationInFrames={l.dur}>
+            <Audio src={staticFile(`audio/${script.id}/line-${String(l.key).padStart(2, "0")}.mp3`)} />
             <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 40, flexDirection: "column" }}>
               <SpeechBubble text={l.text} flip={left} />
               <div style={{ transform: left ? "scaleX(-1)" : undefined }}>
