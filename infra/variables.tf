@@ -21,7 +21,7 @@ variable "github_repo" {
 variable "upload_post_profile" {
   description = "upload-post.com managed-user profile name to publish as."
   type        = string
-  default     = "dsk"
+  default     = "DSK"
 }
 
 variable "container_image_tag" {

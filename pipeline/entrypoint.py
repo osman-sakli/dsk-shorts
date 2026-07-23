@@ -196,12 +196,16 @@ def main():
         f"COPPA flag. File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
     )
     record_queue_status(script_id, day, result["status"], json.dumps(result))
-    advance_day_index(day)
     print(f"Day {day} ({script_id}): {result['status']} — {result['youtube_manual_review']}")
 
     if result["status"] == "failed":
+        # Don't advance the day index — the video is already safe in S3, and
+        # this leaves it to be retried on tomorrow's run instead of silently
+        # skipped (e.g. a bad profile name or a transient API error).
         alert_failure(f"DSK Shorts publish failed: {script_id}", json.dumps(result))
         sys.exit(1)
+
+    advance_day_index(day)
 
 
 if __name__ == "__main__":
