@@ -23,6 +23,8 @@ import sys
 import boto3
 import requests
 
+import fal_video
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SITE_URL = "https://digitalsafetyknights.org"
 CALENDAR_LEN = 30
@@ -147,7 +149,40 @@ def publish_to_platforms(mp4_path, title, caption):
     }
 
 
-def main():
+def finish_and_publish(script_id, day, mp4_path, title, caption):
+    """Shared tail end for both paths: thumbnail, S3 upload, publish, status.
+    Caller advances its own state counter only after this returns (i.e. only
+    on success — this exits the process on failure)."""
+    thumb_path = ROOT / "out" / f"{script_id}.jpg"
+    make_thumbnail(mp4_path, thumb_path)
+
+    caption_path = ROOT / "out" / f"{script_id}.caption.json"
+    caption_path.write_text(json.dumps({"scriptId": script_id, "day": day, "caption": caption}, indent=2))
+
+    date_prefix = datetime.date.today().isoformat()
+    upload_to_s3(mp4_path, f"{date_prefix}/{script_id}.mp4")
+    upload_to_s3(thumb_path, f"{date_prefix}/{script_id}.jpg")
+    upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
+
+    result = publish_to_platforms(mp4_path, title, caption)
+    result["manual_review"] = (
+        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
+        f"(not yet connected on upload-post.com). "
+        f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
+    )
+    record_queue_status(script_id, day, result["status"], json.dumps(result))
+    print(f"Day {day} ({script_id}): {result['status']} — {result['manual_review']}")
+
+    if result["status"] == "failed":
+        # Don't advance state — the video is already safe in S3, and this
+        # leaves it to be retried next time instead of silently skipped
+        # (e.g. a bad profile name or a transient API error).
+        alert_failure(f"DSK Shorts publish failed: {script_id}", json.dumps(result))
+        sys.exit(1)
+
+
+def run_remotion_path():
+    """Even calendar days: the original Polly + Remotion cartoon pipeline."""
     calendar = json.loads((ROOT / "content/calendar-30day.json").read_text())
     day = get_next_day_index()
     entry = next((e for e in calendar if e["day"] == day), None)
@@ -168,7 +203,7 @@ def main():
         print(f"Day {day}: no script mapped yet, issue opened, skipping render.")
         return
 
-    print(f"Day {day}: rendering {script_id}")
+    print(f"Day {day}: rendering {script_id} (Remotion path)")
     script_path = ROOT / "content/scripts" / f"{script_id}.json"
     script = json.loads(script_path.read_text())
 
@@ -181,35 +216,45 @@ def main():
         sys.exit(1)
 
     mp4_path = ROOT / "out" / f"{script_id}.mp4"
-    thumb_path = ROOT / "out" / f"{script_id}.jpg"
-    make_thumbnail(mp4_path, thumb_path)
-
     caption = make_caption(script)
-    caption_path = ROOT / "out" / f"{script_id}.caption.json"
-    caption_path.write_text(json.dumps({"scriptId": script_id, "day": day, "caption": caption}, indent=2))
+    finish_and_publish(script_id, day, mp4_path, script.get("title", script_id), caption, "STATE", day)
 
-    date_prefix = datetime.date.today().isoformat()
-    upload_to_s3(mp4_path, f"{date_prefix}/{script_id}.mp4")
-    upload_to_s3(thumb_path, f"{date_prefix}/{script_id}.jpg")
-    upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
 
-    result = publish_to_platforms(mp4_path, script.get("title", script_id), caption)
-    result["manual_review"] = (
-        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
-        f"(not yet connected on upload-post.com). "
-        f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
-    )
-    record_queue_status(script_id, day, result["status"], json.dumps(result))
-    print(f"Day {day} ({script_id}): {result['status']} — {result['manual_review']}")
+def run_ai_path():
+    """Odd calendar days: fal.ai Seedance 2.0 reference-to-video with the
+    permanent character cast (Shieldy, Pixel, Glitch, Bot, Dame Noble, Sprout)."""
+    scripts = json.loads((ROOT / "content/ai-scripts.json").read_text())
+    resp = dynamodb.Table(QUEUE_TABLE).get_item(Key={"pk": "AI_STATE"})
+    last = int(resp.get("Item", {}).get("lastIndex", -1))
+    index = (last + 1) % len(scripts)
+    script = scripts[index]
+    script_id = script["id"]
+    day = datetime.date.today().day
 
-    if result["status"] == "failed":
-        # Don't advance the day index — the video is already safe in S3, and
-        # this leaves it to be retried on tomorrow's run instead of silently
-        # skipped (e.g. a bad profile name or a transient API error).
-        alert_failure(f"DSK Shorts publish failed: {script_id}", json.dumps(result))
+    print(f"Day {day}: generating {script_id} (fal.ai Seedance path)")
+    mp4_path = ROOT / "out" / f"{script_id}.mp4"
+    mp4_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        fal_video.generate_video(script, mp4_path)
+    except requests.RequestException as e:
+        alert_failure(f"DSK Shorts AI generation failed: {script_id}", str(e))
+        record_queue_status(script_id, day, "generation_failed", str(e))
         sys.exit(1)
 
-    advance_day_index(day)
+    caption = (
+        f"{script['title']} \U0001f6e1️\n"
+        f"Play today's quest → {SITE_URL}\n"
+        f"#onlinesafety #digitalsafety #parentingtips #kidsonline"
+    )
+    finish_and_publish(script_id, day, mp4_path, script["title"], caption, "AI_STATE", index)
+
+
+def main():
+    if datetime.date.today().day % 2 == 1:
+        run_ai_path()
+    else:
+        run_remotion_path()
 
 
 if __name__ == "__main__":

@@ -54,3 +54,9 @@ variable "discord_webhook_url" {
   sensitive   = true
   default     = ""
 }
+
+variable "fal_api_key" {
+  description = "fal.ai API key, used for AI-generated video on odd calendar days (Seedance 2.0 reference-to-video)."
+  type        = string
+  sensitive   = true
+}

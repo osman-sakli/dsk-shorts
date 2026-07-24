@@ -45,6 +45,7 @@ resource "aws_ecs_task_definition" "render" {
       secrets = [
         { name = "UPLOAD_API_KEY", valueFrom = aws_secretsmanager_secret.upload_api_key.arn },
         { name = "GITHUB_TOKEN", valueFrom = aws_secretsmanager_secret.github_token.arn },
+        { name = "FAL_API_KEY", valueFrom = aws_secretsmanager_secret.fal_api_key.arn },
       ]
       logConfiguration = {
         logDriver = "awslogs"

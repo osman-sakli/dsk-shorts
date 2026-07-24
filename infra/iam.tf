@@ -27,6 +27,7 @@ resource "aws_iam_role_policy" "task_execution_secrets" {
       Resource = [
         aws_secretsmanager_secret.upload_api_key.arn,
         aws_secretsmanager_secret.github_token.arn,
+        aws_secretsmanager_secret.fal_api_key.arn,
       ]
     }]
   })

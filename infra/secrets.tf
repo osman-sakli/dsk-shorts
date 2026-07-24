@@ -19,3 +19,12 @@ resource "aws_secretsmanager_secret_version" "github_token" {
   secret_id     = aws_secretsmanager_secret.github_token.id
   secret_string = var.github_token
 }
+
+resource "aws_secretsmanager_secret" "fal_api_key" {
+  name = "${var.project_name}/fal-api-key"
+}
+
+resource "aws_secretsmanager_secret_version" "fal_api_key" {
+  secret_id     = aws_secretsmanager_secret.fal_api_key.id
+  secret_string = var.fal_api_key
+}
