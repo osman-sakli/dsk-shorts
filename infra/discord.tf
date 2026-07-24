@@ -88,14 +88,13 @@ resource "aws_lambda_function" "discord_post" {
   }
 }
 
-# NOTE: rate(2 days) fires every 48h from whenever this rule was enabled — it
-# is not pinned to 17:00 ET as in the schedule table, and will drift as AWS
-# reschedules around maintenance. Acceptable for a low-stakes rotating post;
-# switch to two alternating cron rules if exact wall-clock time starts to matter.
+# Daily, fully automatic — no approval step. Fixed at 17:00 ET (21:00 UTC,
+# EDT); like the other daily cron in this project, it'll land an hour off
+# during EST (winter) since EventBridge cron doesn't observe DST.
 resource "aws_cloudwatch_event_rule" "discord_post" {
   count               = local.discord_enabled ? 1 : 0
   name                = "${var.project_name}-discord-post"
-  schedule_expression = "rate(2 days)"
+  schedule_expression = "cron(0 21 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "discord_post" {
