@@ -217,7 +217,8 @@ def run_remotion_path():
 
     mp4_path = ROOT / "out" / f"{script_id}.mp4"
     caption = make_caption(script)
-    finish_and_publish(script_id, day, mp4_path, script.get("title", script_id), caption, "STATE", day)
+    finish_and_publish(script_id, day, mp4_path, script.get("title", script_id), caption)
+    advance_day_index(day)
 
 
 def run_ai_path():
@@ -247,7 +248,8 @@ def run_ai_path():
         f"Play today's quest → {SITE_URL}\n"
         f"#onlinesafety #digitalsafety #parentingtips #kidsonline"
     )
-    finish_and_publish(script_id, day, mp4_path, script["title"], caption, "AI_STATE", index)
+    finish_and_publish(script_id, day, mp4_path, script["title"], caption)
+    dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "AI_STATE", "lastIndex": index})
 
 
 def main():
