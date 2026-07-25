@@ -38,13 +38,13 @@ resource "aws_iam_role_policy" "linkedin_lambda_permissions" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["dynamodb:GetItem", "dynamodb:PutItem"]
+        Action   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
         Resource = [aws_dynamodb_table.queue.arn]
       },
       {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue"]
-        Resource = [aws_secretsmanager_secret.upload_api_key.arn]
+        Resource = [aws_secretsmanager_secret.upload_api_key.arn, aws_secretsmanager_secret.fal_api_key.arn]
       }
     ]
   })
@@ -53,9 +53,10 @@ resource "aws_iam_role_policy" "linkedin_lambda_permissions" {
 resource "aws_lambda_function" "linkedin_post" {
   function_name    = "${var.project_name}-linkedin-post"
   role             = aws_iam_role.linkedin_lambda.arn
-  handler          = "linkedin_post.handler"
+  handler          = "linkedin_research_post.handler"
   runtime          = "python3.12"
-  timeout          = 30
+  timeout          = 120
+  memory_size      = 512
   filename         = data.archive_file.linkedin_lambda.output_path
   source_code_hash = data.archive_file.linkedin_lambda.output_base64sha256
   # Reuses the account's existing published layer (built from the same
@@ -67,6 +68,7 @@ resource "aws_lambda_function" "linkedin_post" {
     variables = {
       QUEUE_TABLE               = aws_dynamodb_table.queue.name
       UPLOAD_API_KEY_SECRET_ARN = aws_secretsmanager_secret.upload_api_key.arn
+      FAL_API_KEY_SECRET_ARN    = aws_secretsmanager_secret.fal_api_key.arn
       UPLOAD_POST_PROFILE       = var.upload_post_profile
       LINKEDIN_PAGE_URN         = local.linkedin_page_urn
     }
