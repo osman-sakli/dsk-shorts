@@ -1,4 +1,4 @@
-# LinkedIn posting — rotates through content/linkedin-posts.json every ~48h,
+# LinkedIn posting — auto-researches and writes a fresh post every ~36h,
 # posting AS the Digital Safety Knights company page. upload-post.com has a
 # single LinkedIn OAuth connection (the owner's); the personal/company
 # distinction happens at post time via target_linkedin_page_id, not via a
@@ -75,11 +75,12 @@ resource "aws_lambda_function" "linkedin_post" {
   }
 }
 
-# Same caveat as the Discord rule: rate(2 days) drifts from a fixed wall-clock
-# time since it's relative to when this rule was enabled, not calendar-aligned.
+# Same caveat as the Discord rule: rate(36 hours) drifts from a fixed
+# wall-clock time since it's relative to when this rule was enabled, not
+# calendar-aligned.
 resource "aws_cloudwatch_event_rule" "linkedin_post" {
   name                = "${var.project_name}-linkedin-post"
-  schedule_expression = "rate(2 days)"
+  schedule_expression = "rate(36 hours)"
 }
 
 resource "aws_cloudwatch_event_target" "linkedin_post" {
