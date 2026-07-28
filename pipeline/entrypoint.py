@@ -253,10 +253,11 @@ def run_ai_path():
 
 
 def main():
-    if datetime.date.today().day % 2 == 1:
-        run_ai_path()
-    else:
-        run_remotion_path()
+    # Was alternating AI (odd days) / Polly+Remotion (even days). The Remotion
+    # path also had no scriptId mapped for 20 of its 30 calendar days, so most
+    # "even day" runs silently skipped rendering entirely. The AI path posts
+    # every day now; run_remotion_path() is left in place but unused.
+    run_ai_path()
 
 
 if __name__ == "__main__":
