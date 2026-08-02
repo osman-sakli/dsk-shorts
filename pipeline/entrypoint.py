@@ -14,6 +14,7 @@ Env vars (set by the ECS task definition, values sourced from Secrets Manager):
   SNS_ALERT_TOPIC_ARN - optional; publish a message here on failure
 """
 import datetime
+import hashlib
 import json
 import os
 import pathlib
@@ -41,10 +42,10 @@ SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN")
 # Digital Safety Knights YouTube channel has "Made for Kids" set at the
 # channel level (confirmed with the owner) — every upload inherits that
 # designation, so YouTube is safe to include here.
-# Facebook isn't connected on the upload-post.com "DSK" profile yet — add it
-# back to this list once it's connected there.
-AUTO_PLATFORMS = ["tiktok", "instagram", "youtube"]
-MANUAL_REVIEW_PLATFORMS = ["facebook"]
+# Facebook connected on the upload-post.com "DSK" profile 2026-08-01 (page:
+# "Dig Knights") — moved from manual to auto.
+AUTO_PLATFORMS = ["tiktok", "instagram", "youtube", "facebook"]
+MANUAL_REVIEW_PLATFORMS = []
 
 dynamodb = boto3.resource("dynamodb")
 s3 = boto3.client("s3")
@@ -101,13 +102,56 @@ def alert_failure(subject, message):
         sns.publish(TopicArn=SNS_ALERT_TOPIC_ARN, Subject=subject[:100], Message=message)
 
 
+# Broad tags (#onlinesafety, #digitalsafety) are heavily saturated by large
+# existing accounts and don't help a new/small account get discovered on
+# their own. Pairing one with a set of smaller niche tags — rotated by
+# content category so every post isn't the same four hashtags — gives the
+# algorithm a more specific, less-crowded audience to test the video against.
+BROAD_TAGS = ["#onlinesafety", "#digitalsafety"]
+NICHE_TAGS_BY_CATEGORY = {
+    # GLITCH present (without BOT) — scam/predator-tactic content
+    "scam": ["#scamalert", "#internetsafety", "#protectyourkids", "#parentsoftiktok"],
+    # BOT present — AI-safety / media-literacy content
+    "ai": ["#aisafety", "#medialiteracy", "#parentingintheAIage", "#factcheck"],
+    # everything else — general parenting-tip / knight-rule content
+    "general": ["#parentingtips", "#screentimetips", "#digitalparenting", "#familysafety"],
+}
+
+
+def _script_characters(script):
+    """Works for both content shapes: ai-scripts.json's explicit "characters"
+    list, and the older scripts/*.json's per-line "who" speaker field."""
+    if "characters" in script:
+        return {c.lower() for c in script["characters"]}
+    return {line.get("who", "").lower() for line in script.get("lines", [])}
+
+
+def categorize_script(script):
+    chars = _script_characters(script)
+    if "bot" in chars:
+        return "ai"
+    if "glitch" in chars:
+        return "scam"
+    return "general"
+
+
+def build_hashtags(script):
+    category = categorize_script(script)
+    niche = NICHE_TAGS_BY_CATEGORY[category]
+    # Deterministic (not random) so re-running the same script_id is stable,
+    # but different scripts land on a different broad tag for variety.
+    digest = int(hashlib.sha256(script["id"].encode()).hexdigest(), 16)
+    broad = BROAD_TAGS[digest % len(BROAD_TAGS)]
+    return " ".join([broad] + niche)
+
+
 def make_caption(script):
     title = script.get("title", script["id"])
     hook = script["lines"][0]["text"].rstrip("—- ")
     return (
         f"{hook} \U0001f6e1️ {title}\n"
         f"Play today's quest → {SITE_URL}\n"
-        f"#onlinesafety #digitalsafety #parentingtips #kidsonline"
+        f"{build_hashtags(script)}"
     )
 
 
@@ -165,11 +209,14 @@ def finish_and_publish(script_id, day, mp4_path, title, caption):
     upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
 
     result = publish_to_platforms(mp4_path, title, caption)
-    result["manual_review"] = (
-        f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
-        f"(not yet connected on upload-post.com). "
-        f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
-    )
+    if MANUAL_REVIEW_PLATFORMS:
+        result["manual_review"] = (
+            f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
+            f"(not yet connected on upload-post.com). "
+            f"File: {date_prefix}/{script_id}.mp4 in s3://{OUTPUT_BUCKET}"
+        )
+    else:
+        result["manual_review"] = "none — all platforms auto-published"
     record_queue_status(script_id, day, result["status"], json.dumps(result))
     print(f"Day {day} ({script_id}): {result['status']} — {result['manual_review']}")
 
@@ -246,7 +293,7 @@ def run_ai_path():
     caption = (
         f"{script['title']} \U0001f6e1️\n"
         f"Play today's quest → {SITE_URL}\n"
-        f"#onlinesafety #digitalsafety #parentingtips #kidsonline"
+        f"{build_hashtags(script)}"
     )
     finish_and_publish(script_id, day, mp4_path, script["title"], caption)
     dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "AI_STATE", "lastIndex": index})
