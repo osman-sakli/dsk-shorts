@@ -17,10 +17,15 @@ def character_image_url(name):
     return f"{CHARACTER_BASE_URL}/{name}.jpg"
 
 
-def generate_video(script, out_path, duration=9, resolution="720p"):
+def generate_video(script, out_path, duration=13, resolution="720p"):
     """script: one entry from content/ai-scripts.json.
     Downloads the finished mp4 to out_path. Raises on any failure — caller
     handles retries/alerts the same way as a Remotion render failure.
+
+    duration: seconds, 4-15 per Seedance 2.0's documented range (passed as a
+    string per the API's own examples). 13 leaves headroom under the 15s
+    cap while giving each script noticeably more room to land its beat than
+    the original 9s default.
     """
     image_urls = [character_image_url(name) for name in script["characters"]]
 
@@ -34,7 +39,7 @@ def generate_video(script, out_path, duration=9, resolution="720p"):
             "prompt": script["prompt"],
             "image_urls": image_urls,
             "resolution": resolution,
-            "duration": duration,
+            "duration": str(duration),
             "aspect_ratio": "9:16",
             "generate_audio": True,
         },

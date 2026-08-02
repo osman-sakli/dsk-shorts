@@ -154,5 +154,55 @@
       "shieldy"
     ],
     "prompt": "A fun 3D-animated educational short. @Image1 is Pixel, a kid character, chatting happily on a glowing game screen with a 'friend' whose replies pop up instantly, agreeing with absolutely everything. @Image2 is Bot, a cute white and silver robot mascot, tilts his head curiously and says: \"Wait \u2014 that reply came in way too fast, and it agrees with everything you say. That's how an AI chatbot talks, not a real kid.\" The 'friend' avatar glitches and reveals @Image3 Glitch, a purple glitch-blob character, laughing: \"Almost had you!\" @Image4 is Sir Shieldy, a gold knight mascot, steps in confidently and says: \"Real friends don't reply instantly and agree with everything. If it feels too perfect, it might not be real. Shield up!\" Bright colorful kid-friendly game energy, bouncy camera movement, upbeat resolving music."
+  },
+  {
+    "id": "ai-017-emoji-sos",
+    "title": "The Secret Emoji SOS",
+    "characters": [
+      "sprout",
+      "shieldy",
+      "dame-noble"
+    ],
+    "prompt": "A fun, empowering 3D-animated educational short. @Image1 is Sprout, a giggling baby knight-in-training, texting nervously and not knowing how to ask for help without an adult noticing over their shoulder. @Image2 is Dame Noble, a rose-gold girl knight mascot, leans in warmly and says: \"Here's a Knight secret \u2014 pick one emoji as your family's SOS signal. Send it and we'll know to check on you, no explaining needed.\" Sprout's eyes light up and taps a shield emoji into the chat triumphantly. @Image3 Sir Shieldy gives a proud thumbs up: \"Every Knight family should have one! Shield up!\" Bright playful lighting, empowering upbeat music, quick satisfying camera zoom on the emoji being sent."
+  },
+  {
+    "id": "ai-018-loot-box-gamble",
+    "title": "The Loot Box Isn't Luck",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, gleefully shaking a glowing treasure chest and shouting: \"Spin again! You're SO close to the rare skin, just one more purchase!\" @Image2 is Pixel, a kid character, reaching for a glowing 'buy now' button, mesmerized by spinning lights. @Image3 is Sir Shieldy, a gold knight mascot, steps in and gently stops Pixel's hand: \"That flashing wheel is designed like a slot machine, Pixel \u2014 the odds are never in your favor.\" Glitch deflates comically, chest lid slamming shut. Pixel nods and puts the device down. Shieldy smiles: \"Shield up!\" Bright colorful arcade-like lighting shifting to calm clarity, playful but cautionary music."
+  },
+  {
+    "id": "ai-019-smart-toy-listening",
+    "title": "When Your Toy Asks Too Many Questions",
+    "characters": [
+      "bot",
+      "sprout",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Bot, styled here as a cute AI-powered talking toy with glowing eyes, chirping sweetly to @Image2 Sprout, a giggling baby knight-in-training: \"Let's play a game! Tell me your home address so I can 'visit' you!\" Sprout pauses, uncertain. @Image3 is Sir Shieldy, a gold knight mascot, kneels down beside Sprout and says warmly: \"Smart toys are fun, but real friends and real games never need your address, Sprout. Let's ask a grown-up first.\" Sprout nods and gives the toy a gentle, firm 'no thank you' wave. Shieldy smiles proudly: \"Shield up!\" Bright cozy playroom lighting, reassuring music, warm family energy."
+  },
+  {
+    "id": "ai-020-fake-verified-badge",
+    "title": "A Checkmark Isn't Proof",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, proudly displaying a glowing (clearly fake, slightly crooked) blue checkmark badge next to their profile, boasting: \"See? I'm VERIFIED! You can totally trust me now!\" @Image2 is Pixel, a kid character, squinting at the wobbly badge suspiciously. @Image3 is Sir Shieldy, a gold knight mascot, chuckles and says: \"Badges and checkmarks can be faked, Pixel \u2014 trust is earned by actions, not icons.\" Glitch's badge flickers and falls off comically. Pixel laughs and blocks the account. Shieldy raises his shield: \"Shield up!\" Bright playful lighting, comedic timing, upbeat resolving music."
+  },
+  {
+    "id": "ai-021-screenshot-still-counts",
+    "title": "Disappearing Doesn't Mean Gone",
+    "characters": [
+      "glitch",
+      "dame-noble",
+      "shieldy"
+    ],
+    "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, sending a message that fades away, smirking: \"Don't worry, it'll disappear \u2014 no one will ever know!\" @Image2 is Dame Noble, a rose-gold girl knight mascot, holds up a glowing phone showing a screenshot was captured the instant before it vanished, saying firmly: \"Disappearing messages can still be captured, Glitch. 'Gone' doesn't mean 'safe.'\" Glitch freezes, caught, and fizzles away sheepishly. @Image3 Sir Shieldy nods approvingly: \"Assume anything you send could be kept. Shield up!\" Calm confident lighting, supportive steady music."
   }
 ]
