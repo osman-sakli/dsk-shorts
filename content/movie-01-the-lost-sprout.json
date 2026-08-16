@@ -1,0 +1,274 @@
+{
+  "id": "movie-01-the-lost-sprout",
+  "title": "The Lost Sprout",
+  "runtimeSeconds": 240,
+  "shotSeconds": 30,
+  "shotCount": 8,
+  "aspectRatio": "16:9",
+  "resolution": "720p",
+  "model": "bytedance/seedance-2.5/reference-to-video",
+  "productionNotes": {
+    "whyEightShots": "Seedance 2.5 renders a maximum of 30s per generation, so a 4-minute film is 8 shots. The whole risk of that is drift: characters, lighting and world changing between generations. Everything below exists to kill that risk.",
+    "consistencyRule": "CANONICAL_CAST and CANONICAL_WORLD are prepended verbatim to EVERY shot prompt. They are never paraphrased, never shortened, never reordered. Identical wording is what keeps the model rendering the same characters.",
+    "referenceRule": "The same six reference images are sent with every shot, in the same order, so @Image1..@Image6 always mean the same character in every generation.",
+    "textRule": "ZERO text is rendered in-world. The 30s pilot proved the model garbles on-screen words ('CPNEEE' instead of 'CLAIM') and invents nonsense countdowns (00:00 then 08:36). Every prompt therefore ends with an explicit no-text instruction, and every lure is expressed as light, colour and motion instead of letters. Any wording the audience must read is added afterwards as a proper caption/subtitle track in post, where it is under our control.",
+    "transitionRule": "Each shot declares endsOn, and the next shot's opensOn restates that exact state — same position, same pose, same light. The shots are cut together on matching action so the joins read as continuous film, not as eight separate clips.",
+    "dialogueRule": "Short spoken lines, one idea each, plain words a 7-year-old can follow. Dialogue is written to be delivered as clean audio, not to be read on screen.",
+    "estimatedCostUSD": 111,
+    "costNote": "8 shots x ~$13.87 at 720p. Confirm before running the full batch.",
+    "crossCutRule": "The film cross-cuts between two threads: Sprout with Glitch (shots 2,4,6,7,8) and the Knights searching (shots 1,3,5). continuesFrom names the shot each one actually follows, so a deliberate cut to the other thread is never mistaken for a continuity break. Shot 5 resumes the Knights from shot 3; shot 6 resumes Sprout from shot 4; the threads merge at shot 7."
+  },
+  "characters": [
+    "shieldy",
+    "pixel",
+    "glitch",
+    "bot",
+    "sprout",
+    "dame-noble"
+  ],
+  "CANONICAL_CAST": "CAST (exact appearance, unchanged in every shot): @Image1 is SIR SHIELDY, a small golden-armoured knight with a gold plumed helmet, warm brown eyes, a gold cape and a lightning crest on his chest — calm, steady leader. @Image2 is PIXEL, an energetic boy with messy brown hair, a teal hooded top, dark trousers and teal trainers — curious and quick. @Image3 is GLITCH, a rounded purple blob creature with big expressive eyes, stubby arms and legs, and small pink pixel sparks floating around him — a playful trickster, mischievous but never frightening. @Image4 is BOT, a small white-and-silver robot with a smooth rounded head, a glowing cyan visor face and thin jointed limbs — speaks flatly and is confidently wrong. @Image5 is SPROUT, the youngest, a very small cheerful child in a soft green outfit with a tiny leaf motif on the hood, holding a small plush toy — trusting and innocent. @Image6 is DAME NOBLE, a girl knight in rose-gold armour with dark hair tied back, a heart crest on her chest plate and a short cape — precise, kind, the one who checks things.",
+  "CANONICAL_WORLD": "WORLD (unchanged in every shot): a bright, friendly digital realm built from glowing blue crystal towers, soft floating light-motes and smooth reflective floors, like a safe fantasy version of the inside of a computer. Pixar-style 3D animation, soft cinematic lighting, warm and welcoming, colourful, absolutely nothing scary, no violence, no horror, no darkness beyond gentle dusk-blue. Uplifting orchestral score.",
+  "NO_TEXT_CLAUSE": "CRITICAL: Render NO letters, NO words, NO numbers, NO writing, NO signage, NO user interface text, NO subtitles and NO logos anywhere in the frame. Any screen, popup or sign that appears must show only abstract glowing shapes, colour and light — never characters or digits.",
+  "shots": [
+    {
+      "n": 1,
+      "act": "Opening — the world is safe",
+      "lesson": null,
+      "opensOn": "Wide establishing view of the crystal realm at soft dawn light, no characters yet.",
+      "endsOn": "All five heroes stand in a loose group in the courtyard centre; SPROUT sits cross-legged in front of them hugging the plush toy, laughing. Warm dawn light from the left.",
+      "action": "Slow cinematic push-in across the glowing crystal towers as light rises. The heroes are revealed together in the courtyard: SHIELDY stands centre with a calm smile, DAME NOBLE beside him polishing her shield, PIXEL bounces on his toes with restless energy, BOT rolls in a small neat circle scanning the air, and SPROUT sits on the floor playing happily with the plush toy while the others watch fondly. Everyone is relaxed and safe. Gentle friendly atmosphere, an ordinary happy morning.",
+      "dialogue": [
+        {
+          "who": "SHIELDY",
+          "line": "Good morning, Knights. The realm is calm today."
+        },
+        {
+          "who": "PIXEL",
+          "line": "Can we explore the far towers? Please?"
+        },
+        {
+          "who": "DAME NOBLE",
+          "line": "After breakfast, Pixel. Sprout, stay close to us."
+        },
+        {
+          "who": "SPROUT",
+          "line": "Okay!"
+        }
+      ],
+      "camera": "Slow push-in from wide establishing to a comfortable group shot.",
+      "continuesFrom": null
+    },
+    {
+      "n": 2,
+      "act": "The lure",
+      "lesson": "A stranger offering a gift, and asking you to keep it secret, is the warning sign.",
+      "opensOn": "Same courtyard, same warm dawn light from the left. The heroes are in the same loose group; SPROUT still sits in front hugging the plush toy.",
+      "endsOn": "SPROUT is on their feet, walking away to the right beside GLITCH, out of the group. The other four are turned away, still talking, unaware. Light unchanged.",
+      "action": "The heroes drift into conversation among themselves, distracted. Behind them GLITCH peeks out from behind a crystal pillar, then approaches SPROUT with an exaggeratedly friendly wave and a wide smile. GLITCH conjures a floating gift — a glowing, softly pulsing orb of pure golden light with sparkles around it, wordless and irresistible. GLITCH offers it with both stubby arms, then lifts one arm and presses it to his mouth in a clear, unmistakable 'shhh — our secret' gesture, glancing at the other heroes and beckoning SPROUT away to the right. SPROUT looks at the beautiful glowing orb, looks back at the busy grown-ups who are not watching, hesitates, and follows GLITCH.",
+      "dialogue": [
+        {
+          "who": "GLITCH",
+          "line": "Psst. Hey. Want something special? Just for you."
+        },
+        {
+          "who": "SPROUT",
+          "line": "For me? What is it?"
+        },
+        {
+          "who": "GLITCH",
+          "line": "A surprise! But don't tell the others. It's our secret."
+        },
+        {
+          "who": "SPROUT",
+          "line": "Um... okay."
+        }
+      ],
+      "camera": "Static wide, then a slow drift right following Sprout and Glitch as they leave frame.",
+      "continuesFrom": 1
+    },
+    {
+      "n": 3,
+      "act": "The alarm",
+      "lesson": "The moment something feels wrong, tell someone straight away.",
+      "opensOn": "Same courtyard, same warm dawn light from the left. The four heroes stand talking, backs partly turned, with an empty patch of floor where Sprout was sitting.",
+      "endsOn": "All four heroes stand alert in a tight line facing right, looking off toward the far towers. SHIELDY is pointing right. Light unchanged.",
+      "action": "DAME NOBLE turns to speak to SPROUT and stops — the floor is empty. She kneels and picks up the small plush toy, left behind. Her expression drops. She holds it up to show the others. PIXEL spins around, eyes wide. BOT's cyan visor blinks rapidly as it scans the ground and a faint trail of soft purple sparks becomes visible leading off to the right. SHIELDY's face turns serious and steady — concerned but never panicked — and he points toward the far towers, rallying the group. Urgent but reassuring, never frightening.",
+      "dialogue": [
+        {
+          "who": "DAME NOBLE",
+          "line": "Shieldy. Sprout is gone. The toy is still here."
+        },
+        {
+          "who": "PIXEL",
+          "line": "I didn't see anyone. I wasn't looking."
+        },
+        {
+          "who": "BOT",
+          "line": "Trace detected. Purple particles. Heading east."
+        },
+        {
+          "who": "SHIELDY",
+          "line": "Then we go now. Nobody searches alone."
+        }
+      ],
+      "camera": "Handheld-feel push toward Dame Noble, then a swing to a rallying group shot.",
+      "continuesFrom": 2
+    },
+    {
+      "n": 4,
+      "act": "The secret door",
+      "lesson": "If a new friend wants to take you somewhere private, that is the moment to stop.",
+      "opensOn": "A quieter corner of the same crystal realm, cooler blue light, tall narrow towers. GLITCH walks ahead to the right, SPROUT follows a few steps behind, the glowing golden orb floating between them.",
+      "endsOn": "SPROUT stands still, feet planted, no longer following. GLITCH is a few steps ahead beside a swirling violet doorway, turning back with an impatient, straining smile. Cool blue light.",
+      "action": "GLITCH leads SPROUT deeper between the towers, glancing back repeatedly to check they are still following. He stops at a swirling violet portal set into a crystal wall — a soft spiral of light, mysterious but not menacing — and gestures grandly for SPROUT to step through first. The golden orb drifts toward the portal, pulling SPROUT's gaze with it. SPROUT looks at the portal, then back the long way they came, suddenly aware of how far from home they are. SPROUT's small shoulders tense. They stop walking. GLITCH's friendly smile stretches thinner and more forced as he beckons harder.",
+      "dialogue": [
+        {
+          "who": "GLITCH",
+          "line": "Almost there! Your surprise is just through here."
+        },
+        {
+          "who": "SPROUT",
+          "line": "This is far away. I can't see my friends."
+        },
+        {
+          "who": "GLITCH",
+          "line": "You don't need them. Come on, quickly, before it closes!"
+        },
+        {
+          "who": "SPROUT",
+          "line": "...Why do we have to be quick?"
+        }
+      ],
+      "camera": "Tracking beside them, then settling to a two-shot as Sprout stops.",
+      "continuesFrom": 3
+    },
+    {
+      "n": 5,
+      "act": "The search — being sure",
+      "lesson": "Sounding certain is not the same as being right. Check before you act.",
+      "opensOn": "The four heroes moving fast through a wide crystal avenue, dawn light behind them, arranged in a line with SHIELDY leading.",
+      "endsOn": "The four heroes turned together facing right toward a narrow gap between two towers, about to move through it. Dawn light behind them.",
+      "action": "The heroes hurry through the realm following the faint purple sparks. The trail splits into two faint paths. BOT stops, projects a cone of cyan scanning light down one path and states its conclusion with total flat confidence. The group begins to follow BOT — but DAME NOBLE pauses, kneels, and touches the floor where the sparks are, examining them properly. She shakes her head, stands, and points firmly down the other path. BOT's visor blinks, recalculates, and gives a small accepting nod without embarrassment. SHIELDY puts a reassuring hand on BOT's shoulder. The group turns and follows Dame Noble's direction instead.",
+      "dialogue": [
+        {
+          "who": "BOT",
+          "line": "Calculation complete. They went left. I am certain."
+        },
+        {
+          "who": "DAME NOBLE",
+          "line": "Wait. Let me check."
+        },
+        {
+          "who": "DAME NOBLE",
+          "line": "The sparks are warmer on the right. They went this way."
+        },
+        {
+          "who": "BOT",
+          "line": "...Correction accepted. I was sure. I was also wrong."
+        },
+        {
+          "who": "SHIELDY",
+          "line": "Being sure is easy, Bot. Checking is what keeps us right."
+        }
+      ],
+      "camera": "Travelling shot alongside the group, settling for Dame Noble's kneel, then rising to the new direction.",
+      "continuesFrom": 3
+    },
+    {
+      "n": 6,
+      "act": "The mask falls",
+      "lesson": "Online, a person can look friendly and still not be a friend.",
+      "opensOn": "SPROUT standing still, feet planted. GLITCH a few steps ahead beside the swirling violet doorway, turning back with a straining smile. Cool blue light.",
+      "endsOn": "SPROUT stands firm with both fists closed at their sides, chin up, facing GLITCH. GLITCH is hunched, no longer smiling, the golden orb between them flickering and dimming. Cool blue light.",
+      "action": "SPROUT does not move. GLITCH's friendly act begins to crack — his welcoming smile falters, his cheerful pastel colours flicker toward a harder violet, and his sweet coaxing gestures turn impatient and grabby as he reaches for SPROUT's hand. SPROUT pulls their hand back and takes a deliberate step backwards. As GLITCH's pretend friendliness falls away, the beautiful golden orb flickers, thins, and is revealed to be hollow — an empty shell of light with nothing inside. SPROUT stares at the empty orb, then at GLITCH, understanding landing on their small face. SPROUT plants their feet and stands tall.",
+      "dialogue": [
+        {
+          "who": "GLITCH",
+          "line": "Stop asking questions and take my hand!"
+        },
+        {
+          "who": "SPROUT",
+          "line": "You said you were my friend."
+        },
+        {
+          "who": "GLITCH",
+          "line": "I said what you wanted to hear."
+        },
+        {
+          "who": "SPROUT",
+          "line": "Then you were never my friend at all."
+        }
+      ],
+      "camera": "Slow push-in on Sprout as they realise, then a reverse to Glitch losing the mask.",
+      "continuesFrom": 4
+    },
+    {
+      "n": 7,
+      "act": "Sprout calls out",
+      "lesson": "Calling for help is the brave move — you are never in trouble for asking.",
+      "opensOn": "SPROUT standing firm, fists closed, facing a hunched GLITCH beside the violet doorway, the hollow orb flickering between them. Cool blue light.",
+      "endsOn": "SPROUT is safe in the middle of the four heroes, DAME NOBLE kneeling with an arm around them. GLITCH is small and deflated at the right edge of frame. Cool blue light warming.",
+      "action": "SPROUT takes a deep breath, turns toward the way they came, cups both hands around their mouth and shouts for their friends with everything they have. The shout travels visibly as expanding rings of warm golden light through the crystal towers. GLITCH flinches and shrinks back from the light. The four heroes burst into frame from the left at a run — PIXEL first and fastest, SHIELDY close behind, DAME NOBLE and BOT following. DAME NOBLE drops to her knees and gathers SPROUT in, checking they are unharmed. SHIELDY steps protectively between SPROUT and GLITCH, arms open wide, shielding without any violence. The hollow orb collapses into harmless sparkles. GLITCH deflates, shrinking small and sheepish.",
+      "dialogue": [
+        {
+          "who": "SPROUT",
+          "line": "SHIELDY! HELP! I'M HERE!"
+        },
+        {
+          "who": "PIXEL",
+          "line": "Sprout! We've got you!"
+        },
+        {
+          "who": "DAME NOBLE",
+          "line": "You're safe. You're safe now."
+        },
+        {
+          "who": "SPROUT",
+          "line": "I'm sorry. I went with a stranger. I kept it a secret."
+        },
+        {
+          "who": "SHIELDY",
+          "line": "You called for us. That was the bravest thing you could do."
+        }
+      ],
+      "camera": "Wide as the shout rings out, then heroes rush in from the left; settle to a protective group composition.",
+      "continuesFrom": 6
+    },
+    {
+      "n": 8,
+      "act": "Home — and the rule",
+      "lesson": "Recap: secrets, gifts from strangers, being rushed, and going somewhere private are all signals to stop and tell someone.",
+      "opensOn": "SPROUT held safe among the four heroes, DAME NOBLE kneeling beside them, GLITCH small and deflated at the right edge. Cool blue light warming.",
+      "endsOn": "All five heroes plus SPROUT stand together in a warm hero line in the courtyard, lit by full golden dawn, shields glowing.",
+      "action": "GLITCH sputters, shrugs, and fizzles harmlessly away into a puff of pink and purple sparkles — comic and defeated, never hurt. The light warms from cool blue to full golden as the group walks home together through the crystal realm, SPROUT carried on SHIELDY's shoulders, PIXEL bounding alongside, BOT rolling steadily, DAME NOBLE handing SPROUT back the plush toy they had left behind. Back in the sunlit courtyard, the group turns to face forward and stand together as their shields light up in unison, forming a bright protective dome of warm light over all of them. SPROUT, on Shieldy's shoulders, holds the plush toy up high and beams.",
+      "dialogue": [
+        {
+          "who": "SPROUT",
+          "line": "How did you know he wasn't really my friend?"
+        },
+        {
+          "who": "SHIELDY",
+          "line": "Real friends never ask you to keep secrets from the people who love you."
+        },
+        {
+          "who": "DAME NOBLE",
+          "line": "And they never rush you."
+        },
+        {
+          "who": "PIXEL",
+          "line": "And they don't need you to go somewhere alone!"
+        },
+        {
+          "who": "SPROUT",
+          "line": "Then next time... I'll tell you first."
+        },
+        {
+          "who": "SHIELDY",
+          "line": "That's all we ask. Shield up, Knights."
+        }
+      ],
+      "camera": "Walking tracking shot home, rising into a warm hero wide shot for the final beat.",
+      "continuesFrom": 7
+    }
+  ]
+}
