@@ -16,7 +16,8 @@
     "dialogueRule": "Short spoken lines, one idea each, plain words a 7-year-old can follow. Dialogue is written to be delivered as clean audio, not to be read on screen.",
     "estimatedCostUSD": 111,
     "costNote": "8 shots x ~$13.87 at 720p. Confirm before running the full batch.",
-    "crossCutRule": "The film cross-cuts between two threads: Sprout with Glitch (shots 2,4,6,7,8) and the Knights searching (shots 1,3,5). continuesFrom names the shot each one actually follows, so a deliberate cut to the other thread is never mistaken for a continuity break. Shot 5 resumes the Knights from shot 3; shot 6 resumes Sprout from shot 4; the threads merge at shot 7."
+    "crossCutRule": "The film cross-cuts between two threads: Sprout with Glitch (shots 2,4,6,7,8) and the Knights searching (shots 1,3,5). continuesFrom names the shot each one actually follows, so a deliberate cut to the other thread is never mistaken for a continuity break. Shot 5 resumes the Knights from shot 3; shot 6 resumes Sprout from shot 4; the threads merge at shot 7.",
+    "castPresenceRule": "All six reference images are sent with every shot so @Image1..@Image6 keep their meaning, but that also tempts the model to put every character on screen — the 30s pilot duplicated Dame Noble for exactly this reason. Each shot therefore declares onScreen, and the prompt names both who appears AND who must not appear, so absence is stated rather than assumed."
   },
   "characters": [
     "shieldy",
@@ -39,7 +40,7 @@
       "action": "Slow cinematic push-in across the glowing crystal towers as light rises. The heroes are revealed together in the courtyard: SHIELDY stands centre with a calm smile, DAME NOBLE beside him polishing her shield, PIXEL bounces on his toes with restless energy, BOT rolls in a small neat circle scanning the air, and SPROUT sits on the floor playing happily with the plush toy while the others watch fondly. Everyone is relaxed and safe. Gentle friendly atmosphere, an ordinary happy morning.",
       "dialogue": [
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "Good morning, Knights. The realm is calm today."
         },
         {
@@ -56,7 +57,14 @@
         }
       ],
       "camera": "Slow push-in from wide establishing to a comfortable group shot.",
-      "continuesFrom": null
+      "continuesFrom": null,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "BOT",
+        "DAME NOBLE",
+        "SPROUT"
+      ]
     },
     {
       "n": 2,
@@ -84,7 +92,15 @@
         }
       ],
       "camera": "Static wide, then a slow drift right following Sprout and Glitch as they leave frame.",
-      "continuesFrom": 1
+      "continuesFrom": 1,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "GLITCH",
+        "BOT",
+        "SPROUT",
+        "DAME NOBLE"
+      ]
     },
     {
       "n": 3,
@@ -107,12 +123,18 @@
           "line": "Trace detected. Purple particles. Heading east."
         },
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "Then we go now. Nobody searches alone."
         }
       ],
       "camera": "Handheld-feel push toward Dame Noble, then a swing to a rallying group shot.",
-      "continuesFrom": 2
+      "continuesFrom": 2,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "BOT",
+        "DAME NOBLE"
+      ]
     },
     {
       "n": 4,
@@ -140,7 +162,11 @@
         }
       ],
       "camera": "Tracking beside them, then settling to a two-shot as Sprout stops.",
-      "continuesFrom": 3
+      "continuesFrom": 3,
+      "onScreen": [
+        "SPROUT",
+        "GLITCH"
+      ]
     },
     {
       "n": 5,
@@ -167,12 +193,18 @@
           "line": "...Correction accepted. I was sure. I was also wrong."
         },
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "Being sure is easy, Bot. Checking is what keeps us right."
         }
       ],
       "camera": "Travelling shot alongside the group, settling for Dame Noble's kneel, then rising to the new direction.",
-      "continuesFrom": 3
+      "continuesFrom": 3,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "BOT",
+        "DAME NOBLE"
+      ]
     },
     {
       "n": 6,
@@ -200,7 +232,11 @@
         }
       ],
       "camera": "Slow push-in on Sprout as they realise, then a reverse to Glitch losing the mask.",
-      "continuesFrom": 4
+      "continuesFrom": 4,
+      "onScreen": [
+        "SPROUT",
+        "GLITCH"
+      ]
     },
     {
       "n": 7,
@@ -227,12 +263,20 @@
           "line": "I'm sorry. I went with a stranger. I kept it a secret."
         },
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "You called for us. That was the bravest thing you could do."
         }
       ],
       "camera": "Wide as the shout rings out, then heroes rush in from the left; settle to a protective group composition.",
-      "continuesFrom": 6
+      "continuesFrom": 6,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "GLITCH",
+        "BOT",
+        "SPROUT",
+        "DAME NOBLE"
+      ]
     },
     {
       "n": 8,
@@ -247,7 +291,7 @@
           "line": "How did you know he wasn't really my friend?"
         },
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "Real friends never ask you to keep secrets from the people who love you."
         },
         {
@@ -263,12 +307,28 @@
           "line": "Then next time... I'll tell you first."
         },
         {
-          "who": "SHIELDY",
+          "who": "SIR SHIELDY",
           "line": "That's all we ask. Shield up, Knights."
         }
       ],
       "camera": "Walking tracking shot home, rising into a warm hero wide shot for the final beat.",
-      "continuesFrom": 7
+      "continuesFrom": 7,
+      "onScreen": [
+        "SIR SHIELDY",
+        "PIXEL",
+        "GLITCH",
+        "BOT",
+        "SPROUT",
+        "DAME NOBLE"
+      ]
     }
+  ],
+  "castOrder": [
+    "SIR SHIELDY",
+    "PIXEL",
+    "GLITCH",
+    "BOT",
+    "SPROUT",
+    "DAME NOBLE"
   ]
 }

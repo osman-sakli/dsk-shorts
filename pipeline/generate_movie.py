@@ -47,9 +47,22 @@ def build_prompt(movie, shot):
     continuity anchor, then action and dialogue, then the no-text rule last
     so it is the most recent instruction."""
     lines = "\n".join(f'{d["who"]} says: "{d["line"]}"' for d in shot["dialogue"])
+    # Every shot ships all six references, which tempts the model to crowd
+    # them all into frame — the pilot duplicated a character doing exactly
+    # that. Naming who is absent is what keeps them out.
+    on = shot["onScreen"]
+    absent = [c for c in movie["castOrder"] if c not in on]
+    presence = f'ON SCREEN IN THIS SHOT — only these characters appear: {", ".join(on)}.'
+    if absent:
+        presence += (
+            f' The following characters are NOT present in this shot and must not appear'
+            f' anywhere in frame: {", ".join(absent)}.'
+        )
+    presence += " Each character appears exactly once — never duplicate a character in the same frame."
     return (
         f'{movie["CANONICAL_CAST"]}\n\n'
         f'{movie["CANONICAL_WORLD"]}\n\n'
+        f'{presence}\n\n'
         f'CONTINUITY — the shot opens exactly here: {shot["opensOn"]}\n\n'
         f'ACTION: {shot["action"]}\n\n'
         f'SPOKEN DIALOGUE (clear, natural, child-friendly delivery):\n{lines}\n\n'
@@ -83,6 +96,20 @@ def check(movie):
         for d in s["dialogue"]:
             if len(d["line"]) > 90:
                 problems.append(f"shot {s['n']}: line too long to stay clear — {d['line'][:40]}...")
+
+        # A typo in onScreen would silently drop a character from the
+        # presence line, so the names are checked against the cast list.
+        on = s.get("onScreen")
+        if not on:
+            problems.append(f"shot {s['n']}: onScreen not declared")
+            continue
+        for name in on:
+            if name not in movie["castOrder"]:
+                problems.append(f"shot {s['n']}: onScreen names unknown character '{name}'")
+        # Anyone who speaks must be in frame to speak.
+        for d in s["dialogue"]:
+            if d["who"] not in on:
+                problems.append(f"shot {s['n']}: {d['who']} has a line but is not onScreen")
 
     total = len(shots) * movie["shotSeconds"]
     print(f"Title       : {movie['title']}")
