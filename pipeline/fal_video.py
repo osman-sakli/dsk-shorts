@@ -5,6 +5,7 @@ site, so every character stays visually consistent across generations.
 import json
 import os
 import pathlib
+import time
 
 import requests
 
@@ -12,9 +13,26 @@ FAL_API_KEY = os.environ["FAL_API_KEY"]
 CHARACTER_BASE_URL = "https://digitalsafetyknights.org/assets/characters"
 SEEDANCE_URL = "https://fal.run/bytedance/seedance-2.0/fast/reference-to-video"
 
+# On 2026-08-15 a single 403 from fal lost that whole day's short: the caller
+# exits on the first exception, so one transient blip means nothing is posted
+# that day. These statuses are the ones worth trying again — 429/5xx are
+# plainly transient, and fal returns 403 for temporary balance and rate
+# problems too. 422 is excluded on purpose: a rejected payload stays rejected,
+# so retrying it only burns time.
+RETRY_STATUSES = {403, 408, 429, 500, 502, 503, 504}
+MAX_ATTEMPTS = 4
+BACKOFF_SECONDS = 30
+
 
 def character_image_url(name):
     return f"{CHARACTER_BASE_URL}/{name}.jpg"
+
+
+def _should_retry(exc):
+    if isinstance(exc, (requests.ConnectionError, requests.Timeout)):
+        return True
+    resp = getattr(exc, "response", None)
+    return resp is not None and resp.status_code in RETRY_STATUSES
 
 
 def generate_video(script, out_path, duration=13, resolution="720p"):
@@ -28,29 +46,54 @@ def generate_video(script, out_path, duration=13, resolution="720p"):
     the original 9s default.
     """
     image_urls = [character_image_url(name) for name in script["characters"]]
+    payload = {
+        "prompt": script["prompt"],
+        "image_urls": image_urls,
+        "resolution": resolution,
+        "duration": str(duration),
+        "aspect_ratio": "9:16",
+        "generate_audio": True,
+    }
+    headers = {
+        "Authorization": f"Key {FAL_API_KEY}",
+        "Content-Type": "application/json",
+    }
 
-    resp = requests.post(
-        SEEDANCE_URL,
-        headers={
-            "Authorization": f"Key {FAL_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "prompt": script["prompt"],
-            "image_urls": image_urls,
-            "resolution": resolution,
-            "duration": str(duration),
-            "aspect_ratio": "9:16",
-            "generate_audio": True,
-        },
-        timeout=600,  # generation is synchronous and can take several minutes
-    )
-    resp.raise_for_status()
-    result = resp.json()
+    # Only the POST is retried, and only when it failed outright. If a
+    # generation succeeded and merely the download broke, retrying the POST
+    # would pay for a second video — so the download is retried on its own
+    # below, where it costs nothing.
+    result = None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            resp = requests.post(
+                SEEDANCE_URL,
+                headers=headers,
+                json=payload,
+                timeout=600,  # generation is synchronous and can take several minutes
+            )
+            resp.raise_for_status()
+            result = resp.json()
+            break
+        except requests.RequestException as e:
+            if attempt == MAX_ATTEMPTS or not _should_retry(e):
+                raise
+            wait = BACKOFF_SECONDS * attempt
+            print(f"  fal attempt {attempt}/{MAX_ATTEMPTS} failed ({e}); retrying in {wait}s")
+            time.sleep(wait)
+
     video_url = result["video"]["url"]
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            video_resp = requests.get(video_url, timeout=120)
+            video_resp.raise_for_status()
+            break
+        except requests.RequestException as e:
+            if attempt == MAX_ATTEMPTS:
+                raise
+            print(f"  download attempt {attempt}/{MAX_ATTEMPTS} failed ({e}); retrying")
+            time.sleep(BACKOFF_SECONDS)
 
-    video_resp = requests.get(video_url, timeout=120)
-    video_resp.raise_for_status()
     pathlib.Path(out_path).write_bytes(video_resp.content)
     return {"seed": result.get("seed"), "video_url": video_url}
 
