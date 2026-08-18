@@ -181,6 +181,18 @@ def publish_to_platforms(mp4_path, title, caption):
                 "caption": caption,
                 "user": UPLOAD_POST_PROFILE,
                 "platform[]": AUTO_PLATFORMS,
+                # TikTok kept landing in the account inbox with no public URL,
+                # so the intent is now stated explicitly rather than relying on
+                # the API default. If TikTok still holds it as a draft, that is
+                # its unaudited-client rule (such clients may only post
+                # SELF_ONLY) and no amount of retrying changes it — the API
+                # client has to pass TikTok's audit.
+                "post_mode": "DIRECT_POST",
+                "privacy_level": "PUBLIC_TO_EVERYONE",
+                # These shorts are generated with Seedance. TikTok requires
+                # AI-generated content to be disclosed, and labelling it here
+                # is both the honest and the safer option for the account.
+                "is_aigc": "true",
             },
             timeout=300,
         )
