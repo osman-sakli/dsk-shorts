@@ -28,10 +28,26 @@ def character_image_url(name):
     return f"{CHARACTER_BASE_URL}/{name}.jpg"
 
 
+class BalanceExhausted(RuntimeError):
+    """fal has locked the account for lack of funds. Nothing generates until
+    it is topped up, so this is surfaced as its own error instead of being
+    retried — on 2026-08-13..16 it silently stopped the daily shorts, the
+    LinkedIn posts and the news feed all at once."""
+
+
+def _is_balance_error(resp):
+    if resp is None or resp.status_code != 403:
+        return False
+    body = (resp.text or "").lower()
+    return "exhausted balance" in body or "user is locked" in body
+
+
 def _should_retry(exc):
     if isinstance(exc, (requests.ConnectionError, requests.Timeout)):
         return True
     resp = getattr(exc, "response", None)
+    if _is_balance_error(resp):
+        return False  # retrying a locked account only delays the alert
     return resp is not None and resp.status_code in RETRY_STATUSES
 
 
@@ -76,6 +92,12 @@ def generate_video(script, out_path, duration=13, resolution="720p"):
             result = resp.json()
             break
         except requests.RequestException as e:
+            if _is_balance_error(getattr(e, "response", None)):
+                raise BalanceExhausted(
+                    "fal.ai balance is exhausted and the account is locked — "
+                    "top up at https://fal.ai/dashboard/billing. No video can "
+                    "be generated until then."
+                ) from e
             if attempt == MAX_ATTEMPTS or not _should_retry(e):
                 raise
             wait = BACKOFF_SECONDS * attempt

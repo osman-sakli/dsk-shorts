@@ -35,6 +35,7 @@ UPLOAD_API_KEY_SECRET_ARN = os.environ["UPLOAD_API_KEY_SECRET_ARN"]
 FAL_API_KEY_SECRET_ARN = os.environ["FAL_API_KEY_SECRET_ARN"]
 UPLOAD_POST_PROFILE = os.environ.get("UPLOAD_POST_PROFILE", "DSK")
 LINKEDIN_PAGE_URN = os.environ["LINKEDIN_PAGE_URN"]
+SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN", "")
 
 QUERIES = [
     "AI child safety",
@@ -276,7 +277,48 @@ def publish_to_linkedin(post_text, image_bytes):
     return {"status": "published" if resp.ok else "failed", "http_status": resp.status_code, "body": resp.text[:500]}
 
 
+def _alert(subject, body):
+    """Without this the Lambda failed silently: an exhausted fal.ai balance
+    stopped every LinkedIn post from 2026-08-13 to 08-16 and the only trace
+    was a stack trace in CloudWatch nobody was watching."""
+    print(f"ALERT: {subject}\n{body}")
+    if not SNS_ALERT_TOPIC_ARN:
+        return
+    try:
+        boto3.client("sns").publish(
+            TopicArn=SNS_ALERT_TOPIC_ARN, Subject=subject[:100], Message=body[:4000]
+        )
+    except Exception as e:  # an alert must never mask the original failure
+        print(f"could not send alert: {e}")
+
+
+def _balance_exhausted(exc):
+    resp = getattr(exc, "response", None)
+    if resp is None or getattr(resp, "status_code", None) != 403:
+        return False
+    body = (getattr(resp, "text", "") or "").lower()
+    return "exhausted balance" in body or "user is locked" in body
+
+
 def handler(event, context):
+    try:
+        return _run()
+    except Exception as e:
+        if _balance_exhausted(e):
+            _alert(
+                "DSK LinkedIn STOPPED — fal.ai balance exhausted",
+                "LinkedIn posting is blocked because the fal.ai account is locked "
+                "for lack of funds. The same balance also drives the daily shorts "
+                "and the homepage news feed.\n\n"
+                "Top up: https://fal.ai/dashboard/billing\n\n"
+                f"Raw error: {e}",
+            )
+        else:
+            _alert(f"DSK LinkedIn post failed: {type(e).__name__}", str(e))
+        raise
+
+
+def _run():
     article = find_publishable_article()
     if not article:
         print("No candidate this run had a link that decoded and verified — skipping.")

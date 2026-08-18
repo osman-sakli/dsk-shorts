@@ -45,6 +45,11 @@ resource "aws_iam_role_policy" "linkedin_lambda_permissions" {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue"]
         Resource = [aws_secretsmanager_secret.upload_api_key.arn, aws_secretsmanager_secret.fal_api_key.arn]
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["sns:Publish"]
+        Resource = [aws_sns_topic.alerts.arn]
       }
     ]
   })
@@ -71,6 +76,7 @@ resource "aws_lambda_function" "linkedin_post" {
       FAL_API_KEY_SECRET_ARN    = aws_secretsmanager_secret.fal_api_key.arn
       UPLOAD_POST_PROFILE       = var.upload_post_profile
       LINKEDIN_PAGE_URN         = local.linkedin_page_urn
+      SNS_ALERT_TOPIC_ARN       = aws_sns_topic.alerts.arn
     }
   }
 }

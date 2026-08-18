@@ -285,6 +285,11 @@ def run_ai_path():
 
     try:
         fal_video.generate_video(script, mp4_path)
+    except fal_video.BalanceExhausted as e:
+        # Distinct subject line: this one needs Osman to top up, not a retry.
+        alert_failure("DSK Shorts STOPPED — fal.ai balance exhausted", str(e))
+        record_queue_status(script_id, day, "balance_exhausted", str(e))
+        sys.exit(1)
     except requests.RequestException as e:
         alert_failure(f"DSK Shorts AI generation failed: {script_id}", str(e))
         record_queue_status(script_id, day, "generation_failed", str(e))
