@@ -6,7 +6,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short set in a colorful video game world. @Image1 is Pixel, an excited kid character, typing eagerly at a glowing game chat screen. Pixel turns to the camera and says brightly: \"Hi! My name is Jake and I\u2014\" Then @Image2 is Sir Shieldy, a gold knight mascot, who bursts into frame holding up a hand and says warmly but firmly: \"Woah woah woah! Knight Rule number one \u2014 your real name stays OFF the chat!\" Pixel looks surprised, then grins and types a nickname instead, giving a thumbs up. Shieldy raises his shield proudly and says cheerfully: \"Shield up!\" Bright colorful kid-friendly game energy, bouncy camera movement, cheerful upbeat music."
+    "prompt": "A fun 3D-animated educational short set in a colorful video game world. @Image1 is Pixel, an excited kid character, typing eagerly at a glowing game chat screen. Pixel turns to the camera and says brightly: \"Hi! My name is Jake and I—\" Then @Image2 is Sir Shieldy, a gold knight mascot, who bursts into frame holding up a hand and says warmly but firmly: \"Woah woah woah! Knight Rule number one — your real name stays OFF the chat!\" Pixel looks surprised, then grins and types a nickname instead, giving a thumbs up. Shieldy raises his shield proudly and says cheerfully: \"Shield up!\" Bright colorful kid-friendly game energy, bouncy camera movement, cheerful upbeat music."
   },
   {
     "id": "ai-002-free-robux",
@@ -25,7 +25,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short in a cozy bedroom with a glowing computer. @Image1 is Pixel, a kid character, on a video call saying to a friend off-screen: \"Sure, I'll just give you my password\u2014\" Then @Image2 is Sir Shieldy, a gold knight mascot, appears beside Pixel holding up a finger and says warmly: \"Knight Rule number two! Passwords are secrets \u2014 even from your best friend.\" Pixel nods, closes the chat, and gives a thumbs up. Shieldy smiles and raises his shield: \"Shield up!\" Bright cheerful kid-friendly lighting, playful camera zoom, upbeat music."
+    "prompt": "A fun 3D-animated educational short in a cozy bedroom with a glowing computer. @Image1 is Pixel, a kid character, on a video call saying to a friend off-screen: \"Sure, I'll just give you my password—\" Then @Image2 is Sir Shieldy, a gold knight mascot, appears beside Pixel holding up a finger and says warmly: \"Knight Rule number two! Passwords are secrets — even from your best friend.\" Pixel nods, closes the chat, and gives a thumbs up. Shieldy smiles and raises his shield: \"Shield up!\" Bright cheerful kid-friendly lighting, playful camera zoom, upbeat music."
   },
   {
     "id": "ai-004-ai-confidently-wrong",
@@ -34,7 +34,7 @@
       "bot",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Bot, a cute white and silver robot mascot with a flat confident screen-face, announcing proudly to the camera: \"Fun fact! Sharks are vegetarian and only eat seaweed! I am 100% certain!\" @Image2 is Sir Shieldy, a gold knight mascot, walks in shaking his head with a knowing smile, saying: \"Bot, that sounds wrong \u2014 AI can be confidently wrong! Always double-check with a real source.\" Bot's screen-face glitches in surprise, then shows a sheepish expression. Shieldy laughs warmly and raises his shield: \"Shield up!\" Bright colorful lab-like background, playful camera movement, cheerful music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Bot, a cute white and silver robot mascot with a flat confident screen-face, announcing proudly to the camera: \"Fun fact! Sharks are vegetarian and only eat seaweed! I am 100% certain!\" @Image2 is Sir Shieldy, a gold knight mascot, walks in shaking his head with a knowing smile, saying: \"Bot, that sounds wrong — AI can be confidently wrong! Always double-check with a real source.\" Bot's screen-face glitches in surprise, then shows a sheepish expression. Shieldy laughs warmly and raises his shield: \"Shield up!\" Bright colorful lab-like background, playful camera movement, cheerful music."
   },
   {
     "id": "ai-005-voice-clone",
@@ -53,7 +53,56 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun but clearly cautionary 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, appearing on a game chat screen asking in a sneaky-sweet voice: \"Hey friend! How old are you? What school do you go to?\" @Image2 is Pixel, a kid character, pausing with a thoughtful worried look. @Image3 is Sir Shieldy, a gold knight mascot, appears and says clearly: \"Red flag, Pixel! Don't answer \u2014 block, and tell a grown-up.\" Pixel confidently clicks block, and Glitch vanishes in a comic puff. Shieldy nods approvingly and raises his shield: \"Shield up!\" Bright colorful kid-friendly lighting, reassuring confident tone, upbeat resolving music."
+    "prompt": "A fun but clearly cautionary 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, appearing on a game chat screen asking in a sneaky-sweet voice: \"Hey friend! How old are you? What school do you go to?\" @Image2 is Pixel, a kid character, pausing with a thoughtful worried look. @Image3 is Sir Shieldy, a gold knight mascot, appears and says clearly: \"Red flag, Pixel! Don't answer — block, and tell a grown-up.\" Pixel confidently clicks block, and Glitch vanishes in a comic puff. Shieldy nods approvingly and raises his shield: \"Shield up!\" Bright colorful kid-friendly lighting, reassuring confident tone, upbeat resolving music."
+  },
+  {
+    "id": "ai-022-mirror-always-agrees",
+    "title": "The Friend Who Never Says You're Wrong",
+    "characters": [
+      "pixel",
+      "sprout",
+      "shieldy"
+    ],
+    "prompt": "A dazzling 3D-animated short set in a floating carnival hall of tall golden mirrors, drifting above pink sunset clouds, ribbons and light-motes swirling between the frames. @Image1 is Pixel, an excited kid, walking the row of mirrors. Each mirror shows a friendly glowing face that nods and beams at everything he says. Pixel spreads his arms, delighted: \"They agree with EVERYTHING I say!\" @Image2 is Sprout, a very small child in green, tugging his sleeve and pointing along the endless row, puzzled: \"But... none of them ever said no.\" Pixel's grin slowly fades as he really looks at the identical nodding faces. @Image3 is Sir Shieldy, a gold knight, resting a hand on his shoulder, warm and calm: \"A real friend tells you when you're wrong. That's how you know they're real.\" The mirrors dim gently; the two kids walk off together into the sunset light. Slow push-in down the mirror hall, then a warm wide shot. Wondrous, dreamlike, gentle orchestral music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-023-whisper-warehouse",
+    "title": "Where Your Secrets Actually Go",
+    "characters": [
+      "sprout",
+      "dame-noble"
+    ],
+    "prompt": "A breathtaking 3D-animated short. @Image1 is Sprout, a tiny child in a soft green hooded outfit, sitting cross-legged in a cosy moonlit treehouse, whispering into a friendly floating lantern-creature that glows warm amber and blinks kindly. The camera follows the whisper as a small golden light — it slides out of the lantern, down a glass tube, out of the treehouse, and soars over a night landscape into an ENORMOUS cathedral-sized warehouse filled with millions of glowing jars stacked to the ceiling, each holding somebody's little light. The scale is awe-inspiring, beautiful, not frightening. @Image2 is Dame Noble, a rose-gold girl knight, standing with Sprout on a balcony overlooking it, speaking gently: \"It felt like a diary. It's really a warehouse. Tell your secrets to someone who loves you.\" Sprout nods thoughtfully and hugs the plush toy. Sweeping cinematic camera following the light, then a wide reveal of the warehouse. Awe-struck, magical, tender music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-024-mask-shop",
+    "title": "Anyone Can Wear a Familiar Face",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A playful 3D-animated short set inside a whimsical costume shop built from stacked purple velvet drawers and swinging lanterns, hundreds of friendly masks hanging on every wall. @Image1 is Glitch, a round purple blob trickster, cheerfully trying masks on in a spinning montage — a kindly teacher's face, a coach's face, a smiling delivery courier — each one snapping into place with a comic pop. He turns to camera wearing the friendliest face of all and waves innocently. @Image2 is Pixel, a kid, waving back and stepping forward trustingly. @Image3 is Sir Shieldy, a gold knight, catching Pixel's shoulder and speaking warmly: \"If a familiar face asks for something strange — hang up and call them yourself.\" Pixel nods, and Glitch's mask slips comically sideways, revealing the blob underneath; he shrugs, caught out, funny rather than menacing. Snappy comic timing, whip-pans between masks, bouncy mischievous music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-025-portrait-that-wasnt-me",
+    "title": "That Picture Isn't You — and You're Not in Trouble",
+    "characters": [
+      "sprout",
+      "shieldy",
+      "dame-noble"
+    ],
+    "prompt": "A stunning 3D-animated short set in a grand marble art gallery with soaring arched windows and golden afternoon light falling in long beams. @Image1 is Sprout, a small child in green, standing very still in front of an ornate framed portrait of themself — but the child in the painting is doing something Sprout never did, and the brushstrokes shimmer and ripple unnaturally. Sprout's shoulders drop, small and worried. @Image2 is Sir Shieldy, a gold knight, and @Image3 is Dame Noble, a rose-gold girl knight, walking in fast and kneeling on either side. Dame Noble, firm and kind: \"Someone painted that. It isn't you.\" Shieldy, warm and steady: \"You are not in trouble. We handle this together.\" Sprout looks up; the two knights raise their shields and the ripple in the painting stills. The three walk out through the golden light side by side. Slow reverent camera, then a warm protective wide shot. Emotional, reassuring, hopeful orchestral music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-026-door-that-wont-open",
+    "title": "A Friend Wants You to Have Other Friends",
+    "characters": [
+      "pixel",
+      "glitch",
+      "sprout"
+    ],
+    "prompt": "A vivid 3D-animated short set in a cosy glowing bedroom-pod floating in soft violet space, one round window looking out onto a bright park where kids play in golden sunlight. @Image1 is Pixel, a kid, sitting with @Image2 Glitch, a round purple blob, who is being extremely charming and funny, juggling little pink sparks to keep him laughing. Pixel glances at the window, stands and reaches for the round door — and Glitch quickly slides in front of it, still smiling, arms spread wide: \"Stay! They're boring. I'm more fun.\" Pixel pauses, looking from the smiling blob to the sunlit window. Then he gently steps around Glitch and pushes the door open — warm golden light floods the pod. @Image3 is Sprout, a tiny child in green, waiting outside with a hand held out, beaming. Pixel takes it. Glitch deflates comically in the doorway. Camera pushes from the dim pod out into the bright park. Uplifting, warm, freeing music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
   },
   {
     "id": "ai-007-fake-friend-request",
@@ -63,7 +112,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, sending a friend request saying eagerly: \"Hiii! It's me from school! Accept meee!\" @Image2 is Pixel, a kid character, looking at the request suspiciously and asking: \"From school? Which class...?\" Glitch stammers and glitches nervously. @Image3 is Sir Shieldy, a gold knight mascot, appears and says: \"Easy check \u2014 verify in real life first, then accept!\" Pixel confidently declines the request for now. Shieldy smiles and raises his shield: \"Shield up!\" Bright playful lighting, comedic timing, upbeat music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, sending a friend request saying eagerly: \"Hiii! It's me from school! Accept meee!\" @Image2 is Pixel, a kid character, looking at the request suspiciously and asking: \"From school? Which class...?\" Glitch stammers and glitches nervously. @Image3 is Sir Shieldy, a gold knight mascot, appears and says: \"Easy check — verify in real life first, then accept!\" Pixel confidently declines the request for now. Shieldy smiles and raises his shield: \"Shield up!\" Bright playful lighting, comedic timing, upbeat music."
   },
   {
     "id": "ai-008-sextortion-awareness",
@@ -72,7 +121,7 @@
       "shieldy",
       "dame-noble"
     ],
-    "prompt": "A warm, reassuring 3D-animated short for older kids and teens, calm and supportive tone, no graphic content. @Image1 is Sir Shieldy, a gold knight mascot, standing beside @Image2 Dame Noble, a rose-gold girl knight mascot, both speaking directly and warmly to the camera. Dame Noble says gently: \"If anyone online ever pressures you about a photo, or threatens you, it is never your fault.\" Shieldy nods and adds firmly: \"Don't pay, don't panic, and come tell a trusted adult right away \u2014 we will handle it together.\" Both raise their shields together and say in unison: \"Shield up!\" Warm supportive lighting, gentle confident music, comforting camera framing."
+    "prompt": "A warm, reassuring 3D-animated short for older kids and teens, calm and supportive tone, no graphic content. @Image1 is Sir Shieldy, a gold knight mascot, standing beside @Image2 Dame Noble, a rose-gold girl knight mascot, both speaking directly and warmly to the camera. Dame Noble says gently: \"If anyone online ever pressures you about a photo, or threatens you, it is never your fault.\" Shieldy nods and adds firmly: \"Don't pay, don't panic, and come tell a trusted adult right away — we will handle it together.\" Both raise their shields together and say in unison: \"Shield up!\" Warm supportive lighting, gentle confident music, comforting camera framing."
   },
   {
     "id": "ai-009-algorithm-feed",
@@ -110,7 +159,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Bot, a cute white robot mascot, proudly presenting a finished essay saying: \"I wrote your whole homework! Just copy and paste it!\" @Image2 is Pixel, a kid character, considering it, then pausing thoughtfully. @Image3 is Sir Shieldy, a gold knight mascot, appears and says warmly: \"Use it to learn, then write your own answer, Pixel \u2014 that's the Knight way!\" Pixel smiles, picks up a pencil, and starts writing enthusiastically in their own words. Shieldy raises his shield proudly: \"Shield up!\" Bright cheerful classroom-like lighting, encouraging upbeat music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Bot, a cute white robot mascot, proudly presenting a finished essay saying: \"I wrote your whole homework! Just copy and paste it!\" @Image2 is Pixel, a kid character, considering it, then pausing thoughtfully. @Image3 is Sir Shieldy, a gold knight mascot, appears and says warmly: \"Use it to learn, then write your own answer, Pixel — that's the Knight way!\" Pixel smiles, picks up a pencil, and starts writing enthusiastically in their own words. Shieldy raises his shield proudly: \"Shield up!\" Bright cheerful classroom-like lighting, encouraging upbeat music."
   },
   {
     "id": "ai-013-stand-up-for-friend",
@@ -129,7 +178,7 @@
       "glitch",
       "shieldy"
     ],
-    "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, mischievously holding up a glowing tablet showing a distorted fake image, saying slyly: \"I made this using your photos... pay up or I'll share it!\" @Image2 is Sir Shieldy, a gold knight mascot, steps forward calmly and firmly: \"Fake or real, that's still a crime. Don't pay \u2014 tell a trusted adult right now.\" Glitch fizzles away defeated but not scary. Shieldy nods reassuringly at the camera and raises his shield: \"Shield up!\" Calm confident lighting, supportive resolving music."
+    "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, mischievously holding up a glowing tablet showing a distorted fake image, saying slyly: \"I made this using your photos... pay up or I'll share it!\" @Image2 is Sir Shieldy, a gold knight mascot, steps forward calmly and firmly: \"Fake or real, that's still a crime. Don't pay — tell a trusted adult right now.\" Glitch fizzles away defeated but not scary. Shieldy nods reassuringly at the camera and raises his shield: \"Shield up!\" Calm confident lighting, supportive resolving music."
   },
   {
     "id": "ai-015-shield-up-squad-finale",
@@ -142,7 +191,7 @@
       "dame-noble",
       "sprout"
     ],
-    "prompt": "A joyful celebratory 3D-animated short. All six characters stand together in a triumphant lineup: @Image1 Sir Shieldy the gold knight, @Image2 Pixel the curious kid, @Image3 Glitch the goofy purple blob now smiling as a reformed friendly trickster, @Image4 Bot the robot with a proud grin, @Image5 Dame Noble the rose-gold girl knight, and @Image6 Sprout the giggling baby knight-in-training clapping in the front. Confetti of gold circuit-pattern shapes falls around them. Shieldy raises his shield high and declares: \"Whatever the trap, whatever the trick \u2014 remember what you learned today!\" The whole group cheers together in unison: \"Shield up!\" Bright joyful celebratory lighting, triumphant upbeat music, dynamic camera pull-back revealing the whole team."
+    "prompt": "A joyful celebratory 3D-animated short. All six characters stand together in a triumphant lineup: @Image1 Sir Shieldy the gold knight, @Image2 Pixel the curious kid, @Image3 Glitch the goofy purple blob now smiling as a reformed friendly trickster, @Image4 Bot the robot with a proud grin, @Image5 Dame Noble the rose-gold girl knight, and @Image6 Sprout the giggling baby knight-in-training clapping in the front. Confetti of gold circuit-pattern shapes falls around them. Shieldy raises his shield high and declares: \"Whatever the trap, whatever the trick — remember what you learned today!\" The whole group cheers together in unison: \"Shield up!\" Bright joyful celebratory lighting, triumphant upbeat music, dynamic camera pull-back revealing the whole team."
   },
   {
     "id": "ai-016-not-real-friend",
@@ -153,7 +202,7 @@
       "glitch",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Pixel, a kid character, chatting happily on a glowing game screen with a 'friend' whose replies pop up instantly, agreeing with absolutely everything. @Image2 is Bot, a cute white and silver robot mascot, tilts his head curiously and says: \"Wait \u2014 that reply came in way too fast, and it agrees with everything you say. That's how an AI chatbot talks, not a real kid.\" The 'friend' avatar glitches and reveals @Image3 Glitch, a purple glitch-blob character, laughing: \"Almost had you!\" @Image4 is Sir Shieldy, a gold knight mascot, steps in confidently and says: \"Real friends don't reply instantly and agree with everything. If it feels too perfect, it might not be real. Shield up!\" Bright colorful kid-friendly game energy, bouncy camera movement, upbeat resolving music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Pixel, a kid character, chatting happily on a glowing game screen with a 'friend' whose replies pop up instantly, agreeing with absolutely everything. @Image2 is Bot, a cute white and silver robot mascot, tilts his head curiously and says: \"Wait — that reply came in way too fast, and it agrees with everything you say. That's how an AI chatbot talks, not a real kid.\" The 'friend' avatar glitches and reveals @Image3 Glitch, a purple glitch-blob character, laughing: \"Almost had you!\" @Image4 is Sir Shieldy, a gold knight mascot, steps in confidently and says: \"Real friends don't reply instantly and agree with everything. If it feels too perfect, it might not be real. Shield up!\" Bright colorful kid-friendly game energy, bouncy camera movement, upbeat resolving music."
   },
   {
     "id": "ai-017-emoji-sos",
@@ -163,7 +212,7 @@
       "shieldy",
       "dame-noble"
     ],
-    "prompt": "A fun, empowering 3D-animated educational short. @Image1 is Sprout, a giggling baby knight-in-training, texting nervously and not knowing how to ask for help without an adult noticing over their shoulder. @Image2 is Dame Noble, a rose-gold girl knight mascot, leans in warmly and says: \"Here's a Knight secret \u2014 pick one emoji as your family's SOS signal. Send it and we'll know to check on you, no explaining needed.\" Sprout's eyes light up and taps a shield emoji into the chat triumphantly. @Image3 Sir Shieldy gives a proud thumbs up: \"Every Knight family should have one! Shield up!\" Bright playful lighting, empowering upbeat music, quick satisfying camera zoom on the emoji being sent."
+    "prompt": "A fun, empowering 3D-animated educational short. @Image1 is Sprout, a giggling baby knight-in-training, texting nervously and not knowing how to ask for help without an adult noticing over their shoulder. @Image2 is Dame Noble, a rose-gold girl knight mascot, leans in warmly and says: \"Here's a Knight secret — pick one emoji as your family's SOS signal. Send it and we'll know to check on you, no explaining needed.\" Sprout's eyes light up and taps a shield emoji into the chat triumphantly. @Image3 Sir Shieldy gives a proud thumbs up: \"Every Knight family should have one! Shield up!\" Bright playful lighting, empowering upbeat music, quick satisfying camera zoom on the emoji being sent."
   },
   {
     "id": "ai-018-loot-box-gamble",
@@ -173,7 +222,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, gleefully shaking a glowing treasure chest and shouting: \"Spin again! You're SO close to the rare skin, just one more purchase!\" @Image2 is Pixel, a kid character, reaching for a glowing 'buy now' button, mesmerized by spinning lights. @Image3 is Sir Shieldy, a gold knight mascot, steps in and gently stops Pixel's hand: \"That flashing wheel is designed like a slot machine, Pixel \u2014 the odds are never in your favor.\" Glitch deflates comically, chest lid slamming shut. Pixel nods and puts the device down. Shieldy smiles: \"Shield up!\" Bright colorful arcade-like lighting shifting to calm clarity, playful but cautionary music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, gleefully shaking a glowing treasure chest and shouting: \"Spin again! You're SO close to the rare skin, just one more purchase!\" @Image2 is Pixel, a kid character, reaching for a glowing 'buy now' button, mesmerized by spinning lights. @Image3 is Sir Shieldy, a gold knight mascot, steps in and gently stops Pixel's hand: \"That flashing wheel is designed like a slot machine, Pixel — the odds are never in your favor.\" Glitch deflates comically, chest lid slamming shut. Pixel nods and puts the device down. Shieldy smiles: \"Shield up!\" Bright colorful arcade-like lighting shifting to calm clarity, playful but cautionary music."
   },
   {
     "id": "ai-019-smart-toy-listening",
@@ -193,7 +242,7 @@
       "pixel",
       "shieldy"
     ],
-    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, proudly displaying a glowing (clearly fake, slightly crooked) blue checkmark badge next to their profile, boasting: \"See? I'm VERIFIED! You can totally trust me now!\" @Image2 is Pixel, a kid character, squinting at the wobbly badge suspiciously. @Image3 is Sir Shieldy, a gold knight mascot, chuckles and says: \"Badges and checkmarks can be faked, Pixel \u2014 trust is earned by actions, not icons.\" Glitch's badge flickers and falls off comically. Pixel laughs and blocks the account. Shieldy raises his shield: \"Shield up!\" Bright playful lighting, comedic timing, upbeat resolving music."
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple glitch-blob character, proudly displaying a glowing (clearly fake, slightly crooked) blue checkmark badge next to their profile, boasting: \"See? I'm VERIFIED! You can totally trust me now!\" @Image2 is Pixel, a kid character, squinting at the wobbly badge suspiciously. @Image3 is Sir Shieldy, a gold knight mascot, chuckles and says: \"Badges and checkmarks can be faked, Pixel — trust is earned by actions, not icons.\" Glitch's badge flickers and falls off comically. Pixel laughs and blocks the account. Shieldy raises his shield: \"Shield up!\" Bright playful lighting, comedic timing, upbeat resolving music."
   },
   {
     "id": "ai-021-screenshot-still-counts",
@@ -203,6 +252,6 @@
       "dame-noble",
       "shieldy"
     ],
-    "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, sending a message that fades away, smirking: \"Don't worry, it'll disappear \u2014 no one will ever know!\" @Image2 is Dame Noble, a rose-gold girl knight mascot, holds up a glowing phone showing a screenshot was captured the instant before it vanished, saying firmly: \"Disappearing messages can still be captured, Glitch. 'Gone' doesn't mean 'safe.'\" Glitch freezes, caught, and fizzles away sheepishly. @Image3 Sir Shieldy nods approvingly: \"Assume anything you send could be kept. Shield up!\" Calm confident lighting, supportive steady music."
+    "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, sending a message that fades away, smirking: \"Don't worry, it'll disappear — no one will ever know!\" @Image2 is Dame Noble, a rose-gold girl knight mascot, holds up a glowing phone showing a screenshot was captured the instant before it vanished, saying firmly: \"Disappearing messages can still be captured, Glitch. 'Gone' doesn't mean 'safe.'\" Glitch freezes, caught, and fizzles away sheepishly. @Image3 Sir Shieldy nods approvingly: \"Assume anything you send could be kept. Shield up!\" Calm confident lighting, supportive steady music."
   }
 ]
