@@ -95,6 +95,56 @@
     "prompt": "A stunning 3D-animated short set in a grand marble art gallery with soaring arched windows and golden afternoon light falling in long beams. @Image1 is Sprout, a small child in green, standing very still in front of an ornate framed portrait of themself — but the child in the painting is doing something Sprout never did, and the brushstrokes shimmer and ripple unnaturally. Sprout's shoulders drop, small and worried. @Image2 is Sir Shieldy, a gold knight, and @Image3 is Dame Noble, a rose-gold girl knight, walking in fast and kneeling on either side. Dame Noble, firm and kind: \"Someone painted that. It isn't you.\" Shieldy, warm and steady: \"You are not in trouble. We handle this together.\" Sprout looks up; the two knights raise their shields and the ripple in the painting stills. The three walk out through the golden light side by side. Slow reverent camera, then a warm protective wide shot. Emotional, reassuring, hopeful orchestral music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
   },
   {
+    "id": "ai-027-voice-shop",
+    "title": "That Voice Might Not Be Theirs",
+    "characters": [
+      "glitch",
+      "sprout",
+      "dame-noble"
+    ],
+    "prompt": "A playful 3D-animated short set inside a warm cluttered gramophone shop, walls covered with hundreds of glowing brass horns and little velvet-lined drawers, amber lamplight everywhere. @Image1 is Glitch, a round purple blob trickster, plucking glowing voices off the wall like ribbons and swallowing them one after another in a snappy comic montage — each swallow makes his cheeks puff and his whole body wobble with a different shape. He leans in very close to camera, eyes huge and innocent, and opens his mouth to speak in somebody else's warm familiar voice. @Image2 is Sprout, a tiny child, hesitating, head tilted, not quite convinced. @Image3 is Dame Noble, a rose-gold girl knight, kneeling beside Sprout and speaking clearly: \"If the voice is in a hurry and asks for something, hang up and call them back yourself.\" Glitch hiccups and the borrowed voice pops out as a little ribbon, leaving him squeaking in his own silly voice, embarrassed and funny. Snappy comic timing, whip-pans across the horns, bouncy mischievous music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-028-hollow-prizes",
+    "title": "Every Prize Was Empty",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A playful 3D-animated short set inside a glittering arcade prize booth stacked with plush toys, spinning lights and rows of golden capsules, everything sparkling and inviting. @Image1 is Glitch, a round purple blob trickster, whose belly is a glass claw-machine packed with dazzling golden prizes. He grins right into camera, very close, and pats his glass belly proudly as the prizes swirl and glitter. @Image2 is Pixel, a kid, pressing his face to the glass, eyes enormous. Glitch pops a little hatch open and one golden prize rolls out — it splits neatly in half and is completely hollow inside, then another, then another, until a small pile of empty shells sits on the floor. @Image3 is Sir Shieldy, a gold knight, resting a hand on Pixel's shoulder and saying warmly: \"If it's free and it's urgent, it's bait.\" Glitch's glass belly fogs up with embarrassment and he shuffles away. Snappy comic timing, sparkling lights, bouncy carnival music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-029-too-many-arms",
+    "title": "The Gift With Too Many Hands",
+    "characters": [
+      "glitch",
+      "sprout",
+      "shieldy"
+    ],
+    "prompt": "A playful 3D-animated short set inside a cosy toymaker's workshop of wooden shelves, hanging puppets and warm hanging bulbs. @Image1 is Glitch, a round purple blob trickster, who sprouts more and more stubby arms with a comic pop each time — six, then ten, then a dozen — every single hand holding a different irresistible glowing gift. He crowds toward camera in close-up, all the hands pushing gifts forward at once, smiling far too widely. @Image2 is Sprout, a tiny child, taking one small step back, overwhelmed. @Image3 is Sir Shieldy, a gold knight, stepping between them calmly and saying: \"Anyone rushing you to say yes is not your friend.\" All the extra arms deflate one by one like balloons with a comic squeak until only two sheepish little arms are left, and Glitch shrugs. Snappy comic timing, close-up on the crowd of hands, bouncy mischievous music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-030-borrowed-faces",
+    "title": "Made Of Other People's Photos",
+    "characters": [
+      "glitch",
+      "dame-noble",
+      "sprout"
+    ],
+    "prompt": "A striking 3D-animated short set inside a warm old portrait studio full of gilded frames, soft lamps and velvet curtains. @Image1 is Glitch, a round purple blob trickster, whose entire body is patterned with other children's smiling photographs, layered like overlapping stickers. He poses proudly in close-up to camera. @Image2 is Dame Noble, a rose-gold girl knight, stepping up and gently peeling one photograph off him — underneath, plain purple blob. She peels another, and another, each floating away to return to its frame on the wall, until Glitch is just a bare embarrassed blob. She turns to camera and says firmly and kindly: \"Your picture belongs to you. If someone copies it, tell a grown-up.\" @Image3 is Sprout, a tiny child, watching their own photo float safely back into its frame and smiling. Warm lamplight, gentle comic timing, reassuring music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-031-lying-clock",
+    "title": "Hurry Is the Trick",
+    "characters": [
+      "glitch",
+      "pixel",
+      "dame-noble"
+    ],
+    "prompt": "A playful 3D-animated short set inside a crowded clockmaker's shop, hundreds of brass clocks and swinging pendulums on every wall, warm honey-coloured light. @Image1 is Glitch, a round purple blob trickster, who has become a grandfather clock — his round belly is a clock face with wild spinning hands, and he bounces urgently in close-up to camera, waving his stubby arms faster and faster to hurry someone along. Every clock behind him spins faster too. @Image2 is Pixel, a kid, reaching out anxiously, caught up in the rush. @Image3 is Dame Noble, a rose-gold girl knight, calmly placing one finger on Glitch's spinning hands and stopping them dead. Silence. She says evenly: \"Nothing real ever disappears if you take a minute to check.\" All the clocks slow to a gentle tick, Glitch sags with a deflating wheeze, and Pixel breathes out and lowers his hand. Snappy comic build, then a satisfying calm release, playful ticking music that resolves warmly. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
     "id": "ai-026-door-that-wont-open",
     "title": "A Friend Wants You to Have Other Friends",
     "characters": [
