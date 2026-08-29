@@ -145,6 +145,61 @@
     "prompt": "A playful 3D-animated short set inside a crowded clockmaker's shop, hundreds of brass clocks and swinging pendulums on every wall, warm honey-coloured light. @Image1 is Glitch, a round purple blob trickster, who has become a grandfather clock — his round belly is a clock face with wild spinning hands, and he bounces urgently in close-up to camera, waving his stubby arms faster and faster to hurry someone along. Every clock behind him spins faster too. @Image2 is Pixel, a kid, reaching out anxiously, caught up in the rush. @Image3 is Dame Noble, a rose-gold girl knight, calmly placing one finger on Glitch's spinning hands and stopping them dead. Silence. She says evenly: \"Nothing real ever disappears if you take a minute to check.\" All the clocks slow to a gentle tick, Glitch sags with a deflating wheeze, and Pixel breathes out and lowers his hand. Snappy comic build, then a satisfying calm release, playful ticking music that resolves warmly. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
   },
   {
+    "id": "ai-032-lets-talk-somewhere-else",
+    "title": "“Let's Talk Somewhere Else” Is the Warning",
+    "source": "Australia's eSafety regulator and reporting on Roblox: predators try to move children off the platform to email or messaging.",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A playful 3D-animated short set inside a bright bustling arcade world of glowing cabinets, floating coins and cheerful neon, full of happy players. @Image1 is Glitch, a round purple blob trickster, chatting merrily beside @Image2 Pixel, a kid. In close-up to camera, Glitch swings open a small round door in his own belly like a cupboard — beyond it is a plain, empty grey corridor with no players, no lights and no one else at all. He beckons sweetly toward it, all warmth and welcome. Pixel leans toward the quiet doorway, curious. @Image3 is Sir Shieldy, a gold knight, gently closing the little door with one hand and saying clearly: \"If a new friend wants to talk somewhere private, that's the moment to tell someone.\" Glitch's belly-door clicks shut on his own nose comically and he sulks. The arcade lights swell warm and bright again around Pixel. Snappy comic timing, close-up on the little door, bouncy music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-033-the-big-shadow",
+    "title": "An Avatar Has No Age",
+    "source": "eSafety findings that adults could see and send connection requests to child accounts.",
+    "characters": [
+      "glitch",
+      "sprout",
+      "dame-noble"
+    ],
+    "prompt": "A striking 3D-animated short set in a sunny cartoon playground level of soft blocks, bouncy platforms and pastel clouds. @Image1 is Glitch, a round purple blob trickster, disguised as the tiniest, cutest, most harmless little player of all, bouncing adorably in close-up to camera and waving with both stubby arms. @Image2 is Sprout, a tiny child, waving back happily. Then Glitch turns, and the camera tilts to the wall behind him: his shadow is enormous, the long stretched silhouette of a full-grown adult, towering over the little playground while the cute figure keeps bouncing innocently. @Image3 is Dame Noble, a rose-gold girl knight, crouching to Sprout's level and saying steadily: \"A cute character can be any grown-up at all. Only play with people you actually know.\" Sprout nods and steps back beside her; the giant shadow shrinks away. Warm sunlight, one dramatic shadow reveal, gentle protective music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-034-the-big-button",
+    "title": "Telling the Game Isn't Tattling",
+    "source": "eSafety required Roblox to provide accessible in-game reporting mechanisms.",
+    "characters": [
+      "sprout",
+      "glitch",
+      "shieldy"
+    ],
+    "prompt": "A warm 3D-animated short inside a cosy game-world control room of brass pipes, soft lamps and one enormous glowing golden button set into the wall, big as a door. @Image1 is Sprout, a tiny child, standing before it in close-up, small hand hovering, chewing their lip, unsure. @Image2 is Glitch, a round purple blob trickster, spreading himself flat across the button like a sticker to cover it, grinning and shaking his head no. Sprout hesitates, takes a breath, and firmly presses the button anyway right through him — the whole room floods with warm golden light and Glitch peels off with a comic squeak and pops away in purple sparkles. @Image3 is Sir Shieldy, a gold knight, arriving and beaming down at Sprout: \"Reporting isn't telling tales. It's how we keep the whole realm safe.\" Sprout stands tall. Close-up on the small hand and the huge button, triumphant uplifting music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-035-answers-for-sale",
+    "title": "Some Answers Are Adverts",
+    "source": "UN report warning that companies place advertising inside AI-generated results and summaries.",
+    "characters": [
+      "bot",
+      "pixel",
+      "dame-noble"
+    ],
+    "prompt": "A playful 3D-animated short in a bright tidy study of floating books and soft blue light. @Image1 is Bot, a small white-and-silver robot with a glowing cyan visor, in close-up to camera answering a question helpfully — but as he speaks, glossy little golden shopping bags and shiny product-shaped balloons keep puffing out of his speaker along with the words, more and more of them, until they crowd the frame and bob everywhere. @Image2 is Pixel, a kid, batting them away, confused about which part was the actual answer. @Image3 is Dame Noble, a rose-gold girl knight, reaching in and popping the golden balloons one by one until only a single plain glowing shape is left floating — the real answer. She says clearly: \"Some of that was an advert. Always ask who is paying.\" Bot's visor blinks sheepishly. Snappy comic timing, close-up on the crowd of balloons, bright inquisitive music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-036-too-short-for-this",
+    "title": "The Age Gate Is There For You",
+    "source": "eSafety required age-verification checks; reporting on children bypassing age limits.",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A playful 3D-animated short at a friendly fairground height-check gate — a cheerful painted arch with a measuring post, glowing bunting and a queue of happy characters. @Image1 is Glitch, a round purple blob trickster, in close-up stretching himself comically tall like warm chewing gum, wobbling on tiptoe, then stacking three tiny hats on his head to clear the bar, eyes darting. @Image2 is Pixel, a kid, watching and starting to stretch up on his own toes to copy him. @Image3 is Sir Shieldy, a gold knight, putting a steady hand on Pixel's shoulder and saying warmly: \"That gate isn't keeping you out. It's keeping the wrong grown-ups away from you.\" Glitch's stack of hats topples and he springs back to his normal round shape with a comic boing. Pixel settles back onto his heels and grins. Snappy comic timing, bouncy fairground music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — screens and signs show only abstract glowing shapes, colour and light. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
     "id": "ai-026-door-that-wont-open",
     "title": "A Friend Wants You to Have Other Friends",
     "characters": [
