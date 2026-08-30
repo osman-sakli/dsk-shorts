@@ -51,23 +51,33 @@ def _should_retry(exc):
     return resp is not None and resp.status_code in RETRY_STATUSES
 
 
-def generate_video(script, out_path, duration=13, resolution="720p"):
+def generate_video(script, out_path, duration=15, resolution="720p"):
     """script: one entry from content/ai-scripts.json.
     Downloads the finished mp4 to out_path. Raises on any failure — caller
     handles retries/alerts the same way as a Remotion render failure.
 
-    duration: seconds, 4-15 per Seedance 2.0's documented range (passed as a
-    string per the API's own examples). 13 leaves headroom under the 15s
-    cap while giving each script noticeably more room to land its beat than
-    the original 9s default.
+    duration: seconds. Osman asked for 14-17s / 15-18s so dialogue has
+    room to land clearly instead of feeling rushed at 13s. Seedance 2.0
+    fast/reference-to-video's documented range is 4-15s, so 15 is the
+    closest available — going higher would need Seedance 2.5, which costs
+    roughly 8x more per short (~$14/day -> ~$110+/day).
     """
     image_urls = [character_image_url(name) for name in script["characters"]]
     # 2026-08-30's short (ai-027-voice-shop) rendered its spoken dialogue in
     # Mandarin despite an all-English script and no language mentioned
-    # anywhere in the prompt — Seedance picked a voice/language on its own.
-    # Every other day's short has been English, so this is stated
-    # explicitly now rather than left implicit.
-    prompt = script["prompt"] + " LANGUAGE: all spoken dialogue must be in clear English."
+    # anywhere in the prompt. Fixing the language surfaced a second,
+    # separate problem Osman flagged by ear: even the English take was
+    # mumbled and hard to understand — these are safety lessons, so a line
+    # a kid can't make out defeats the point. Both are addressed explicitly
+    # now rather than left to the model's default.
+    prompt = (
+        script["prompt"]
+        + " LANGUAGE AND DELIVERY: every character speaks in clear American "
+        "English, at a measured, unhurried pace — like a professional "
+        "children's-show narrator. Perfectly enunciated, no mumbling, no "
+        "slurring together, every word distinct and easy for a child to "
+        "follow."
+    )
     payload = {
         "prompt": prompt,
         "image_urls": image_urls,
