@@ -49,7 +49,7 @@ def generate(script, out_path, api_key):
         SEEDANCE_URL,
         headers={"Authorization": f"Key {api_key}", "Content-Type": "application/json"},
         json={
-            "prompt": script["prompt"],
+            "prompt": script["prompt"] + " LANGUAGE: all spoken dialogue must be in clear English.",
             "image_urls": image_urls,
             "resolution": resolution,
             "duration": str(duration),

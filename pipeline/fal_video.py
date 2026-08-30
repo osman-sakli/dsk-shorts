@@ -62,8 +62,14 @@ def generate_video(script, out_path, duration=13, resolution="720p"):
     the original 9s default.
     """
     image_urls = [character_image_url(name) for name in script["characters"]]
+    # 2026-08-30's short (ai-027-voice-shop) rendered its spoken dialogue in
+    # Mandarin despite an all-English script and no language mentioned
+    # anywhere in the prompt — Seedance picked a voice/language on its own.
+    # Every other day's short has been English, so this is stated
+    # explicitly now rather than left implicit.
+    prompt = script["prompt"] + " LANGUAGE: all spoken dialogue must be in clear English."
     payload = {
-        "prompt": script["prompt"],
+        "prompt": prompt,
         "image_urls": image_urls,
         "resolution": resolution,
         "duration": str(duration),

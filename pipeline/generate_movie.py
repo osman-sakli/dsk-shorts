@@ -65,10 +65,11 @@ def build_prompt(movie, shot):
         f'{presence}\n\n'
         f'CONTINUITY — the shot opens exactly here: {shot["opensOn"]}\n\n'
         f'ACTION: {shot["action"]}\n\n'
-        f'SPOKEN DIALOGUE (clear, natural, child-friendly delivery):\n{lines}\n\n'
+        f'SPOKEN DIALOGUE (clear, natural, child-friendly delivery, in English):\n{lines}\n\n'
         f'CAMERA: {shot["camera"]}\n\n'
         f'CONTINUITY — the shot must end exactly here: {shot["endsOn"]}\n\n'
-        f'{movie["NO_TEXT_CLAUSE"]}'
+        f'{movie["NO_TEXT_CLAUSE"]}\n\n'
+        f'LANGUAGE: all spoken dialogue must be in clear English.'
     )
 
 
