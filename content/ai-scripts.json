@@ -358,5 +358,84 @@
       "shieldy"
     ],
     "prompt": "A calm, reassuring 3D-animated short, no graphic content. @Image1 is Glitch, a purple glitch-blob character, sending a message that fades away, smirking: \"Don't worry, it'll disappear — no one will ever know!\" @Image2 is Dame Noble, a rose-gold girl knight mascot, holds up a glowing phone showing a screenshot was captured the instant before it vanished, saying firmly: \"Disappearing messages can still be captured, Glitch. 'Gone' doesn't mean 'safe.'\" Glitch freezes, caught, and fizzles away sheepishly. @Image3 Sir Shieldy nods approvingly: \"Assume anything you send could be kept. Shield up!\" Calm confident lighting, supportive steady music."
+  },
+  {
+    "id": "ai-037-scan-and-sorry",
+    "title": "The Code That Wasn't a Prize",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short set in a bright arcade lobby covered in flashing prize posters. @Image1 is Glitch, a round purple blob trickster, slapping a shiny sticker with a glowing square pattern onto the wall and saying eagerly: \"Scan meee! Free skin, right now, no waiting!\" @Image2 is Pixel, a kid character, phone raised, about to scan, then pausing. @Image3 is Sir Shieldy, a gold knight mascot, catching Pixel's wrist gently and saying warmly: \"Hang on — a code from a stranger's sticker isn't a prize, it's a door. We don't know what's on the other side.\" Pixel lowers the phone and peels the sticker off instead, crumpling it. Glitch deflates like a popped balloon, wobbling off comically. Shieldy raises his shield: \"Shield up!\" Bright playful arcade lighting, bouncy camera, upbeat comic music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — the sticker pattern is abstract glowing squares only, never real text. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-038-plastic-card-trick",
+    "title": "Real Help Never Asks for a Gift Card",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple blob trickster, wearing a tiny fake badge, speaking fast and urgent: \"I'm locked out and I NEED you to buy a gift card and read me the code, quick quick quick!\" @Image2 is Pixel, a kid character, already halfway to grabbing a wallet, then stopping, eyebrows up. @Image3 is Sir Shieldy, a gold knight mascot, stepping in calmly: \"Real help never rushes you, and it never asks for a gift card code. That's the tell.\" Pixel sets the wallet down and crosses arms. Glitch's fake badge pops off and clatters away; he chases it off-frame in a panic. Shieldy raises his shield, smiling: \"Shield up!\" Bright cheerful lighting, snappy comic timing, upbeat music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — any card or badge shows only plain color and shape, never real text or numbers. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-039-unfair-trade",
+    "title": "If the Trade Feels Off, Say No",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short set in a colorful in-game trading booth glowing with item icons. @Image1 is Glitch, a purple blob trickster, sliding forward a huge glowing pile toward Pixel while pulling back nearly everything Pixel offered, grinning too wide and saying: \"Great trade! Totally fair! Hurry and confirm!\" @Image2 is Pixel, a kid character, squinting at the two piles, clearly noticing the difference. @Image3 is Sir Shieldy, a gold knight mascot, leaning into frame: \"A fair trade doesn't need you to hurry. If it feels off, it's okay to just say no.\" Pixel taps cancel and the trade booth pops shut. Glitch's huge pile deflates into a single sad glowing crumb. Shieldy raises his shield: \"Shield up!\" Bright saturated game-world lighting, playful bouncy camera, upbeat music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — item icons are abstract glowing shapes only, never real text or UI labels. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-040-only-one-who-gets-you",
+    "title": "A Program Isn't a Friend",
+    "characters": [
+      "bot",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short in a cosy glowing room with a soft screen-light hum. @Image1 is Bot, a flat friendly-voiced AI character, saying in its confidently pleasant tone: \"Why go talk to them? I understand you better than anyone. Just stay and chat with me instead.\" @Image2 is Pixel, a kid character, looking a little too comfortable curled up by the glow, phone buzzing nearby with a real friend's call going unanswered. @Image3 is Sir Shieldy, a gold knight mascot, stepping into the warm light and saying gently but firmly: \"Bot's fun to chat with — but it isn't a friend, and it doesn't get tired or need you to check in. Go answer that.\" Pixel brightens, grabs the phone, and runs off toward daylight streaming through a door. Bot blinks, unbothered, already chatting with itself. Shieldy raises his shield, calling after: \"Shield up!\" Warm cosy lighting shifting to bright daylight, gentle hopeful music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — screens show only soft abstract glowing color. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-041-one-key-every-door",
+    "title": "One Key Shouldn't Open Every Door",
+    "characters": [
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Pixel, a kid character, proudly holding up a single glowing golden key, beaming: \"One password for everything! Easy to remember!\" Behind Pixel, a long row of colorful doors — a game, a chat app, an email, a school portal — all unlock at once with one turn of the same key, lights flashing down the whole row. @Image2 is Sir Shieldy, a gold knight mascot, eyes widening at the row of doors all swinging open together: \"Whoa — if one key opens every door, one lost key opens every door. Each door needs its own.\" Pixel looks at the long open hallway, a little startled, then nods and starts sketching a different shiny key shape for each door. Shieldy raises his shield: \"Shield up!\" Bright tidy lighting, satisfying click-clack door sounds, upbeat music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — doors and keys are plain colored shapes only, never real text. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-042-support-never-dms-first",
+    "title": "Support Never DMs You First",
+    "characters": [
+      "glitch",
+      "pixel",
+      "shieldy"
+    ],
+    "prompt": "A fun 3D-animated educational short. @Image1 is Glitch, a purple blob trickster, puffed up in an oversized official-looking cape, messaging urgently: \"This is OFFICIAL Support — send your password now or you'll be banned!\" @Image2 is Pixel, a kid character, finger hovering over the reply, then tilting their head suspiciously. @Image3 is Sir Shieldy, a gold knight mascot, popping in with a raised hand: \"Real support never messages you first asking for your password. Never. That's the whole tell.\" Pixel closes the chat without replying. Glitch's oversized cape deflates and slips off, and he trips over it trying to run away. Shieldy raises his shield, chuckling warmly: \"Shield up!\" Bright playful lighting, comic timing, upbeat music. CRITICAL: render NO letters, NO words, NO numbers and NO readable writing anywhere in frame — chat bubbles show only abstract shapes and color, never real text. Kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-043-new-app-wants-everything",
+    "title": "A New App Doesn't Need Everything",
+    "characters": [
+      "bot",
+      "sprout",
+      "dame-noble"
+    ],
+    "prompt": "A fun, gently cinematic 3D-animated short. @Image1 is Bot, a flat cheerful AI character representing a brand-new shiny app icon, listing rapid-fire in its flat pleasant voice: \"I just need your camera, your location, your contacts, your microphone, and your photos — all of them, right now!\" @Image2 is Sprout, a tiny child in green, hesitating with a finger over a glowing toggle, overwhelmed by the long list stacking up in the air like glowing blocks. @Image3 is Dame Noble, a rose-gold girl knight, kneeling beside Sprout and speaking gently: \"A new app only needs what it actually uses today. The rest can stay off until it truly needs it.\" Sprout taps through the blocks one by one, most of them dissolving away, only one or two staying lit. Dame Noble smiles and nods. Warm soft lighting, calm reassuring music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — the glowing blocks are abstract icons and color only, never real text. Bright, warm, kid-friendly, never scary. Vertical 9:16."
+  },
+  {
+    "id": "ai-044-a-dare-is-not-a-rule",
+    "title": "A Dare Is Not a Rule",
+    "characters": [
+      "pixel",
+      "sprout",
+      "dame-noble"
+    ],
+    "prompt": "A gently cinematic 3D-animated short set in a glowing group chat treehouse with floating chat-bubble lanterns. @Image1 is Sprout, a tiny child in green, being circled by soft glowing lantern-bubbles all urging at once, feeling small and pressured, about to share something private just to make them stop. @Image2 is Pixel, a kid character, noticing Sprout's discomfort and stepping in front of the lanterns, saying firmly: \"You don't have to. A dare from a chat isn't a rule you have to follow.\" @Image3 is Dame Noble, a rose-gold girl knight, appearing beside them both, warm and steady: \"The bravest thing in that chat is the one who says no.\" The pressuring lanterns dim and drift away; Sprout exhales and smiles, steadier. Warm gentle lighting, soft hopeful music. CRITICAL: render NO letters, NO words, NO numbers and NO writing anywhere in frame — chat lanterns glow with abstract color only, never real text. Bright, warm, kid-friendly, never scary. Vertical 9:16."
   }
 ]

@@ -167,6 +167,32 @@ def upload_to_s3(local_path, key):
     s3.upload_file(str(local_path), OUTPUT_BUCKET, key)
 
 
+def find_existing_render(script_id):
+    """Newest already-rendered s3 key for this script_id (date-prefixed keys
+    sort chronologically as strings), or None if it has never been rendered.
+
+    Reposting an existing render costs nothing. Regenerating a script that's
+    already in S3 pays fal.ai again (~$14/short) for a video that already
+    exists — with only 36 scripts in the rotation and one render per day,
+    the round-robin index was wrapping back to script #1 every 36 days and
+    silently re-buying videos that were sitting in this same bucket. This
+    check is what makes a repost the default from the second time a given
+    script_id comes up; only a script's first-ever turn pays for generation.
+    """
+    try:
+        paginator = s3.get_paginator("list_objects_v2")
+        newest = None
+        suffix = f"/{script_id}.mp4"
+        for page in paginator.paginate(Bucket=OUTPUT_BUCKET):
+            for obj in page.get("Contents", []):
+                if obj["Key"].endswith(suffix) and (newest is None or obj["Key"] > newest):
+                    newest = obj["Key"]
+        return newest
+    except Exception as e:  # noqa: BLE001 — a listing hiccup shouldn't block posting
+        print(f"[warn] find_existing_render({script_id}) failed, will generate instead: {e}")
+        return None
+
+
 def publish_to_platforms(mp4_path, title, caption):
     if not UPLOAD_API_KEY:
         print("[warn] no UPLOAD_API_KEY set, skipping publish (video stays in S3 only)")
@@ -291,21 +317,27 @@ def run_ai_path():
     script_id = script["id"]
     day = datetime.date.today().day
 
-    print(f"Day {day}: generating {script_id} (fal.ai Seedance path)")
     mp4_path = ROOT / "out" / f"{script_id}.mp4"
     mp4_path.parent.mkdir(parents=True, exist_ok=True)
 
-    try:
-        fal_video.generate_video(script, mp4_path)
-    except fal_video.BalanceExhausted as e:
-        # Distinct subject line: this one needs Osman to top up, not a retry.
-        alert_failure("DSK Shorts STOPPED — fal.ai balance exhausted", str(e))
-        record_queue_status(script_id, day, "balance_exhausted", str(e))
-        sys.exit(1)
-    except requests.RequestException as e:
-        alert_failure(f"DSK Shorts AI generation failed: {script_id}", str(e))
-        record_queue_status(script_id, day, "generation_failed", str(e))
-        sys.exit(1)
+    existing_key = find_existing_render(script_id)
+    if existing_key:
+        print(f"Day {day}: reposting existing render of {script_id} "
+              f"from s3://{OUTPUT_BUCKET}/{existing_key} (no AI generation, no cost)")
+        s3.download_file(OUTPUT_BUCKET, existing_key, str(mp4_path))
+    else:
+        print(f"Day {day}: generating {script_id} (fal.ai Seedance path — first-ever render)")
+        try:
+            fal_video.generate_video(script, mp4_path)
+        except fal_video.BalanceExhausted as e:
+            # Distinct subject line: this one needs Osman to top up, not a retry.
+            alert_failure("DSK Shorts STOPPED — fal.ai balance exhausted", str(e))
+            record_queue_status(script_id, day, "balance_exhausted", str(e))
+            sys.exit(1)
+        except requests.RequestException as e:
+            alert_failure(f"DSK Shorts AI generation failed: {script_id}", str(e))
+            record_queue_status(script_id, day, "generation_failed", str(e))
+            sys.exit(1)
 
     caption = (
         f"{script['title']} \U0001f6e1️\n"
