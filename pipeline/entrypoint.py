@@ -189,7 +189,17 @@ def find_existing_render(script_id):
                     newest = obj["Key"]
         return newest
     except Exception as e:  # noqa: BLE001 — a listing hiccup shouldn't block posting
-        print(f"[warn] find_existing_render({script_id}) failed, will generate instead: {e}")
+        # Falling through to "generate" here means this exact failure (e.g.
+        # a missing s3:ListBucket permission) pays fal.ai again every single
+        # day instead of once — that happened silently for 4 days (2026-10-01
+        # through 10-04) before anyone noticed. alert_failure() makes sure a
+        # repeat of this is loud, not just a buried [warn] print.
+        alert_failure(
+            f"DSK Shorts: existence check failed for {script_id}, generating anyway",
+            f"find_existing_render({script_id}) raised: {e}\n\n"
+            f"This means today's run will pay fal.ai even if {script_id} is "
+            f"already in s3://{OUTPUT_BUCKET} — check the task role's S3 permissions.",
+        )
         return None
 
 

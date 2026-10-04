@@ -54,8 +54,18 @@ resource "aws_iam_role_policy" "task_permissions" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["s3:PutObject"]
+        Action   = ["s3:PutObject", "s3:GetObject"]
         Resource = ["${aws_s3_bucket.output.arn}/*"]
+      },
+      {
+        # find_existing_render() lists the output bucket to check whether a
+        # script_id already has a render before paying fal.ai again — this
+        # was missing when that check was added, so every run silently hit
+        # AccessDenied, logged a warning, and fell through to "generate"
+        # regardless. That defeated the entire point of the check.
+        Effect   = "Allow"
+        Action   = ["s3:ListBucket"]
+        Resource = [aws_s3_bucket.output.arn]
       },
       {
         Effect   = "Allow"
