@@ -9,8 +9,9 @@ Env vars (set by the ECS task definition, values sourced from Secrets Manager):
   QUEUE_TABLE       - DynamoDB table name for publish-queue + day-index state
   UPLOAD_API_KEY    - upload-post.com API key (optional; skips publish if absent)
   UPLOAD_POST_PROFILE - upload-post.com managed-user profile name to post as
-  GITHUB_TOKEN      - repo-scoped token, used only to open "need new scripts" issues
-  GITHUB_REPO       - "owner/repo" for the issue above (default osman-sakli/dsk-shorts)
+  GITHUB_TOKEN      - repo-scoped token: opens "need new scripts" issues, and
+                      (see script_writer.py) commits each new auto-written script
+  GITHUB_REPO       - "owner/repo" for the above (default osman-sakli/dsk-shorts)
   SNS_ALERT_TOPIC_ARN - optional; publish a message here on failure
 """
 import datetime
@@ -25,10 +26,17 @@ import boto3
 import requests
 
 import fal_video
+import script_writer
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SITE_URL = "https://digitalsafetyknights.org"
 CALENDAR_LEN = 30
+# Every this-many runs, write and render a brand-new script (new topic, never
+# posted before) instead of pulling the next item off the fixed rotation —
+# see script_writer.py and bump_new_script_counter() below. Osman asked for
+# new content "every 3 days" on top of the daily repost rotation, so the
+# library keeps growing instead of only ever cycling the same fixed set.
+NEW_SCRIPT_INTERVAL_DAYS = 3
 
 OUTPUT_BUCKET = os.environ["OUTPUT_BUCKET"]
 QUEUE_TABLE = os.environ["QUEUE_TABLE"]
@@ -61,6 +69,18 @@ def get_next_day_index():
 
 def advance_day_index(day):
     dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "STATE", "lastDayIndex": day})
+
+
+def bump_new_script_counter():
+    """True once every NEW_SCRIPT_INTERVAL_DAYS calls (and resets the count on
+    that call) — independent of the fixed-rotation AI_STATE index, so calling
+    this never disturbs where the normal rotation is."""
+    table = dynamodb.Table(QUEUE_TABLE)
+    resp = table.get_item(Key={"pk": "NEW_SCRIPT_STATE"})
+    count = int(resp.get("Item", {}).get("count", 0)) + 1
+    is_new_script_day = count >= NEW_SCRIPT_INTERVAL_DAYS
+    table.put_item(Item={"pk": "NEW_SCRIPT_STATE", "count": 0 if is_new_script_day else count})
+    return is_new_script_day
 
 
 def record_queue_status(script_id, day, status, detail=""):
@@ -317,20 +337,46 @@ def run_remotion_path():
 
 
 def run_ai_path():
-    """Odd calendar days: fal.ai Seedance 2.0 reference-to-video with the
-    permanent character cast (Shieldy, Pixel, Glitch, Bot, Dame Noble, Sprout)."""
+    """fal.ai Seedance 2.0 reference-to-video with the permanent character
+    cast (Shieldy, Pixel, Glitch, Bot, Dame Noble, Sprout). Every
+    NEW_SCRIPT_INTERVAL_DAYS runs, writes and renders a brand-new script
+    (script_writer.py) instead of pulling the next item off the fixed
+    rotation — all other runs continue the normal repost-or-generate logic
+    unchanged, and the rotation's own index is untouched on a new-script
+    day so it resumes exactly where it left off next time."""
     scripts = json.loads((ROOT / "content/ai-scripts.json").read_text())
-    resp = dynamodb.Table(QUEUE_TABLE).get_item(Key={"pk": "AI_STATE"})
-    last = int(resp.get("Item", {}).get("lastIndex", -1))
-    index = (last + 1) % len(scripts)
-    script = scripts[index]
-    script_id = script["id"]
     day = datetime.date.today().day
+
+    new_script = None
+    if bump_new_script_counter():
+        try:
+            new_script = script_writer.generate_new_script(scripts)
+            script_writer.commit_new_script_to_github(new_script, GITHUB_TOKEN, GITHUB_REPO)
+            print(f"Day {day}: wrote new script {new_script['id']} "
+                  f"({new_script['title']}) and committed it to GitHub")
+        except Exception as e:  # noqa: BLE001 — fall back to the normal rotation, don't lose the day
+            alert_failure(
+                "DSK Shorts: new-script generation failed, falling back to rotation", str(e)
+            )
+            new_script = None
+
+    if new_script:
+        script = new_script
+        script_id = script["id"]
+        index = None  # not part of the indexed rotation — AI_STATE stays untouched
+    else:
+        resp = dynamodb.Table(QUEUE_TABLE).get_item(Key={"pk": "AI_STATE"})
+        last = int(resp.get("Item", {}).get("lastIndex", -1))
+        index = (last + 1) % len(scripts)
+        script = scripts[index]
+        script_id = script["id"]
 
     mp4_path = ROOT / "out" / f"{script_id}.mp4"
     mp4_path.parent.mkdir(parents=True, exist_ok=True)
 
-    existing_key = find_existing_render(script_id)
+    # A freshly-written script can't possibly have a prior render, so skip
+    # the S3 existence check entirely and go straight to generation.
+    existing_key = None if new_script else find_existing_render(script_id)
     if existing_key:
         print(f"Day {day}: reposting existing render of {script_id} "
               f"from s3://{OUTPUT_BUCKET}/{existing_key} (no AI generation, no cost)")
@@ -355,7 +401,8 @@ def run_ai_path():
         f"{build_hashtags(script)}"
     )
     finish_and_publish(script_id, day, mp4_path, script["title"], caption)
-    dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "AI_STATE", "lastIndex": index})
+    if index is not None:
+        dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "AI_STATE", "lastIndex": index})
 
 
 def main():
