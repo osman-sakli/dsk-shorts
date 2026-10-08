@@ -48,6 +48,54 @@ QUERIES = [
 MAX_AGE_DAYS = 4  # keep it current — this runs every 36h
 MAX_CANDIDATES_TRIED = 8  # give up after this many failed link resolutions
 
+# Osman: prefer American-based outlets "as much as possible." Google News's
+# RSS <source> tag already carries the publisher's display name with every
+# item, so candidates can be sorted before spending a decode + live-check
+# call on any of them — no extra requests needed.
+#
+# A curated allowlist of national brands turned out to be the wrong shape
+# for this query space: checked against a real run (27 candidates for the
+# AI/child-safety queries), it matched zero — the pool is dominated by U.S.
+# local/regional outlets (FOX 2 Detroit, KQED, Lincoln Journal Star, KOKH)
+# and trade/legal publications, which there's no hope of enumerating
+# exhaustively. So this flags the clearly non-US ones instead (easy to name
+# explicitly) and sorts everything else — the common case, already biased
+# toward the US by the query's gl=US&ceid=US:en — ahead of them. A short
+# allowlist of unmistakable national brands still gets top priority on the
+# rare occasion one shows up. Not a hard filter either way: a flagged
+# candidate can still run if nothing else resolves within
+# MAX_CANDIDATES_TRIED, rather than skipping the day.
+TOP_TIER_US_OUTLETS = {
+    "the new york times", "the washington post", "cnn", "nbc news",
+    "abc news", "cbs news", "fox news", "usa today", "associated press",
+    "ap news", "npr", "cnbc", "axios", "politico", "the wall street journal",
+    "bloomberg", "bloomberg.com", "forbes", "time", "the verge", "techcrunch",
+    "wired", "ars technica", "the hill", "business insider", "pbs newshour",
+    "newsweek", "the atlantic", "vox", "los angeles times", "nbcnews.com",
+    "cnet", "engadget", "the daily beast", "msnbc", "reuters",
+}
+NON_US_OUTLET_MARKERS = (
+    "malaysia", "africa", "india", "uk", "britain", "british", "canada",
+    "canadian", "australia", "australian", "zealand", "ireland", "irish",
+    "europe", "european", "asia", "asian", "china", "chinese", "japan",
+    "korea", "singapore", "philippines", "nigeria", "kenya", "pakistan",
+    "bangladesh", "indonesia", "thailand", "vietnam", "middle east", "gulf",
+    "emirates", "saudi", "israel", "mexico", "mexican", "brazil", "france",
+    "french", "german", "germany", "spain", "italy", "italian", "russia",
+    "russian", "ukraine",
+)
+
+
+def _outlet_tier(source_name):
+    """Lower sorts first. 0 = known national US brand, 1 = presumed US
+    (everything not flagged otherwise), 2 = flagged likely non-US."""
+    name = source_name.strip().lower()
+    if name in TOP_TIER_US_OUTLETS:
+        return 0
+    if any(marker in name for marker in NON_US_OUTLET_MARKERS):
+        return 2
+    return 1
+
 dynamodb = boto3.resource("dynamodb")
 secretsmanager = boto3.client("secretsmanager")
 
@@ -92,8 +140,12 @@ def fetch_candidates():
         for item in root.findall(".//item")[:5]:
             link = (item.findtext("link") or "").strip()
             title = (item.findtext("title") or "").strip()
+            source = (item.findtext("source") or "").strip()
             if link and title and link not in seen:
-                candidates.append({"title": title, "link": link, "query": query})
+                candidates.append({"title": title, "link": link, "query": query, "source": source})
+    # Stable sort: US-outlet candidates first (original relative order
+    # preserved within each group), everything else after.
+    candidates.sort(key=lambda c: _outlet_tier(c["source"]))
     return candidates
 
 
@@ -239,7 +291,14 @@ def write_post(article):
         f"Article text (may be partial or noisy, extracted from the page):\n{article['text']}\n\n"
         f"Write the LinkedIn post now."
     )
-    return call_claude(POST_SYSTEM_PROMPT, user_prompt)
+    post_text = call_claude(POST_SYSTEM_PROMPT, user_prompt)
+    # The system prompt asks for the link, but an LLM instruction is not a
+    # guarantee — a post about a real story with no way to verify or read it
+    # defeats the entire point of sourcing real news. Enforce it in code
+    # instead of trusting compliance.
+    if article["resolved_link"] not in post_text:
+        post_text = post_text.rstrip() + f"\n\n{article['resolved_link']}"
+    return post_text
 
 
 # The real, live logo — not something the model draws from a text description.
