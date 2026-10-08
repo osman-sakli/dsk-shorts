@@ -66,8 +66,15 @@ resource "aws_lambda_function" "linkedin_post" {
   source_code_hash = data.archive_file.linkedin_lambda.output_base64sha256
   # Reuses the account's existing published layer (built from the same
   # requests/certifi/charset_normalizer/idna/urllib3 bundle as the site's
-  # Stripe Lambdas) instead of publishing a near-duplicate layer.
-  layers = ["arn:aws:lambda:us-east-1:339712706640:layer:stripe-python:1"]
+  # Stripe Lambdas) instead of publishing a near-duplicate layer. Pillow
+  # comes from Klayers (github.com/keithrozario/Klayers), a widely-used
+  # community-maintained public layer — verified reachable (not just
+  # assumed from search results, which pointed at a stale version number)
+  # via `aws lambda get-layer-version-by-arn` before pinning this version.
+  layers = [
+    "arn:aws:lambda:us-east-1:339712706640:layer:stripe-python:1",
+    "arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p312-Pillow:12",
+  ]
 
   environment {
     variables = {
