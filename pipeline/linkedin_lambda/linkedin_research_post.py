@@ -349,7 +349,47 @@ def image_has_text(image_url):
     return answer.startswith("YES")
 
 
-def generate_image(article, max_attempts=3):
+def fallback_branded_image():
+    """Zero-AI fallback for when every generate_image() attempt is rejected
+    by image_has_text() — a plain navy-to-navy2 gradient with the real logo
+    centered, built entirely in code. Nothing here is AI-generated, so there
+    is nothing for a model to hallucinate garbled text into; this can always
+    be produced. Added after the 2026-10-09 run: flux-pro rejected all 3
+    attempts, Lambda's own automatic retry reran the whole invocation 2 more
+    times (9 attempts total, all rejected), and generate_image raised —
+    which meant LinkedIn posted nothing for over 36 hours with nobody
+    noticing until Osman asked what was wrong. A plain-but-safe branded
+    image beats silently skipping the day."""
+    from io import BytesIO
+
+    from PIL import Image, ImageDraw
+
+    size = 1024
+    top, bottom = (13, 27, 62), (26, 47, 110)  # navy -> navy2
+    base = Image.new("RGB", (size, size))
+    draw = ImageDraw.Draw(base)
+    for y in range(size):
+        t = y / size
+        draw.line(
+            [(0, y), (size, y)],
+            fill=tuple(int(top[i] + (bottom[i] - top[i]) * t) for i in range(3)),
+        )
+    base = base.convert("RGBA")
+
+    logo_resp = requests.get(DSK_LOGO_URL, timeout=30)
+    logo_resp.raise_for_status()
+    logo = Image.open(BytesIO(logo_resp.content)).convert("RGBA")
+    logo_w = int(size * 0.5)
+    logo_h = int(logo.height * (logo_w / logo.width))
+    logo = logo.resize((logo_w, logo_h), Image.LANCZOS)
+    base.alpha_composite(logo, ((size - logo_w) // 2, (size - logo_h) // 2))
+
+    out = BytesIO()
+    base.convert("RGB").save(out, format="JPEG", quality=92)
+    return out.getvalue()
+
+
+def generate_image(article, max_attempts=4):
     """Pure text-to-image, no reference image. An earlier version passed the
     real logo in as a flux-pro/kontext reference and asked the model to draw
     a small corner badge of it plus a new scene — it reliably duplicated the
@@ -360,7 +400,8 @@ def generate_image(article, max_attempts=3):
     on afterward in code by add_logo_badge() instead of asked of the model.
     image_has_text() catches the other failure mode (hallucinated text in
     the illustration itself) with a retry loop rather than trusting the
-    prompt alone."""
+    prompt alone. If every attempt is still rejected, fallback_branded_image()
+    guarantees a postable image rather than raising and losing the day."""
     prompt = (
         "A clean, modern editorial illustration about digital safety and online "
         f"security, themed around: {article['title']}. Abstract, professional, navy "
@@ -385,9 +426,8 @@ def generate_image(article, max_attempts=3):
 
         print(f"  image attempt {attempt}/{max_attempts} had readable text, retrying")
 
-    raise RuntimeError(
-        f"generate_image: every one of {max_attempts} attempts contained readable text"
-    )
+    print(f"  all {max_attempts} attempts had readable text — using plain branded fallback")
+    return fallback_branded_image()
 
 
 def add_logo_badge(illustration_bytes, margin_frac=0.04, logo_frac=0.22):
