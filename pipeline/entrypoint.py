@@ -183,6 +183,29 @@ def make_thumbnail(mp4_path, out_path):
     )
 
 
+def normalize_for_platforms(mp4_path):
+    """Re-mux in place: video stream copied as-is (already valid — confirmed
+    by decoding frames across the full timeline), audio resampled to 48kHz.
+
+    fal.ai's Seedance output is 32kHz audio, an unusual rate outside what
+    mobile social apps' own ingest pipelines are tuned for. upload-post.com
+    was already silently resampling it for Facebook/Instagram (visible in
+    its own response as an audio "changes" note) but not for TikTok — and
+    confirmed directly (Osman: "donmuş resim", a post stuck on its poster
+    frame, never actually playing) that TikTok, Instagram and Facebook posts
+    were all affected. Doing this ourselves, once, for every platform
+    up front is more reliable than depending on each platform's own
+    transcoder to handle the odd rate correctly."""
+    fixed_path = mp4_path.with_suffix(".fixed.mp4")
+    subprocess.run(
+        ["ffmpeg", "-y", "-i", str(mp4_path), "-c:v", "copy", "-c:a", "aac",
+         "-ar", "48000", "-b:a", "192k", "-movflags", "+faststart", str(fixed_path)],
+        check=True,
+        capture_output=True,
+    )
+    fixed_path.replace(mp4_path)
+
+
 def upload_to_s3(local_path, key):
     s3.upload_file(str(local_path), OUTPUT_BUCKET, key)
 
@@ -264,7 +287,14 @@ def publish_to_platforms(mp4_path, title, caption):
 def finish_and_publish(script_id, day, mp4_path, title, caption):
     """Shared tail end for both paths: thumbnail, S3 upload, publish, status.
     Caller advances its own state counter only after this returns (i.e. only
-    on success — this exits the process on failure)."""
+    on success — this exits the process on failure).
+
+    Runs on every call — including reposts pulled from S3 — so the catalog
+    self-heals: each script_id gets fixed the next time its turn comes up,
+    and the newly re-uploaded (now-normalized) S3 copy is what
+    find_existing_render() will serve from then on."""
+    normalize_for_platforms(mp4_path)
+
     thumb_path = ROOT / "out" / f"{script_id}.jpg"
     make_thumbnail(mp4_path, thumb_path)
 
