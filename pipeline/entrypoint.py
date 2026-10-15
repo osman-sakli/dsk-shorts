@@ -38,6 +38,37 @@ CALENDAR_LEN = 30
 # library keeps growing instead of only ever cycling the same fixed set.
 NEW_SCRIPT_INTERVAL_DAYS = 3
 
+# Osman, 2026-10-15: pulled the "Hush Now" lullaby content for having nothing
+# to do with the actual mission, and asked for a hard refocus — "gelecek
+# haftadan itibaren yeni 15 original hiç değinilmemiş ama şu anda ai
+# kullanımı ve oyunlarda yaşanan cyberbullying ve diğer digital safety
+# konularına odaklan, arada bir eskilerden yayınla" (starting next week,
+# focus on 15 new scripts on current AI-safety angles and in-game
+# cyberbullying, nothing covered before, with the old rotation mixed in
+# occasionally). These 15 (ai-045 through ai-059) take priority over both
+# the normal rotation and the new-script-every-3-days feature once the
+# window opens; PRIORITY_REPOST_EVERY keeps the "arada bir eskilerden" mix
+# alive instead of pausing the old rotation outright.
+PRIORITY_START_DATE = datetime.date(2026, 10, 20)
+PRIORITY_REPOST_EVERY = 4  # 1 old-rotation day out of every 4 while draining this list
+PRIORITY_SCRIPT_IDS = [
+    "ai-045-a-video-isnt-a-promise",
+    "ai-046-an-app-doesnt-need-your-whole-life",
+    "ai-047-tricking-a-filter-doesnt-make-it-okay",
+    "ai-048-a-crowd-of-strangers-overnight",
+    "ai-049-a-picture-of-words-can-lie-too",
+    "ai-050-a-prize-that-asks-first",
+    "ai-051-muting-is-not-losing",
+    "ai-052-a-pile-on-is-still-bullying",
+    "ai-053-knocking-down-what-someone-built",
+    "ai-054-you-dont-owe-anyone-a-reaction",
+    "ai-055-a-game-name-can-lead-home",
+    "ai-056-never-hand-over-the-controller",
+    "ai-057-a-code-can-hide-a-door",
+    "ai-058-a-hidden-account-is-a-heavy-secret",
+    "ai-059-one-call-shouldnt-move-your-key",
+]
+
 OUTPUT_BUCKET = os.environ["OUTPUT_BUCKET"]
 QUEUE_TABLE = os.environ["QUEUE_TABLE"]
 UPLOAD_API_KEY = os.environ.get("UPLOAD_API_KEY")
@@ -81,6 +112,36 @@ def bump_new_script_counter():
     is_new_script_day = count >= NEW_SCRIPT_INTERVAL_DAYS
     table.put_item(Item={"pk": "NEW_SCRIPT_STATE", "count": 0 if is_new_script_day else count})
     return is_new_script_day
+
+
+def next_priority_script(scripts):
+    """None if the priority window hasn't opened yet (see PRIORITY_START_DATE),
+    the list is fully drained, or today lands on one of the periodic
+    old-rotation repost days. Otherwise the next script dict in
+    PRIORITY_SCRIPT_IDS order, advancing that index in DynamoDB."""
+    if datetime.date.today() < PRIORITY_START_DATE:
+        return None
+    table = dynamodb.Table(QUEUE_TABLE)
+    resp = table.get_item(Key={"pk": "PRIORITY_STATE"})
+    item = resp.get("Item", {})
+    next_idx = int(item.get("nextIndex", 0))
+    run_count = int(item.get("runCount", 0)) + 1
+    if next_idx >= len(PRIORITY_SCRIPT_IDS):
+        return None  # fully drained — normal rotation handles every day from here on
+
+    if run_count % PRIORITY_REPOST_EVERY == 0:
+        # An "arada bir eskilerden" day: let the normal rotation take this
+        # turn without advancing nextIndex, so the next priority script is
+        # still waiting tomorrow.
+        table.put_item(Item={"pk": "PRIORITY_STATE", "nextIndex": next_idx, "runCount": run_count})
+        return None
+
+    script_id = PRIORITY_SCRIPT_IDS[next_idx]
+    script = next((s for s in scripts if s["id"] == script_id), None)
+    table.put_item(Item={"pk": "PRIORITY_STATE", "nextIndex": next_idx + 1, "runCount": run_count})
+    if script is None:
+        print(f"[warn] priority script_id {script_id} not found in ai-scripts.json, skipping it")
+    return script
 
 
 def record_queue_status(script_id, day, status, detail=""):
@@ -373,12 +434,17 @@ def run_ai_path():
     (script_writer.py) instead of pulling the next item off the fixed
     rotation — all other runs continue the normal repost-or-generate logic
     unchanged, and the rotation's own index is untouched on a new-script
-    day so it resumes exactly where it left off next time."""
+    day so it resumes exactly where it left off next time.
+
+    next_priority_script() takes first refusal once PRIORITY_START_DATE
+    hits: while it's returning a script, neither the new-script-every-3-days
+    feature nor the normal rotation gets a turn — see its own docstring for
+    the "arada bir eskilerden" exception."""
     scripts = json.loads((ROOT / "content/ai-scripts.json").read_text())
     day = datetime.date.today().day
 
-    new_script = None
-    if bump_new_script_counter():
+    new_script = next_priority_script(scripts)
+    if new_script is None and bump_new_script_counter():
         try:
             new_script = script_writer.generate_new_script(scripts)
             script_writer.commit_new_script_to_github(new_script, GITHUB_TOKEN, GITHUB_REPO)
