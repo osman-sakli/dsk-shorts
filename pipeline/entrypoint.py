@@ -19,6 +19,7 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -198,6 +199,16 @@ NICHE_TAGS_BY_CATEGORY = {
     "general": ["#parentingtips", "#screentimetips", "#digitalparenting", "#familysafety"],
 }
 
+# YouTube's backend "tags" field is a different surface than hashtags (plain
+# keywords, not shown on-screen, used for search/related-video matching) —
+# same category split as NICHE_TAGS_BY_CATEGORY, just without the "#".
+YT_TAGS_BY_CATEGORY = {
+    "scam": ["online scam alert", "internet safety", "protect your kids online", "stranger danger"],
+    "ai": ["ai safety for kids", "media literacy", "parenting in the ai age", "deepfake awareness"],
+    "general": ["parenting tips", "screen time tips", "digital parenting", "family internet safety"],
+}
+YT_BASE_TAGS = ["digital safety knights", "kids online safety", "cyberbullying prevention"]
+
 
 def _script_characters(script):
     """Works for both content shapes: ai-scripts.json's explicit "characters"
@@ -234,6 +245,35 @@ def make_caption(script):
         f"Play today's quest → {SITE_URL}\n"
         f"{build_hashtags(script)}"
     )
+
+
+def make_youtube_description(script, caption):
+    """YouTube's own "description" field (distinct from the short on-screen
+    caption used by TikTok/IG/FB): same hook + link, but with the episode's
+    full line-by-line content folded in for keyword coverage, since YouTube's
+    search/suggested-video matching reads description text, not just title."""
+    if script.get("lines"):
+        # Remotion-path scripts: structured dialogue lines.
+        lines = " ".join(l["text"] for l in script["lines"] if l.get("text")).strip()
+    else:
+        # AI-path scripts (ai-scripts.json) have no "lines", only a single
+        # "prompt" block for Seedance — pull the quoted dialogue out of it
+        # as a lightweight approximation of what's actually said on-screen.
+        lines = " ".join(re.findall(r'"([^"]{4,})"', script.get("prompt", ""))).strip()
+    parts = [caption]
+    if lines:
+        parts.append(f"\nWhat happens in this episode: {lines}")
+    parts.append(
+        "\nDigital Safety Knights is a free daily series teaching kids to "
+        "recognize online scams, AI-generated deception, and cyberbullying "
+        "— one short lesson at a time. New episode every day."
+    )
+    return "\n".join(parts)
+
+
+def make_youtube_tags(script):
+    category = categorize_script(script)
+    return YT_BASE_TAGS + YT_TAGS_BY_CATEGORY[category]
 
 
 def make_thumbnail(mp4_path, out_path):
@@ -307,33 +347,47 @@ def find_existing_render(script_id):
         return None
 
 
-def publish_to_platforms(mp4_path, title, caption):
+def publish_to_platforms(mp4_path, title, caption, script=None):
     if not UPLOAD_API_KEY:
         print("[warn] no UPLOAD_API_KEY set, skipping publish (video stays in S3 only)")
         return {"status": "skipped_no_key", "platforms": []}
+    data = {
+        "title": title,
+        "caption": caption,
+        "user": UPLOAD_POST_PROFILE,
+        "platform[]": AUTO_PLATFORMS,
+        # TikTok kept landing in the account inbox with no public URL,
+        # so the intent is now stated explicitly rather than relying on
+        # the API default. If TikTok still holds it as a draft, that is
+        # its unaudited-client rule (such clients may only post
+        # SELF_ONLY) and no amount of retrying changes it — the API
+        # client has to pass TikTok's audit.
+        "post_mode": "DIRECT_POST",
+        "privacy_level": "PUBLIC_TO_EVERYONE",
+        # These shorts are generated with Seedance. TikTok requires
+        # AI-generated content to be disclosed, and labelling it here
+        # is both the honest and the safer option for the account.
+        "is_aigc": "true",
+        # YouTube has its own separate synthetic-media disclosure (not
+        # covered by TikTok's is_aigc above) — same honesty requirement.
+        "containsSyntheticMedia": "true",
+        # Deliberately NOT setting selfDeclaredMadeForKids here: the DSK
+        # YouTube channel has "Made for Kids" set at the channel level
+        # (confirmed with the owner), so every upload inherits it. An
+        # explicit per-video value would override that — don't.
+        "categoryId": "27",  # Education — closer fit than upload-post's default "22"
+        "defaultLanguage": "en",
+        "defaultAudioLanguage": "en-US",
+    }
+    if script is not None:
+        data["youtube_description"] = make_youtube_description(script, caption)
+        data["tags[]"] = make_youtube_tags(script)  # requests expands a list value into repeated form fields
     with open(mp4_path, "rb") as f:
         resp = requests.post(
             "https://api.upload-post.com/api/upload",
             headers={"Authorization": f"Apikey {UPLOAD_API_KEY}"},
             files={"video": f},
-            data={
-                "title": title,
-                "caption": caption,
-                "user": UPLOAD_POST_PROFILE,
-                "platform[]": AUTO_PLATFORMS,
-                # TikTok kept landing in the account inbox with no public URL,
-                # so the intent is now stated explicitly rather than relying on
-                # the API default. If TikTok still holds it as a draft, that is
-                # its unaudited-client rule (such clients may only post
-                # SELF_ONLY) and no amount of retrying changes it — the API
-                # client has to pass TikTok's audit.
-                "post_mode": "DIRECT_POST",
-                "privacy_level": "PUBLIC_TO_EVERYONE",
-                # These shorts are generated with Seedance. TikTok requires
-                # AI-generated content to be disclosed, and labelling it here
-                # is both the honest and the safer option for the account.
-                "is_aigc": "true",
-            },
+            data=data,
             timeout=300,
         )
     status = "published" if resp.ok else "failed"
@@ -345,7 +399,7 @@ def publish_to_platforms(mp4_path, title, caption):
     }
 
 
-def finish_and_publish(script_id, day, mp4_path, title, caption):
+def finish_and_publish(script_id, day, mp4_path, title, caption, script=None):
     """Shared tail end for both paths: thumbnail, S3 upload, publish, status.
     Caller advances its own state counter only after this returns (i.e. only
     on success — this exits the process on failure).
@@ -367,7 +421,7 @@ def finish_and_publish(script_id, day, mp4_path, title, caption):
     upload_to_s3(thumb_path, f"{date_prefix}/{script_id}.jpg")
     upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
 
-    result = publish_to_platforms(mp4_path, title, caption)
+    result = publish_to_platforms(mp4_path, title, caption, script=script)
     if MANUAL_REVIEW_PLATFORMS:
         result["manual_review"] = (
             f"{', '.join(MANUAL_REVIEW_PLATFORMS)} need manual upload "
@@ -423,7 +477,7 @@ def run_remotion_path():
 
     mp4_path = ROOT / "out" / f"{script_id}.mp4"
     caption = make_caption(script)
-    finish_and_publish(script_id, day, mp4_path, script.get("title", script_id), caption)
+    finish_and_publish(script_id, day, mp4_path, script.get("title", script_id), caption, script=script)
     advance_day_index(day)
 
 
@@ -496,7 +550,7 @@ def run_ai_path():
         f"Play today's quest → {SITE_URL}\n"
         f"{build_hashtags(script)}"
     )
-    finish_and_publish(script_id, day, mp4_path, script["title"], caption)
+    finish_and_publish(script_id, day, mp4_path, script["title"], caption, script=script)
     if index is not None:
         dynamodb.Table(QUEUE_TABLE).put_item(Item={"pk": "AI_STATE", "lastIndex": index})
 
