@@ -63,14 +63,13 @@ for f in content/scripts/*.json; do bash pipeline/render.sh $(basename $f .json)
 `who` maps to a character component + voice in `content/characters.json`.
 Every video auto-appends the **"Shield up!"** outro (logo + site).
 
-## Publishing to GitHub
+## Infra
 
-```bash
-gh repo create dsk-shorts --private --source . --push
-# or manually:
-git remote add origin git@github.com:<you>/dsk-shorts.git
-git push -u origin main
-```
+Weekly render runs as an ECS Fargate task (Terraform in `infra/`: ECR, ECS, EventBridge, DynamoDB publish queue, S3, Secrets Manager). Image is built and pushed by GitHub Actions with AWS OIDC, no stored AWS keys. Discord and LinkedIn posting helpers live in `pipeline/`.
+
+## Secrets
+
+No keys in the repo. Local `.env` is git-ignored; prod secrets are in AWS Secrets Manager.
 
 ## Roadmap
 
@@ -79,5 +78,13 @@ git push -u origin main
 - [ ] Batch weekly render on Fargate
 - [ ] Auto-captions + per-platform caption/hashtag templates
 - [ ] Upload automation (YouTube Data API first)
+- [ ] Tests for `pipeline/` (script JSON validation, TTS timing)
+- [ ] Turkish and Spanish versions of every short
+- [ ] Longer episodes / movies (`generate_episode.py`, `generate_movie.py`) end to end
+- [ ] Render all 30 days of `content/calendar-30day.json`
+
+## License
+
+[MIT](LICENSE). Remotion is used under its own license, see https://remotion.dev/license.
 
 — Built by the DSK father–daughter team. Shield up! 🛡️

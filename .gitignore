@@ -12,3 +12,8 @@ infra/.build/
 infra/*.tfstate
 infra/*.tfstate.backup
 infra/*.tfvars
+
+# Secrets
+.env.*
+!.env.example
+*.pem
