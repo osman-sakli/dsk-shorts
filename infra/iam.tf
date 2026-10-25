@@ -73,6 +73,15 @@ resource "aws_iam_role_policy" "task_permissions" {
         Resource = [aws_dynamodb_table.queue.arn]
       },
       {
+        # publish_to_site_library() copies each render's mp4+thumbnail onto
+        # the public website bucket under shorts/, for frontend/topics.html.
+        # Narrow on purpose: write-only, and only that one prefix — this
+        # task has no business touching anything else on digitalsafetyknights.org.
+        Effect   = "Allow"
+        Action   = ["s3:PutObject"]
+        Resource = ["arn:aws:s3:::${var.site_bucket}/shorts/*"]
+      },
+      {
         Effect   = "Allow"
         Action   = ["polly:SynthesizeSpeech"]
         Resource = ["*"]

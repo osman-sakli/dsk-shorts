@@ -41,6 +41,7 @@ resource "aws_ecs_task_definition" "render" {
         { name = "GITHUB_REPO", value = var.github_repo },
         { name = "SNS_ALERT_TOPIC_ARN", value = aws_sns_topic.alerts.arn },
         { name = "AWS_REGION", value = var.aws_region },
+        { name = "SITE_BUCKET", value = var.site_bucket },
       ]
       secrets = [
         { name = "UPLOAD_API_KEY", valueFrom = aws_secretsmanager_secret.upload_api_key.arn },

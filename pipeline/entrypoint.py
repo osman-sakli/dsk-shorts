@@ -13,6 +13,9 @@ Env vars (set by the ECS task definition, values sourced from Secrets Manager):
                       (see script_writer.py) commits each new auto-written script
   GITHUB_REPO       - "owner/repo" for the above (default osman-sakli/dsk-shorts)
   SNS_ALERT_TOPIC_ARN - optional; publish a message here on failure
+  SITE_BUCKET       - optional; public website S3 bucket (digitalsafetyknights.org)
+                      to also receive a copy of each render under shorts/,
+                      for frontend/topics.html. Skipped if unset.
 """
 import datetime
 import hashlib
@@ -77,6 +80,7 @@ UPLOAD_POST_PROFILE = os.environ.get("UPLOAD_POST_PROFILE", "dsk")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "osman-sakli/dsk-shorts")
 SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN")
+SITE_BUCKET = os.environ.get("SITE_BUCKET")
 
 # upload-post.com has no per-video "made for kids" / COPPA field, but the
 # Digital Safety Knights YouTube channel has "Made for Kids" set at the
@@ -311,6 +315,25 @@ def upload_to_s3(local_path, key):
     s3.upload_file(str(local_path), OUTPUT_BUCKET, key)
 
 
+def publish_to_site_library(script_id, mp4_path, thumb_path):
+    """Copies a normalized render + its thumbnail onto the public website
+    bucket under shorts/{script_id}.{ext}, so frontend/topics.html can play
+    it. OUTPUT_BUCKET itself stays private by design (see infra/s3.tf) —
+    this is a deliberate, narrow exception for the two files meant to be
+    publicly browsable, not a general publish path. Best-effort: a failure
+    here shouldn't take down the day's social publish, which is the part
+    that actually has to succeed."""
+    if not SITE_BUCKET:
+        return
+    try:
+        s3.upload_file(str(mp4_path), SITE_BUCKET, f"shorts/{script_id}.mp4",
+                        ExtraArgs={"ContentType": "video/mp4"})
+        s3.upload_file(str(thumb_path), SITE_BUCKET, f"shorts/{script_id}.jpg",
+                        ExtraArgs={"ContentType": "image/jpeg"})
+    except Exception as e:  # noqa: BLE001 — same reasoning as find_existing_render
+        print(f"[warn] publish_to_site_library({script_id}) failed, topics.html won't have it yet: {e}")
+
+
 def find_existing_render(script_id):
     """Newest already-rendered s3 key for this script_id (date-prefixed keys
     sort chronologically as strings), or None if it has never been rendered.
@@ -420,6 +443,7 @@ def finish_and_publish(script_id, day, mp4_path, title, caption, script=None):
     upload_to_s3(mp4_path, f"{date_prefix}/{script_id}.mp4")
     upload_to_s3(thumb_path, f"{date_prefix}/{script_id}.jpg")
     upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
+    publish_to_site_library(script_id, mp4_path, thumb_path)
 
     result = publish_to_platforms(mp4_path, title, caption, script=script)
     if MANUAL_REVIEW_PLATFORMS:

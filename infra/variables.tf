@@ -28,6 +28,12 @@ variable "container_image_tag" {
   default = "latest"
 }
 
+variable "site_bucket" {
+  description = "Public website S3 bucket (digitalsafetyknights.org) that each render's mp4+thumbnail also gets copied to, under shorts/, for frontend/topics.html. Empty disables the copy."
+  type        = string
+  default     = "digitalsafetyknights.org"
+}
+
 variable "output_retention_days" {
   description = "How long rendered mp4/thumbnail/caption objects live in S3 before expiring."
   type        = number
