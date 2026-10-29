@@ -74,12 +74,19 @@ resource "aws_iam_role_policy" "task_permissions" {
       },
       {
         # publish_to_site_library() copies each render's mp4+thumbnail onto
-        # the public website bucket under shorts/, for frontend/topics.html.
-        # Narrow on purpose: write-only, and only that one prefix — this
-        # task has no business touching anything else on digitalsafetyknights.org.
+        # the public website bucket under videos/ and upserts the manifest at
+        # content/video-library.json, for frontend/topics.html. Narrow on
+        # purpose — this task has no business touching anything else on
+        # digitalsafetyknights.org. GetObject is needed on the manifest only,
+        # to read it before rewriting it.
         Effect   = "Allow"
         Action   = ["s3:PutObject"]
-        Resource = ["arn:aws:s3:::${var.site_bucket}/shorts/*"]
+        Resource = ["arn:aws:s3:::${var.site_bucket}/videos/*"]
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:PutObject", "s3:GetObject"]
+        Resource = ["arn:aws:s3:::${var.site_bucket}/content/video-library.json"]
       },
       {
         Effect   = "Allow"

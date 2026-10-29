@@ -14,8 +14,8 @@ Env vars (set by the ECS task definition, values sourced from Secrets Manager):
   GITHUB_REPO       - "owner/repo" for the above (default osman-sakli/dsk-shorts)
   SNS_ALERT_TOPIC_ARN - optional; publish a message here on failure
   SITE_BUCKET       - optional; public website S3 bucket (digitalsafetyknights.org)
-                      to also receive a copy of each render under shorts/,
-                      for frontend/topics.html. Skipped if unset.
+                      to also receive a copy of each render under videos/ plus
+                      a manifest entry, for frontend/topics.html. Skipped if unset.
 """
 import datetime
 import hashlib
@@ -81,6 +81,10 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "osman-sakli/dsk-shorts")
 SNS_ALERT_TOPIC_ARN = os.environ.get("SNS_ALERT_TOPIC_ARN")
 SITE_BUCKET = os.environ.get("SITE_BUCKET")
+# Must match infrastructure/sync-video-library.py and the deploy
+# workflow's --delete exclude list in the website repo.
+SITE_VIDEO_PREFIX = "videos/"
+SITE_MANIFEST_KEY = "content/video-library.json"
 
 # upload-post.com has no per-video "made for kids" / COPPA field, but the
 # Digital Safety Knights YouTube channel has "Made for Kids" set at the
@@ -246,7 +250,7 @@ def make_caption(script):
     hook = script["lines"][0]["text"].rstrip("—- ")
     return (
         f"{hook} \U0001f6e1️ {title}\n"
-        f"Play today's quest → {SITE_URL}\n"
+        f"All our shorts by topic → {SITE_URL}/topics.html\n"
         f"{build_hashtags(script)}"
     )
 
@@ -315,23 +319,58 @@ def upload_to_s3(local_path, key):
     s3.upload_file(str(local_path), OUTPUT_BUCKET, key)
 
 
-def publish_to_site_library(script_id, mp4_path, thumb_path):
+def publish_to_site_library(script_id, title, mp4_path, thumb_path):
     """Copies a normalized render + its thumbnail onto the public website
-    bucket under shorts/{script_id}.{ext}, so frontend/topics.html can play
-    it. OUTPUT_BUCKET itself stays private by design (see infra/s3.tf) —
-    this is a deliberate, narrow exception for the two files meant to be
-    publicly browsable, not a general publish path. Best-effort: a failure
-    here shouldn't take down the day's social publish, which is the part
-    that actually has to succeed."""
+    bucket under videos/{script_id}.{ext} and adds it to the site's video
+    manifest, so frontend/topics.html can play it the same day instead of
+    waiting for someone to run infrastructure/sync-video-library.py by hand.
+
+    The prefix and manifest key have to match that script exactly: the site
+    deploy runs `aws s3 sync --delete` and only spares paths on its exclude
+    list. An earlier version of this wrote to shorts/, which was not on that
+    list, so the first deploy afterwards silently deleted the whole library.
+
+    OUTPUT_BUCKET itself stays private by design (see infra/s3.tf); this is a
+    deliberate, narrow exception for the files meant to be publicly browsable.
+    Best-effort: a failure here shouldn't take down the day's social publish,
+    which is the part that actually has to succeed."""
     if not SITE_BUCKET:
         return
     try:
-        s3.upload_file(str(mp4_path), SITE_BUCKET, f"shorts/{script_id}.mp4",
-                        ExtraArgs={"ContentType": "video/mp4"})
-        s3.upload_file(str(thumb_path), SITE_BUCKET, f"shorts/{script_id}.jpg",
-                        ExtraArgs={"ContentType": "image/jpeg"})
+        s3.upload_file(str(mp4_path), SITE_BUCKET, f"{SITE_VIDEO_PREFIX}{script_id}.mp4",
+                        ExtraArgs={"ContentType": "video/mp4",
+                                   "CacheControl": "public,max-age=31536000"})
+        s3.upload_file(str(thumb_path), SITE_BUCKET, f"{SITE_VIDEO_PREFIX}{script_id}.jpg",
+                        ExtraArgs={"ContentType": "image/jpeg",
+                                   "CacheControl": "public,max-age=31536000"})
+        update_site_video_manifest(script_id, title)
     except Exception as e:  # noqa: BLE001 — same reasoning as find_existing_render
         print(f"[warn] publish_to_site_library({script_id}) failed, topics.html won't have it yet: {e}")
+
+
+def update_site_video_manifest(script_id, title):
+    """Upserts one entry into content/video-library.json, newest first, in the
+    exact shape infrastructure/sync-video-library.py writes."""
+    try:
+        body = s3.get_object(Bucket=SITE_BUCKET, Key=SITE_MANIFEST_KEY)["Body"].read()
+        items = json.loads(body).get("items", [])
+    except Exception:  # noqa: BLE001 — a missing manifest just means we start one
+        items = []
+
+    items = [i for i in items if i.get("id") != script_id]
+    items.insert(0, {
+        "id": script_id,
+        "title": title,
+        "date": datetime.date.today().isoformat(),
+        "src": f"/{SITE_VIDEO_PREFIX}{script_id}.mp4",
+        "poster": f"/{SITE_VIDEO_PREFIX}{script_id}.jpg",
+    })
+    items.sort(key=lambda i: i.get("date", ""), reverse=True)
+    s3.put_object(
+        Bucket=SITE_BUCKET, Key=SITE_MANIFEST_KEY,
+        Body=json.dumps({"count": len(items), "items": items}, indent=2).encode(),
+        ContentType="application/json", CacheControl="no-cache",
+    )
 
 
 def find_existing_render(script_id):
@@ -443,7 +482,7 @@ def finish_and_publish(script_id, day, mp4_path, title, caption, script=None):
     upload_to_s3(mp4_path, f"{date_prefix}/{script_id}.mp4")
     upload_to_s3(thumb_path, f"{date_prefix}/{script_id}.jpg")
     upload_to_s3(caption_path, f"{date_prefix}/{script_id}.caption.json")
-    publish_to_site_library(script_id, mp4_path, thumb_path)
+    publish_to_site_library(script_id, title, mp4_path, thumb_path)
 
     result = publish_to_platforms(mp4_path, title, caption, script=script)
     if MANUAL_REVIEW_PLATFORMS:
@@ -571,7 +610,7 @@ def run_ai_path():
 
     caption = (
         f"{script['title']} \U0001f6e1️\n"
-        f"Play today's quest → {SITE_URL}\n"
+        f"All our shorts by topic → {SITE_URL}/topics.html\n"
         f"{build_hashtags(script)}"
     )
     finish_and_publish(script_id, day, mp4_path, script["title"], caption, script=script)
