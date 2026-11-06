@@ -1,7 +1,11 @@
 """Write an .srt for a finished film: Whisper supplies the timing, the script
-supplies the words. Each transcribed segment is snapped to the closest
-scripted line (fuzzy match), so the subtitle text is exactly what was
-written rather than what the ASR heard ("How regly our glitch").
+supplies the words.
+
+Whisper on a 4-minute film hallucinates — it repeats a line a dozen times
+over a shout, or hears a line from a later shot — so matching is
+constrained: a segment may only match lines of the shot that contains its
+timestamp, lines are consumed in script order and each is used once, and
+anything that matches nothing (improvised mumbles) gets no cue at all.
 
 Usage:
     python3 pipeline/film_subtitles.py content/film-01.json out/film-01/film-01.mp4
@@ -20,39 +24,55 @@ def ts(sec):
     return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
 
 
+def similarity(heard, line):
+    heard, line = heard.lower().strip(), line.lower().strip()
+    r = difflib.SequenceMatcher(None, heard, line).ratio()
+    core = line.rstrip("!.?")[:22]
+    if core and core in heard:
+        r = max(r, 0.6)
+    return r
+
+
 def main(script, video):
     import whisper
     film = json.loads(pathlib.Path(script).read_text())
-    lines = [(d["who"], d["line"]) for s in film["shots"] for d in s["dialogue"]]
-    model = whisper.load_model("base")
-    res = model.transcribe(video, language="en", temperature=0, condition_on_previous_text=False)
-    duration = float(res["segments"][-1]["end"]) if res["segments"] else 0
-    out = []
-    used = set()
-    for seg in res["segments"]:
-        text = seg["text"].strip()
-        if not text or seg.get("no_speech_prob", 0) > 0.8 or seg["start"] >= film["runtimeSeconds"]:
-            continue
-        best, score = None, 0
-        for i, (who, line) in enumerate(lines):
-            r = difflib.SequenceMatcher(None, text.lower(), line.lower()).ratio()
-            # a transcribed segment may contain two scripted lines back to back
-            if r < 0.5 and line.lower()[:25] in text.lower():
-                r = 0.6
-            if r > score:
-                best, score = i, r
-        if best is not None and score >= 0.5:
-            who, line = lines[best]
-            shown = line if best not in used else line  # repeats keep the scripted text
-            used.add(best)
-            out.append((seg["start"], min(seg["end"], film["runtimeSeconds"]), f"{who}: {shown}"))
-        else:
-            out.append((seg["start"], min(seg["end"], film["runtimeSeconds"]), text))
+    secs = film["shotSeconds"]
+    res = whisper.load_model("base").transcribe(video, language="en", temperature=0, condition_on_previous_text=False)
+
+    cues = []
+    for shot in film["shots"]:
+        base = (shot["n"] - 1) * secs
+        lines = list(shot["dialogue"])
+        next_i = 0
+        for seg in res["segments"]:
+            if not (base <= seg["start"] < base + secs) or seg.get("no_speech_prob", 0) > 0.8:
+                continue
+            heard = seg["text"].strip()
+            if not heard or next_i >= len(lines):
+                continue
+            # The segment may carry one line or two consecutive lines.
+            one = similarity(heard, lines[next_i]["line"])
+            two = similarity(heard, lines[next_i]["line"] + " " + lines[next_i + 1]["line"]) if next_i + 1 < len(lines) else 0
+            if max(one, two) < 0.45:
+                continue
+            start, end = seg["start"], min(seg["end"], base + secs)
+            if two > one and next_i + 1 < len(lines):
+                mid = start + (end - start) * len(lines[next_i]["line"]) / (len(lines[next_i]["line"]) + len(lines[next_i + 1]["line"]))
+                cues.append((start, mid, lines[next_i]))
+                cues.append((mid, end, lines[next_i + 1]))
+                next_i += 2
+            else:
+                cues.append((start, end, lines[next_i]))
+                next_i += 1
+        missing = lines[next_i:]
+        if missing:
+            print(f"shot {shot['n']}: {len(missing)} line(s) not heard clearly -> no cue: " + " | ".join(d["line"][:30] for d in missing))
+
     srt = pathlib.Path(video).with_suffix(".srt")
-    srt.write_text("".join(f"{n}\n{ts(a)} --> {ts(b)}\n{t}\n\n" for n, (a, b, t) in enumerate(out, 1)))
-    print(f"{len(out)} cues -> {srt}")
-    for a, b, t in out:
-        print(f"  {ts(a)} {t}")
+    srt.write_text("".join(f"{n}\n{ts(a)} --> {ts(b)}\n{d['who']}: {d['line']}\n\n" for n, (a, b, d) in enumerate(cues, 1)))
+    print(f"{len(cues)} cues -> {srt}")
+    for a, b, d in cues:
+        print(f"  {ts(a)}  {d['who']}: {d['line']}")
 
 
 if __name__ == "__main__":
