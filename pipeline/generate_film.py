@@ -396,30 +396,31 @@ def score(film, key, m):
 # ---------------------------------------------------------------- stitch
 
 def stitch(film, music=None, music_db=-16.0):
-    d = outdir(film)
+    d = outdir(film).resolve()
     parts = [d / "shots" / f"shot{s['n']:02d}.mp4" for s in film["shots"]]
     missing = [p.name for p in parts if not p.exists()]
     if missing:
         sys.exit("missing shots: " + ", ".join(missing))
     listfile = d / "concat.txt"
-    listfile.write_text("".join(f"file 'shots/{p.name}'\n" for p in parts))
+    listfile.write_text("".join(f"file '{p}'\n" for p in parts))
     joined = d / f"{film['id']}-nomusic.mp4"
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(listfile),
                     "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
                     "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(joined)],
-                   check=True, cwd=d)
+                   check=True)
     log(f"Joined {len(parts)} shots -> {joined}")
     if not music:
         return joined
     final = d / f"{film['id']}.mp4"
-    # Song bed sits well under the dialogue, fades in/out, and loops if short.
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(joined), "-stream_loop", "-1", "-i", str(music),
+    total = len(parts) * film["shotSeconds"]
+    # Score sits well under the dialogue, fades in/out, and loops if short.
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(joined), "-stream_loop", "-1", "-i", str(pathlib.Path(music).resolve()),
                     "-filter_complex",
-                    f"[1:a]volume={music_db}dB,afade=t=in:d=2,afade=t=out:st={len(parts)*film['shotSeconds']-4}:d=4[m];"
-                    f"[0:a][m]amix=inputs=2:duration=first:dropout_transition=2[a]",
+                    f"[1:a]volume={music_db}dB,afade=t=in:d=2,afade=t=out:st={total-4}:d=4[m];"
+                    f"[0:a][m]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[a]",
                     "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
                     "-shortest", "-movflags", "+faststart", str(final)],
-                   check=True, cwd=d)
+                   check=True)
     log(f"With music -> {final}")
     return final
 
