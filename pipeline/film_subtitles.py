@@ -37,14 +37,22 @@ def main(script, video):
     import whisper
     film = json.loads(pathlib.Path(script).read_text())
     secs = film["shotSeconds"]
-    res = whisper.load_model("base").transcribe(video, language="en", temperature=0, condition_on_previous_text=False)
+    model = whisper.load_model("base")
+    shots_dir = pathlib.Path(video).resolve().parent / "shots"
 
     cues = []
     for shot in film["shots"]:
         base = (shot["n"] - 1) * secs
         lines = list(shot["dialogue"])
         next_i = 0
+        # Transcribe each 30s shot file on its own: on the full film Whisper
+        # loops one line over a whole shout and loses the lines after it.
+        clip = shots_dir / f"shot{shot['n']:02d}.mp4"
+        res = model.transcribe(str(clip if clip.exists() else video), language="en", temperature=0,
+                               condition_on_previous_text=False)
+        offset = base if clip.exists() else 0
         for seg in res["segments"]:
+            seg = dict(seg); seg["start"] += offset; seg["end"] += offset
             if not (base <= seg["start"] < base + secs) or seg.get("no_speech_prob", 0) > 0.8:
                 continue
             heard = seg["text"].strip()
