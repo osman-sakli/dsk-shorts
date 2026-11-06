@@ -70,7 +70,7 @@ def main(script, n):
     try:
         import whisper
         model = whisper.load_model("base")
-        res = model.transcribe(str(mp4), language="en")
+        res = model.transcribe(str(mp4), language="en", temperature=0, condition_on_previous_text=False)
         print("\nTRANSCRIPT:")
         for seg in res["segments"]:
             print(f"  [{seg['start']:5.1f}-{seg['end']:5.1f}] {seg['text'].strip()}")
