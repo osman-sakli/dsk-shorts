@@ -34,9 +34,19 @@ clearly in 15 seconds.
 Output ONLY a JSON object, no other text, with exactly these fields:
 {
   "title": "Short, specific title (4-8 words) naming the lesson, not the danger alone",
+  "title_tr": "The same title in Turkish",
+  "title_es": "The same title in Spanish",
   "characters": ["name1", "name2"],
   "prompt": "The full Seedance video-generation prompt..."
 }
+
+Rules for "title_tr" and "title_es": the site lists every short in English, Turkish and Spanish,
+so both are required. Translate the LESSON, not the words — a natural title a Turkish or Spanish
+parent would click, not a literal rendering of the English. Turkish: never a comma before "ve",
+use "ve" rather than "&", and the settled DSK terms — "çevrimiçi" (not "online"), "deepfake",
+"cinsel şantaj" for sextortion, "kandırma (grooming)" for grooming. Spanish: Latin-American
+neutral, "tú" never "usted", and opening ¿ / ¡ on any question or exclamation. The video's own
+audio stays English; these are titles only.
 
 Rules for "characters": exactly 2 or 3 names, only from: shieldy, pixel, glitch, bot, dame-noble,
 sprout.
@@ -93,9 +103,19 @@ def _parse_and_validate(raw):
     text = re.sub(r"^```(json)?|```$", "", raw.strip(), flags=re.MULTILINE).strip()
     data = json.loads(text)
     title = data["title"].strip()
+    # Required, not optional: a short whose title only exists in English
+    # shows up untranslated on /tr/ and /es/ forever after, and nobody
+    # notices until someone sweeps the rendered pages.
+    title_tr = (data.get("title_tr") or "").strip()
+    title_es = (data.get("title_es") or "").strip()
     characters = [c.strip().lower() for c in data["characters"]]
     prompt = data["prompt"].strip()
 
+    for lang, value in (("title_tr", title_tr), ("title_es", title_es)):
+        if not value:
+            raise ValueError(f"missing {lang}")
+        if value == title:
+            raise ValueError(f"{lang} is identical to the English title")
     if not (2 <= len(characters) <= 3):
         raise ValueError(f"expected 2-3 characters, got {characters}")
     if not all(c in VALID_CHARACTERS for c in characters):
@@ -110,11 +130,12 @@ def _parse_and_validate(raw):
         if f"@Image{i + 1}" not in prompt:
             raise ValueError(f"prompt missing @Image{i + 1} for character {characters[i]}")
 
-    return {"title": title, "characters": characters, "prompt": prompt}
+    return {"title": title, "title_tr": title_tr, "title_es": title_es,
+            "characters": characters, "prompt": prompt}
 
 
 def generate_new_script(existing_scripts, max_attempts=3):
-    """Returns {title, characters, prompt} — no "id" yet. The id is assigned
+    """Returns {title, title_tr, title_es, characters, prompt} — no "id" yet. The id is assigned
     in commit_new_script_to_github() from the live GitHub file, not from
     existing_scripts here, since existing_scripts is whatever list the
     *locally baked image* happened to load, which could in principle be a
