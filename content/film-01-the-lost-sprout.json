@@ -76,8 +76,9 @@
         "BOT",
         "DAME NOBLE"
       ],
-      "locationRef": "KF01",
-      "frame": "Same sunrise courtyard, warm golden dawn light from the left. The four heroes stand in a loose huddle in the LEFT two-thirds of the frame, turned toward EACH OTHER in relaxed conversation — SIR SHIELDY and DAME NOBLE facing each other, PIXEL mid-gesture telling a story, BOT listening — none of them looking toward the right. In front of them an empty patch of reflective floor. The RIGHT third of the frame is open, empty courtyard."
+      "editOf": "KF02",
+      "characterRefs": [],
+      "frame": "Remove SPROUT completely (the small baby knight sitting on the floor) — leave an empty patch of reflective floor where they sat. Turn the four remaining heroes slightly toward EACH OTHER as if chatting: SIR SHIELDY and DAME NOBLE angled toward one another, PIXEL mid-gesture, BOT listening — none of them looking toward the right side of the frame. Keep all four exactly on-model, same sizes, same place on the left and centre of the frame; the right side of the frame stays open empty courtyard."
     },
     {
       "id": "KF03",
@@ -174,7 +175,7 @@
       "characterRefs": [
         "GLITCH"
       ],
-      "frame": "Add exactly one GLITCH at the far RIGHT edge of the frame: small, deflated, slumped and sheepish, his purple colour faded and his pixel cubes drooping, looking at the ground. Nothing else changes."
+      "frame": "Add exactly one GLITCH at the far RIGHT edge of the frame, standing on the floor: small, slumped and sheepish, shoulders drooping, looking down at the ground with a guilty frown — but keep his normal PURPLE colour and his pink-and-purple pixel cubes exactly as in his reference image (just a slightly duller purple, never white or grey). Nothing else in the frame changes."
     },
     {
       "id": "KF10",
