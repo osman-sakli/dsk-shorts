@@ -177,8 +177,9 @@ def shot_prompt(film, shot):
         presence += " NOT present, must not appear: " + ", ".join(absent) + "."
     presence += " Each character appears exactly once."
     cast = "\n".join(f"{n}: {film['CAST'][n]}" for n in on)
-    return "\n\n".join([
-        "Pixar-style 3D animated film, continuous single shot.",
+    parts = [
+        "Pixar-style 3D animated feature film, one continuous 30-second shot. Energetic, expressive character "
+        "acting, fluid dynamic camera, rich visual effects — every second has movement.",
         "CAST (exact appearance, unchanged):\n" + cast,
         film["CANONICAL_WORLD"],
         film["CANONICAL_VOICES"],
@@ -186,10 +187,17 @@ def shot_prompt(film, shot):
         "The video begins exactly on the provided first frame and must arrive naturally at and end exactly on the "
         "provided last frame — same positions, poses and lighting as that final image.",
         "ACTION: " + shot["action"],
-        "SPOKEN DIALOGUE, in this order, clear natural child-friendly English, lips in sync, each line fully audible:\n" + lines,
-        "CAMERA: " + shot["camera"],
-        film["NO_TEXT_CLAUSE"],
-    ])
+    ]
+    if shot.get("fx"):
+        parts.append("VISUAL EFFECTS: " + shot["fx"])
+    parts.append("SPOKEN DIALOGUE, in this order, clear natural child-friendly English, lips in sync, each line "
+                 "fully audible:\n" + lines)
+    parts.append("CAMERA: " + shot["camera"])
+    if shot.get("sound"):
+        parts.append("SOUND: " + shot["sound"])
+    parts.append(film.get("AUDIO_RULE", ""))
+    parts.append(film["NO_TEXT_CLAUSE"])
+    return "\n\n".join(p for p in parts if p)
 
 
 # ---------------------------------------------------------------- check

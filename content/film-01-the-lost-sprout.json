@@ -46,7 +46,7 @@
     "SPROUT": "a baby knight — a very small chubby toddler with rosy cheeks and big bright eyes, wearing a shiny gold helmet with a crest, tiny gold armour with a small shield emblem, a dark navy cape, navy mittens and navy boots, always holding a small brown teddy bear. Trusting and innocent.",
     "DAME NOBLE": "a girl knight in rose-gold copper armour with a heart crest on her chest plate, dark hair swept into a side ponytail with a small gold star hairpin, big brown eyes, a navy skirt, dark sparkly leggings, copper boots and a copper cape. Precise, kind — the one who checks things."
   },
-  "CANONICAL_WORLD": "WORLD (unchanged in every shot): a bright, friendly digital realm built from glowing blue crystal towers, soft floating light-motes and smooth reflective floors — like a safe fantasy version of the inside of a computer. Pixar-style 3D animation, soft cinematic lighting, warm and welcoming, colourful, absolutely nothing scary, no violence, no horror, no darkness beyond gentle dusk-blue.",
+  "CANONICAL_WORLD": "WORLD (unchanged in every shot): a bright, friendly digital realm built from glowing blue crystal towers, soft floating light-motes and smooth reflective floors — like a safe fantasy version of the inside of a computer. Pixar-style 3D animation with cinematic lighting, lens flares, volumetric god-rays and sparkling particle effects; warm and welcoming, colourful, absolutely nothing scary, no violence, no horror, no darkness beyond gentle dusk-blue.",
   "CANONICAL_VOICES": "VOICES (identical in every shot): SIR SHIELDY — warm, calm, steady adult male voice. PIXEL — bright, quick, excited boy's voice. GLITCH — squeaky, sly, playful cartoon-trickster voice. BOT — flat, even, slightly synthetic robot voice. SPROUT — tiny, sweet, very young child's voice. DAME NOBLE — clear, confident, kind girl's voice.",
   "NO_TEXT_CLAUSE": "CRITICAL: render NO letters, NO words, NO numbers, NO writing, NO signage, NO user-interface text, NO subtitles and NO logos anywhere in the frame. Any screen, popup or sign must show only abstract glowing shapes, colour and light — never characters or digits.",
   "keyframes": [
@@ -205,7 +205,7 @@
         "DAME NOBLE",
         "SPROUT"
       ],
-      "action": "Slow cinematic push-in across the glowing crystal towers as the dawn light rises. The heroes are revealed together in the courtyard: SIR SHIELDY stands centre with a calm smile, DAME NOBLE beside him polishing her shield, PIXEL bounces on his toes with restless energy, BOT turns in a small neat circle scanning the air, and SPROUT sits on the floor playing happily with the teddy bear while the others watch fondly. Everyone is relaxed and safe — an ordinary happy morning.",
+      "action": "A sweeping aerial dive through the crystal realm as dawn breaks: the camera races between the glowing towers and each tower IGNITES with golden light as the sun touches it, light-motes swirl in the camera's wake and a flock of tiny glowing light-birds scatters upward. The camera plunges down into the courtyard and swings around the heroes in one smooth arc, revealing them one by one: SIR SHIELDY standing centre with a calm smile, DAME NOBLE polishing her small round shield so it flashes a glint of sun, PIXEL bouncing on his toes and spinning on the spot with restless energy, BOT turning in a neat circle with cyan scan-rings pulsing from his eyes, and SPROUT on the floor tossing the teddy bear up and catching it, giggling. An ordinary, happy, safe morning.",
       "dialogue": [
         {
           "who": "SIR SHIELDY",
@@ -224,7 +224,9 @@
           "line": "Okay!"
         }
       ],
-      "camera": "Slow push-in from the wide establishing view to a comfortable group shot."
+      "camera": "Fast aerial dive between the towers, then a smooth descending arc around the group, settling on the comfortable group composition of the final frame.",
+      "fx": "Towers lighting up in sequence, lens flares, swirling light-motes, glowing light-birds, a glint off Dame Noble's shield, Bot's cyan scan rings.",
+      "sound": "Whoosh of the camera dive, bright crystalline chimes as each tower lights, light-birds fluttering, Sprout's giggle, calm morning ambience."
     },
     {
       "n": 2,
@@ -241,7 +243,7 @@
         "SPROUT",
         "DAME NOBLE"
       ],
-      "action": "The heroes drift into conversation among themselves, distracted. Behind them GLITCH peeks out from behind a crystal pillar, then approaches SPROUT with an exaggerated friendly wave and a wide smile. GLITCH conjures a floating gift — a glowing, softly pulsing orb of pure golden light with sparkles around it, wordless and irresistible. He offers it with both stubby arms, then presses one arm to his mouth in a clear 'shhh — our secret' gesture, glancing at the other heroes and beckoning SPROUT away to the right. SPROUT looks at the beautiful orb, looks back at the busy grown-ups who are not watching, hesitates, picks up the teddy bear and follows GLITCH toward the right edge of frame.",
+      "action": "The heroes drift into chatter among themselves, turned toward each other, distracted. Behind the nearest crystal pillar, GLITCH MATERIALISES from a shower of pink-and-purple pixel cubes that assemble into his body, peeks out with wide eyes, and tiptoes toward SPROUT with exaggerated comic sneaking steps. He throws both stubby arms up with a flourish and conjures a floating gift — a glowing golden orb that pulses hypnotically and sends out tiny golden fireflies that circle SPROUT's head. SPROUT reaches for them, delighted. GLITCH presses one arm to his mouth in a big 'shhh — our secret' gesture, glances at the busy grown-ups, and beckons toward the right. SPROUT looks at the beautiful orb, back at the grown-ups who are not watching, hesitates, picks up the teddy bear and toddles after GLITCH toward the right edge of frame, the orb floating between them and a faint trail of purple cubes left on the floor behind them.",
       "dialogue": [
         {
           "who": "GLITCH",
@@ -260,7 +262,9 @@
           "line": "Um... okay."
         }
       ],
-      "camera": "Static wide, then a slow drift right following Sprout and Glitch toward the edge of frame."
+      "camera": "Static wide on the chatting heroes, then the camera slides low and right to follow Glitch's sneak, drifting with Sprout and Glitch toward the edge of frame for the final composition.",
+      "fx": "Glitch's pixel-cube materialisation, sparkle burst as the orb appears, hypnotic pulsing orb, golden fireflies circling Sprout, a faint purple cube trail on the floor.",
+      "sound": "Soft chatter, a crackly digital shimmer as Glitch assembles, squeaky tiptoe steps, a magical shimmer when the orb appears, a low hypnotic hum from the orb."
     },
     {
       "n": 3,
@@ -275,7 +279,7 @@
         "BOT",
         "DAME NOBLE"
       ],
-      "action": "Sprout and Glitch slip out of frame on the right. DAME NOBLE turns to speak to SPROUT and stops — the floor is empty. She kneels and picks up the small teddy bear left behind. Her expression drops. She holds it up to show the others. PIXEL spins around, eyes wide. BOT's cyan eyes blink rapidly as he scans the ground and a faint trail of soft purple sparkle-cubes becomes visible leading off to the right. SIR SHIELDY's face turns serious and steady — concerned but never panicked — and he points toward the far towers, rallying the group into a tight line.",
+      "action": "Sprout and Glitch slip out of frame on the right. DAME NOBLE turns to say something to Sprout and freezes — a quick whip-pan to the empty patch of floor. She kneels and picks up the small teddy bear left behind, holding it up in close-up as her expression drops. PIXEL spins around, eyes wide. BOT steps forward and projects a cyan scanning grid across the whole floor; the grid sweeps and a trail of small purple cubes LIGHTS UP one after another, leading off to the right. SIR SHIELDY's helmet crest flares with golden light as his face sets — concerned, steady, never panicked — and he points firmly to the right, rallying the group into a tight line, bodies turned to the right, ready to run.",
       "dialogue": [
         {
           "who": "DAME NOBLE",
@@ -294,7 +298,9 @@
           "line": "Then we go now. Nobody searches alone."
         }
       ],
-      "camera": "Handheld-feel push toward Dame Noble as she kneels, then a swing to the rallying line."
+      "camera": "Whip-pan to the empty floor, push-in on Dame Noble and the teddy bear, pull back as Bot's grid sweeps, snap to the rallying line for the final frame.",
+      "fx": "Whip-pan, Bot's cyan scanning grid sweeping the floor, purple cube trail igniting cube by cube, Shieldy's crest flare, a soft golden pulse of light as he points.",
+      "sound": "A record-scratch-like stop as Dame Noble freezes, soft worried gasp, Bot's scanning beeps and a rising electronic hum, cubes chiming as they light, a determined whoosh on Shieldy's point."
     },
     {
       "n": 4,
@@ -307,7 +313,7 @@
         "SPROUT",
         "GLITCH"
       ],
-      "action": "GLITCH leads SPROUT deeper between the tall narrow towers, glancing back repeatedly to check they are still following. He stops at a swirling violet spiral doorway set into a crystal wall — soft, mysterious, not menacing — and gestures grandly for SPROUT to step through first. The golden orb drifts toward the doorway, pulling SPROUT's gaze with it. SPROUT looks at the doorway, then back the long way they came, suddenly aware of how far from home they are. SPROUT's small shoulders tense. They stop walking and plant their feet. GLITCH's friendly smile stretches thinner and more forced as he beckons harder.",
+      "action": "GLITCH leads SPROUT deeper between the tall narrow towers, the golden orb floating ahead like a lantern; the crystal walls close in and the light cools to blue. GLITCH glances back repeatedly to check Sprout is still following. He stops at a crystal wall, spreads his arms, and a SWIRLING VIOLET PORTAL spins into existence from a crack in the crystal — a vortex of light that pulls loose light-motes spiralling into it. He bows and gestures grandly for SPROUT to step through first. The orb drifts toward the portal, tugging SPROUT's gaze. SPROUT looks at the portal, then back the long way they came, suddenly aware of how far from home they are. SPROUT's small shoulders tense; they stop walking and plant their feet. GLITCH's friendly smile stretches into a huge forced grin as he beckons harder.",
       "dialogue": [
         {
           "who": "GLITCH",
@@ -326,7 +332,9 @@
           "line": "...Why do we have to be quick?"
         }
       ],
-      "camera": "Tracking beside them through the passage, settling to a two-shot as Sprout stops."
+      "camera": "Tracking beside them through the narrowing passage, a dramatic low angle as the portal opens, then settling to the two-shot of the final frame as Sprout stops.",
+      "fx": "Lantern-like orb glow, the portal spinning open from a crack with a vortex of violet light, light-motes being drawn into the swirl, cool volumetric rays.",
+      "sound": "Footsteps echoing in crystal, a deep rising hum and a whoosh as the portal opens, wind being pulled toward the vortex, Glitch's wheedling tone."
     },
     {
       "n": 5,
@@ -341,7 +349,7 @@
         "BOT",
         "DAME NOBLE"
       ],
-      "action": "The heroes hurry out of the courtyard and along a wide crystal avenue following the faint purple sparkle-cubes. The trail splits into two faint paths. BOT stops, projects a cone of cyan scanning light down the left path and states his conclusion with total flat confidence. The group begins to follow BOT — but DAME NOBLE pauses, kneels, and touches the sparkles on the floor, examining them properly. She shakes her head, stands, and points firmly down the right path toward a narrow gap between two towers. BOT's eyes blink, recalculate, and he gives a small accepting nod without embarrassment. SIR SHIELDY puts a reassuring hand on BOT's shoulder. The group turns together and heads for the gap.",
+      "action": "The heroes SPRINT out of the courtyard and along the wide crystal avenue following the glowing purple trail — the camera races alongside them. PIXEL vaults over a low crystal ledge, BOT glides fast on his feet, SIR SHIELDY's cape streams behind him, DAME NOBLE runs ahead scanning the floor. The trail SPLITS into two glowing paths. BOT skids to a stop, projects a cone of cyan scanning light down the left path, and states his conclusion with total flat confidence. The group starts to follow BOT — but DAME NOBLE stops, kneels, and touches the cubes on the right path: they PULSE brighter and warmer under her hand. She shakes her head, stands, and points firmly down the right path toward a narrow gap between two towers. BOT's eyes blink, recalculate, and he gives a small accepting nod. SIR SHIELDY puts a reassuring hand on BOT's shoulder. The group turns together and heads for the gap.",
       "dialogue": [
         {
           "who": "BOT",
@@ -364,7 +372,9 @@
           "line": "Being sure is easy, Bot. Checking is what keeps us right."
         }
       ],
-      "camera": "Travelling shot alongside the group, settling for Dame Noble's kneel, then rising as they turn toward the gap."
+      "camera": "Fast tracking shot alongside the running group, a skid-stop at the fork, a low close-up on Dame Noble's hand and the pulsing cubes, then rising as they turn toward the gap for the final frame.",
+      "fx": "Speed streaks and light-motes whipping past, the trail splitting into two glowing paths, Bot's cyan scan cone, the warm cubes pulsing under Dame Noble's hand.",
+      "sound": "Rapid footsteps, whooshing wind, a skid, Bot's confident beeps, a warm pulsing tone as the cubes glow, a determined whoosh as they turn."
     },
     {
       "n": 6,
@@ -377,7 +387,7 @@
         "SPROUT",
         "GLITCH"
       ],
-      "action": "SPROUT does not move. GLITCH's friendly act begins to crack — his welcoming smile falters, his cheerful purple flickers toward a harder violet, and his sweet coaxing gestures turn impatient and grabby as he reaches for SPROUT's hand. SPROUT pulls their hand back and takes a deliberate step backwards. As GLITCH's pretend friendliness falls away, the beautiful golden orb flickers, thins, and is revealed to be hollow — an empty shell of light with nothing inside. SPROUT stares at the empty orb, then at GLITCH, understanding landing on their small face. SPROUT plants their feet, closes both little fists and stands tall.",
+      "action": "SPROUT does not move. GLITCH's friendly act starts to CRACK: his colours flicker like a glitching screen, his welcoming smile stutters and flips into a frown, and his sweet coaxing gestures turn impatient and grabby as he lunges for SPROUT's hand. SPROUT pulls their hand back and takes a deliberate step backwards. As GLITCH's pretend friendliness falls away, the beautiful golden orb FLICKERS, thins to a hollow shell of light, and cracks like glass — revealing nothing inside. SPROUT stares at the empty orb, then at GLITCH, and understanding lands on their small face. SPROUT plants both feet, closes both little fists, lifts their chin — and the tiny shield emblem on their chest gives off a first small spark of golden light.",
       "dialogue": [
         {
           "who": "GLITCH",
@@ -396,7 +406,9 @@
           "line": "Then you were never my friend at all."
         }
       ],
-      "camera": "Slow push-in on Sprout as they realise, then a reverse on Glitch losing the mask."
+      "camera": "Slow push-in on Sprout as they hold their ground, a quick reverse on Glitch as the mask slips, then back to Sprout standing tall for the final frame.",
+      "fx": "Glitch's colours flickering like a broken screen with scattering pixel cubes, the orb cracking open as a hollow shell, a tiny golden spark on Sprout's chest emblem.",
+      "sound": "Digital static crackle as Glitch flickers, a glassy crack as the orb breaks, a soft brave chime as Sprout's emblem sparks."
     },
     {
       "n": 7,
@@ -413,7 +425,7 @@
         "SPROUT",
         "DAME NOBLE"
       ],
-      "action": "SPROUT takes a deep breath, turns toward the way they came, cups both mittened hands around their mouth and shouts for their friends with everything they have. The shout travels visibly as expanding rings of warm golden light through the crystal towers. GLITCH flinches and shrinks back from the light. The four heroes burst into frame from the left at a run — PIXEL first and fastest, SIR SHIELDY close behind, DAME NOBLE and BOT following. DAME NOBLE drops to her knees and gathers SPROUT in, checking they are unharmed. SIR SHIELDY steps protectively between SPROUT and GLITCH, arms open wide, shielding without any violence. The hollow orb collapses into harmless golden sparkles. GLITCH deflates, shrinking small and sheepish at the edge of frame.",
+      "action": "SPROUT takes a deep breath, turns toward the way they came, cups both mittened hands around their mouth and SHOUTS for their friends with everything they have. The shout bursts out as expanding golden rings of light — a shockwave that races away through the crystal passages, making every crystal it passes ring and glow — and the camera rushes along with the rings and back. GLITCH flinches and shrinks back from the light. The four heroes BURST into frame from the left at a run: PIXEL first, sliding in on his knees; SIR SHIELDY close behind with his cape flying; DAME NOBLE and BOT right after. DAME NOBLE drops to her knees and gathers SPROUT in, checking they are unharmed. SIR SHIELDY steps protectively between SPROUT and GLITCH, arms spread wide, and his lightning crest flares a dome of golden light — shielding without any violence. The hollow orb collapses into harmless golden sparkles. GLITCH deflates, shrinking small and sheepish at the right edge of frame.",
       "dialogue": [
         {
           "who": "SPROUT",
@@ -436,7 +448,9 @@
           "line": "You called for us. That was the bravest thing you could do."
         }
       ],
-      "camera": "Wide as the shout rings out; the heroes rush in from the left; settle to a protective group composition."
+      "camera": "Wide as the shout rings out, a rush along with the shockwave and back, the heroes slide in from the left, then settling to the protective group composition of the final frame.",
+      "fx": "Golden shockwave rings from the shout, crystals ringing and glowing as the wave passes, speed streaks on the heroes' entrance, Shieldy's crest flaring a dome of light, the orb collapsing into sparkles.",
+      "sound": "Sprout's big shout with a long echo, bell-like crystal resonance rippling outward, running footsteps and a knee-slide, a triumphant whoosh as the shield light flares, a soft sparkle as the orb dissolves."
     },
     {
       "n": 8,
@@ -453,7 +467,7 @@
         "SPROUT",
         "DAME NOBLE"
       ],
-      "action": "GLITCH sputters, shrugs, and fizzles harmlessly away into a puff of pink and purple sparkle-cubes — comic and defeated, never hurt. The light warms from cool blue to full gold as the group walks home together through the crystal realm: SIR SHIELDY lifts SPROUT onto his shoulders, PIXEL bounds alongside, BOT walks steadily, DAME NOBLE hands SPROUT back the teddy bear. They arrive in the sunlit courtyard, turn to face the camera and stand together in a hero line as a soft dome of warm golden light glows over all of them. SPROUT, on Shieldy's shoulders, holds the teddy bear up high and beams.",
+      "action": "GLITCH sputters, gives a comic shrug, and POPS into a puff of pink and purple pixel-cube confetti that bounces harmlessly across the floor — defeated, never hurt. The light warms from cool blue to full gold as the group walks home through the crystal realm: SIR SHIELDY lifts SPROUT onto his shoulders, PIXEL bounds alongside, BOT walks steadily, DAME NOBLE hands SPROUT back the teddy bear. As they pass, each crystal tower lights up gold in turn like a wave of applause. They arrive in the sunlit courtyard, turn to face the camera and stand together in a hero line; their shields and crests light up in unison and a soft dome of warm golden light rises over all of them. SPROUT, on Shieldy's shoulders, holds the teddy bear up high and beams.",
       "dialogue": [
         {
           "who": "SPROUT",
@@ -480,7 +494,10 @@
           "line": "That's all we ask. Shield up, Knights."
         }
       ],
-      "camera": "Walking tracking shot home, rising into a warm hero wide shot for the final beat."
+      "camera": "Close on Glitch's pop, then a walking tracking shot home, rising into the warm hero wide shot of the final frame.",
+      "fx": "Glitch's confetti-cube pop, the light warming from blue to gold, towers lighting up in a golden wave as the heroes pass, shields glowing in unison, the golden dome rising over the group.",
+      "sound": "A comic pop and bouncing confetti cubes, a warm swelling tone as the towers light, happy footsteps, a bright chime on the final line."
     }
-  ]
+  ],
+  "AUDIO_RULE": "AUDIO: clear lip-synced dialogue, vivid sound effects and ambience as described. NO background music and NO singing in this clip — the score is added afterwards."
 }
