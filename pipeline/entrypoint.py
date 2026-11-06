@@ -433,15 +433,28 @@ def publish_to_platforms(mp4_path, title, caption, script=None):
         # YouTube has its own separate synthetic-media disclosure (not
         # covered by TikTok's is_aigc above) — same honesty requirement.
         "containsSyntheticMedia": "true",
-        # Deliberately NOT setting selfDeclaredMadeForKids here: the DSK
-        # YouTube channel has "Made for Kids" set at the channel level
-        # (confirmed with the owner), so every upload inherits it. An
-        # explicit per-video value would override that — don't.
         "categoryId": "27",  # Education — closer fit than upload-post's default "22"
         "defaultLanguage": "en",
         "defaultAudioLanguage": "en-US",
     }
+    # Audience, declared per video rather than inherited from the channel.
+    #
+    # Everything used to inherit the channel-level "Made for Kids" flag,
+    # and that setting is why the channel gets almost no reach: such a
+    # video has comments disabled, sends no notification to subscribers,
+    # and is largely kept out of the recommendation feed signed-in adults
+    # see. DSK's discovery audience is parents — they find it, subscribe,
+    # and show it to their kids — so routing every upload into YouTube
+    # Kids optimises for the wrong half of the audience.
+    #
+    # The fix is not to mislabel. A short where a mascot talks straight to
+    # a child IS child-directed, and the COPPA penalty is $53,088 per
+    # video (the figure DSK's own sources page cites). So each script
+    # states who it is for, and a script that doesn't state it stays
+    # made-for-kids, which is the safe default rather than the useful one.
     if script is not None:
+        kids = script.get("audience", "kids") == "kids"
+        data["selfDeclaredMadeForKids"] = "true" if kids else "false"
         data["youtube_description"] = make_youtube_description(script, caption)
         data["tags[]"] = make_youtube_tags(script)  # requests expands a list value into repeated form fields
     with open(mp4_path, "rb") as f:

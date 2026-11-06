@@ -62,8 +62,12 @@ This film's animation and music are AI-generated; the story, the script and ever
         "tags[]": tags,
         "categoryId": "27",            # Education
         "privacyStatus": "public",
-        # The channel is Made-for-Kids at channel level (see entrypoint.py);
-        # an explicit per-video value would override it, so it is not sent.
+        # Stated per video rather than inherited from the channel (see the
+        # long note in entrypoint.py). The films are animated stories told
+        # to children, so this one is honestly "true" — which does cost
+        # reach, and is why the parent-facing material is where the
+        # channel's growth has to come from.
+        "selfDeclaredMadeForKids": "true",
         "containsSyntheticMedia": "true",
         "defaultLanguage": "en",
         "defaultAudioLanguage": "en-US",

@@ -4,6 +4,7 @@
     "title": "Knight Rule: Real Names Stay Off Chat",
     "title_tr": "Şövalye Kuralı: Gerçek İsim Sohbete Girmez",
     "title_es": "Regla del Caballero: tu nombre real no va al chat",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -15,6 +16,7 @@
     "title": "Glitch Alert: Free Robux Trap",
     "title_tr": "Glitch Alarmı: Bedava Robux Tuzağı",
     "title_es": "Alerta Glitch: la trampa de los Robux gratis",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -27,6 +29,7 @@
     "title": "Passwords Are Secrets",
     "title_tr": "Şifreler Sırdır",
     "title_es": "Las contraseñas son secretos",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -38,6 +41,7 @@
     "title": "Bot Says: Confidently Wrong",
     "title_tr": "Bot Diyor ki: Emin ama Yanlış",
     "title_es": "Bot dice: muy seguro y muy equivocado",
+    "audience": "kids",
     "characters": [
       "bot",
       "shieldy"
@@ -49,6 +53,7 @@
     "title": "Voice Clone Scam: The Family Code Word",
     "title_tr": "Ses Klonu Dolandırıcılığı: Ailenin Parolası",
     "title_es": "Estafa de voz clonada: la palabra clave familiar",
+    "audience": "kids",
     "characters": [
       "glitch",
       "shieldy"
@@ -60,6 +65,7 @@
     "title": "Grooming Watch: Stranger Asks Personal Questions",
     "title_tr": "Kandırma (Grooming) Uyarısı: Yabancı Özel Sorular Soruyor",
     "title_es": "Alerta de grooming: un desconocido hace preguntas personales",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -72,6 +78,7 @@
     "title": "The Friend Who Never Says You're Wrong",
     "title_tr": "Sana Asla Yanılıyorsun Demeyen Arkadaş",
     "title_es": "El amigo que nunca te dice que te equivocas",
+    "audience": "kids",
     "characters": [
       "pixel",
       "sprout",
@@ -84,6 +91,7 @@
     "title": "Where Your Secrets Actually Go",
     "title_tr": "Sırların Aslında Nereye Gidiyor",
     "title_es": "A dónde van realmente tus secretos",
+    "audience": "kids",
     "characters": [
       "sprout",
       "dame-noble"
@@ -95,6 +103,7 @@
     "title": "Anyone Can Wear a Familiar Face",
     "title_tr": "Tanıdık Bir Yüzü Herkes Takabilir",
     "title_es": "Cualquiera puede ponerse una cara conocida",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -107,6 +116,7 @@
     "title": "That Picture Isn't You — and You're Not in Trouble",
     "title_tr": "O Fotoğraf Sen Değilsin — ve Suçlu da Değilsin",
     "title_es": "Esa foto no eres tú — y no estás en problemas",
+    "audience": "kids",
     "characters": [
       "sprout",
       "shieldy",
@@ -119,6 +129,7 @@
     "title": "That Voice Might Not Be Theirs",
     "title_tr": "O Ses Onlara Ait Olmayabilir",
     "title_es": "Esa voz puede no ser la suya",
+    "audience": "kids",
     "characters": [
       "glitch",
       "sprout",
@@ -131,6 +142,7 @@
     "title": "Every Prize Was Empty",
     "title_tr": "Bütün Ödüller Boştu",
     "title_es": "Todos los premios estaban vacíos",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -143,6 +155,7 @@
     "title": "The Gift With Too Many Hands",
     "title_tr": "Çok Fazla Eli Olan Hediye",
     "title_es": "El regalo con demasiadas manos",
+    "audience": "kids",
     "characters": [
       "glitch",
       "sprout",
@@ -155,6 +168,7 @@
     "title": "Made Of Other People's Photos",
     "title_tr": "Başkalarının Fotoğraflarından Yapılmış",
     "title_es": "Hecho con fotos de otras personas",
+    "audience": "kids",
     "characters": [
       "glitch",
       "dame-noble",
@@ -167,6 +181,7 @@
     "title": "Hurry Is the Trick",
     "title_tr": "Acele Ettirmek Numaranın Kendisidir",
     "title_es": "La prisa es el truco",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -179,6 +194,7 @@
     "title": "“Let's Talk Somewhere Else” Is the Warning",
     "title_tr": "“Başka Yerde Konuşalım” Uyarının Ta Kendisidir",
     "title_es": "“Hablemos en otro lado” es la señal de alerta",
+    "audience": "kids",
     "source": "Australia's eSafety regulator and reporting on Roblox: predators try to move children off the platform to email or messaging.",
     "characters": [
       "glitch",
@@ -192,6 +208,7 @@
     "title": "An Avatar Has No Age",
     "title_tr": "Avatarın Yaşı Olmaz",
     "title_es": "Un avatar no tiene edad",
+    "audience": "kids",
     "source": "eSafety findings that adults could see and send connection requests to child accounts.",
     "characters": [
       "glitch",
@@ -205,6 +222,7 @@
     "title": "Telling the Game Isn't Tattling",
     "title_tr": "Oyuna Bildirmek Ispiyonculuk Değildir",
     "title_es": "Reportar en el juego no es acusar",
+    "audience": "kids",
     "source": "eSafety required Roblox to provide accessible in-game reporting mechanisms.",
     "characters": [
       "sprout",
@@ -218,6 +236,7 @@
     "title": "Some Answers Are Adverts",
     "title_tr": "Bazı Cevaplar Aslında Reklamdır",
     "title_es": "Algunas respuestas son publicidad",
+    "audience": "kids",
     "source": "UN report warning that companies place advertising inside AI-generated results and summaries.",
     "characters": [
       "bot",
@@ -231,6 +250,7 @@
     "title": "The Age Gate Is There For You",
     "title_tr": "Yaş Sınırı Senin İçin Var",
     "title_es": "El límite de edad está ahí por ti",
+    "audience": "kids",
     "source": "eSafety required age-verification checks; reporting on children bypassing age limits.",
     "characters": [
       "glitch",
@@ -244,6 +264,7 @@
     "title": "A Friend Wants You to Have Other Friends",
     "title_tr": "Gerçek Arkadaş Başka Arkadaşların Olmasını İster",
     "title_es": "Un amigo de verdad quiere que tengas otros amigos",
+    "audience": "kids",
     "characters": [
       "pixel",
       "glitch",
@@ -256,6 +277,7 @@
     "title": "Verify Before You Accept",
     "title_tr": "Kabul Etmeden Önce Doğrula",
     "title_es": "Verifica antes de aceptar",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -268,6 +290,7 @@
     "title": "If Anyone Ever Pressures You, Come Tell Me",
     "title_tr": "Biri Seni Zorlarsa Gelip Bana Söyle",
     "title_es": "Si alguien te presiona, ven y cuéntamelo",
+    "audience": "kids",
     "characters": [
       "shieldy",
       "dame-noble"
@@ -279,6 +302,7 @@
     "title": "The Feed Is Built to Keep You Scrolling",
     "title_tr": "Akış Seni Kaydırmaya Devam Ettirmek İçin Yapıldı",
     "title_es": "El feed está hecho para que sigas deslizando",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -290,6 +314,7 @@
     "title": "End It and Tell a Grown-Up",
     "title_tr": "Yayını Kapat ve Bir Yetişkine Söyle",
     "title_es": "Corta la transmisión y avisa a un adulto",
+    "audience": "kids",
     "characters": [
       "glitch",
       "shieldy"
@@ -301,6 +326,7 @@
     "title": "The Family Tech Reset",
     "title_tr": "Ailece Teknoloji Sıfırlaması",
     "title_es": "El reinicio tecnológico en familia",
+    "audience": "kids",
     "characters": [
       "shieldy",
       "dame-noble",
@@ -313,6 +339,7 @@
     "title": "AI Helps You Learn, Not Cheat",
     "title_tr": "Yapay Zeka Öğrenmene Yardım Eder, Kopyana Değil",
     "title_es": "La IA te ayuda a aprender, no a copiar",
+    "audience": "kids",
     "characters": [
       "bot",
       "pixel",
@@ -325,6 +352,7 @@
     "title": "Speak Up, Shield Up",
     "title_tr": "Sesini Çıkar, Kalkanını Kaldır",
     "title_es": "Alza la voz, levanta el escudo",
+    "audience": "kids",
     "characters": [
       "dame-noble",
       "pixel",
@@ -337,6 +365,7 @@
     "title": "Fake Images, Real Crimes",
     "title_tr": "Sahte Görüntüler, Gerçek Suçlar",
     "title_es": "Imágenes falsas, delitos reales",
+    "audience": "kids",
     "characters": [
       "glitch",
       "shieldy"
@@ -348,6 +377,7 @@
     "title": "The Shield Up Squad",
     "title_tr": "Kalkan Yukarı Ekibi",
     "title_es": "El Escuadrón Escudo Arriba",
+    "audience": "kids",
     "characters": [
       "shieldy",
       "pixel",
@@ -363,6 +393,7 @@
     "title": "The Friend Who Was Never Real",
     "title_tr": "Hiç Var Olmamış Arkadaş",
     "title_es": "El amigo que nunca existió",
+    "audience": "kids",
     "characters": [
       "pixel",
       "bot",
@@ -376,6 +407,7 @@
     "title": "The Secret Emoji SOS",
     "title_tr": "Gizli Emoji İmdat İşareti",
     "title_es": "La señal de auxilio con emoji",
+    "audience": "kids",
     "characters": [
       "sprout",
       "shieldy",
@@ -388,6 +420,7 @@
     "title": "The Loot Box Isn't Luck",
     "title_tr": "Ganimet Sandığı Şans Değildir",
     "title_es": "La caja de botín no es suerte",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -400,6 +433,7 @@
     "title": "When Your Toy Asks Too Many Questions",
     "title_tr": "Oyuncağın Fazla Soru Sorduğunda",
     "title_es": "Cuando tu juguete hace demasiadas preguntas",
+    "audience": "kids",
     "characters": [
       "bot",
       "sprout",
@@ -412,6 +446,7 @@
     "title": "A Checkmark Isn't Proof",
     "title_tr": "Mavi Tik Kanıt Değildir",
     "title_es": "Una palomita azul no es prueba",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -424,6 +459,7 @@
     "title": "Disappearing Doesn't Mean Gone",
     "title_tr": "Kaybolması Yok Olduğu Anlamına Gelmez",
     "title_es": "Que desaparezca no significa que se haya ido",
+    "audience": "kids",
     "characters": [
       "glitch",
       "dame-noble",
@@ -436,6 +472,7 @@
     "title": "The Code That Wasn't a Prize",
     "title_tr": "Ödül Değil, Tuzak Olan Kare Kod",
     "title_es": "El código que no era un premio",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -448,6 +485,7 @@
     "title": "Real Help Never Asks for a Gift Card",
     "title_tr": "Gerçek Yardım Asla Hediye Kartı İstemez",
     "title_es": "La ayuda real nunca te pide una tarjeta de regalo",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -460,6 +498,7 @@
     "title": "If the Trade Feels Off, Say No",
     "title_tr": "Takas Sana Ters Geliyorsa Hayır De",
     "title_es": "Si el intercambio te huele mal, di que no",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -472,6 +511,7 @@
     "title": "A Program Isn't a Friend",
     "title_tr": "Bir Program Arkadaş Değildir",
     "title_es": "Un programa no es un amigo",
+    "audience": "kids",
     "characters": [
       "bot",
       "pixel",
@@ -484,6 +524,7 @@
     "title": "One Key Shouldn't Open Every Door",
     "title_tr": "Tek Anahtar Bütün Kapıları Açmamalı",
     "title_es": "Una sola llave no debe abrir todas las puertas",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -495,6 +536,7 @@
     "title": "Support Never DMs You First",
     "title_tr": "Destek Ekibi Sana Önce Mesaj Atmaz",
     "title_es": "Soporte nunca te escribe primero",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -507,6 +549,7 @@
     "title": "A New App Doesn't Need Everything",
     "title_tr": "Yeni Bir Uygulamanın Her Şeye İhtiyacı Yok",
     "title_es": "Una app nueva no necesita todo",
+    "audience": "kids",
     "characters": [
       "bot",
       "sprout",
@@ -519,6 +562,7 @@
     "title": "A Dare Is Not a Rule",
     "title_tr": "Cesaret Oyunu Kural Değildir",
     "title_es": "Un reto no es una regla",
+    "audience": "kids",
     "characters": [
       "pixel",
       "sprout",
@@ -531,6 +575,7 @@
     "title": "A Video Isn't a Promise",
     "title_tr": "Video Söz Vermek Değildir",
     "title_es": "Un video no es una promesa",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -542,6 +587,7 @@
     "title": "An App Doesn't Need Your Whole Life",
     "title_tr": "Bir Uygulamaya Bütün Hayatın Gerekmez",
     "title_es": "Una app no necesita toda tu vida",
+    "audience": "kids",
     "characters": [
       "sprout",
       "dame-noble"
@@ -553,6 +599,7 @@
     "title": "Tricking a Filter Doesn't Make It Okay",
     "title_tr": "Filtreyi Kandırmak Onu Doğru Yapmaz",
     "title_es": "Engañar al filtro no lo hace correcto",
+    "audience": "kids",
     "characters": [
       "glitch",
       "bot"
@@ -564,6 +611,7 @@
     "title": "A Crowd of Strangers Overnight",
     "title_tr": "Bir Gecede Bir Yabancı Kalabalığı",
     "title_es": "Una multitud de desconocidos de la noche a la mañana",
+    "audience": "kids",
     "characters": [
       "pixel",
       "dame-noble"
@@ -575,6 +623,7 @@
     "title": "A Picture of Words Can Lie Too",
     "title_tr": "Yazı Ekran Görüntüsü de Yalan Söyleyebilir",
     "title_es": "Una captura de texto también puede mentir",
+    "audience": "kids",
     "characters": [
       "sprout",
       "pixel",
@@ -587,6 +636,7 @@
     "title": "A Prize That Asks First",
     "title_tr": "Önce Bir Şey İsteyen Ödül",
     "title_es": "Un premio que primero te pide algo",
+    "audience": "kids",
     "characters": [
       "bot",
       "shieldy"
@@ -598,6 +648,7 @@
     "title": "Muting Is Not Losing",
     "title_tr": "Sesi Kapatmak Yenilmek Değildir",
     "title_es": "Silenciar no es perder",
+    "audience": "kids",
     "characters": [
       "pixel",
       "shieldy"
@@ -609,6 +660,7 @@
     "title": "A Pile-On Is Still Bullying",
     "title_tr": "Topluca Üstüne Gitmek de Zorbalıktır",
     "title_es": "Atacar en grupo también es acoso",
+    "audience": "kids",
     "characters": [
       "sprout",
       "dame-noble"
@@ -620,6 +672,7 @@
     "title": "Knocking Down What Someone Built",
     "title_tr": "Birinin Kurduğunu Yıkmak",
     "title_es": "Derribar lo que alguien construyó",
+    "audience": "kids",
     "characters": [
       "pixel",
       "dame-noble"
@@ -631,6 +684,7 @@
     "title": "You Don't Owe Anyone a Reaction",
     "title_tr": "Kimseye Tepki Vermek Zorunda Değilsin",
     "title_es": "No le debes una reacción a nadie",
+    "audience": "kids",
     "characters": [
       "sprout",
       "shieldy"
@@ -642,6 +696,7 @@
     "title": "A Game Name Can Lead Home",
     "title_tr": "Oyun İsmi Evine Kadar Götürebilir",
     "title_es": "Un nombre de jugador puede llevar hasta tu casa",
+    "audience": "kids",
     "characters": [
       "pixel",
       "dame-noble"
@@ -653,6 +708,7 @@
     "title": "Never Hand Over the Controller",
     "title_tr": "Kumandayı Asla Teslim Etme",
     "title_es": "Nunca entregues el control",
+    "audience": "kids",
     "characters": [
       "glitch",
       "pixel",
@@ -665,6 +721,7 @@
     "title": "A Code Can Hide a Door",
     "title_tr": "Bir Kod Kapı Gizleyebilir",
     "title_es": "Un código puede esconder una puerta",
+    "audience": "kids",
     "characters": [
       "glitch",
       "bot"
@@ -676,6 +733,7 @@
     "title": "A Hidden Account Is a Heavy Secret",
     "title_tr": "Gizli Hesap Ağır Bir Sırdır",
     "title_es": "Una cuenta oculta es un secreto pesado",
+    "audience": "kids",
     "characters": [
       "sprout",
       "dame-noble"
@@ -687,6 +745,7 @@
     "title": "One Call Shouldn't Move Your Key",
     "title_tr": "Tek Bir Telefon Anahtarını Taşımamalı",
     "title_es": "Una llamada no debería mover tu llave",
+    "audience": "kids",
     "characters": [
       "pixel",
       "bot",

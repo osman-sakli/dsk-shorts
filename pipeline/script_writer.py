@@ -36,6 +36,7 @@ Output ONLY a JSON object, no other text, with exactly these fields:
   "title": "Short, specific title (4-8 words) naming the lesson, not the danger alone",
   "title_tr": "The same title in Turkish",
   "title_es": "The same title in Spanish",
+  "audience": "kids",
   "characters": ["name1", "name2"],
   "prompt": "The full Seedance video-generation prompt..."
 }
@@ -47,6 +48,12 @@ use "ve" rather than "&", and the settled DSK terms — "çevrimiçi" (not "onli
 "cinsel şantaj" for sextortion, "kandırma (grooming)" for grooming. Spanish: Latin-American
 neutral, "tú" never "usted", and opening ¿ / ¡ on any question or exclamation. The video's own
 audio stays English; these are titles only.
+
+Rules for "audience": always the literal string "kids" for this kind of script. It drives YouTube's
+made-for-kids declaration, and a scene where a mascot speaks directly to a child is child-directed
+content, so it must be declared as such. Only a script written FOR PARENTS — addressing the adult
+about what their child is seeing, with no character talking to the viewer as a child — may use
+"parents", and these scripts are not that.
 
 Rules for "characters": exactly 2 or 3 names, only from: shieldy, pixel, glitch, bot, dame-noble,
 sprout.
@@ -108,6 +115,12 @@ def _parse_and_validate(raw):
     # notices until someone sweeps the rendered pages.
     title_tr = (data.get("title_tr") or "").strip()
     title_es = (data.get("title_es") or "").strip()
+    # Drives YouTube's made-for-kids declaration at publish time. Anything
+    # the model doesn't explicitly mark as parent-facing is treated as
+    # child-directed, because that is the answer that cannot be wrong.
+    audience = (data.get("audience") or "kids").strip().lower()
+    if audience not in ("kids", "parents"):
+        raise ValueError(f"audience must be 'kids' or 'parents', got {audience!r}")
     characters = [c.strip().lower() for c in data["characters"]]
     prompt = data["prompt"].strip()
 
@@ -130,7 +143,7 @@ def _parse_and_validate(raw):
         if f"@Image{i + 1}" not in prompt:
             raise ValueError(f"prompt missing @Image{i + 1} for character {characters[i]}")
 
-    return {"title": title, "title_tr": title_tr, "title_es": title_es,
+    return {"title": title, "title_tr": title_tr, "title_es": title_es, "audience": audience,
             "characters": characters, "prompt": prompt}
 
 
