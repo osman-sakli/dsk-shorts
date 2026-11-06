@@ -15,11 +15,24 @@ import sys
 VIDEO_USD_PER_SEC = {"480p": 0.2205, "720p": 0.4730, "1080p": 1.164}
 
 
+_cache = {}
+
+
 def img_tag(path, alt):
+    """Inline a review-sized JPEG (the PNG stills are ~1.4 MB each and every
+    still appears twice, which pushed the page past 30 MB)."""
     if not path.exists():
         return f'<div class="missing">{html.escape(alt)}<br><small>not generated yet</small></div>'
-    b64 = base64.b64encode(path.read_bytes()).decode()
-    return f'<img src="data:image/png;base64,{b64}" alt="{html.escape(alt)}" loading="lazy">'
+    if path not in _cache:
+        import io
+        from PIL import Image
+        im = Image.open(path).convert("RGB")
+        if im.width > 1000:
+            im = im.resize((1000, round(im.height * 1000 / im.width)), Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=82, optimize=True, progressive=True)
+        _cache[path] = base64.b64encode(buf.getvalue()).decode()
+    return f'<img src="data:image/jpeg;base64,{_cache[path]}" alt="{html.escape(alt)}" loading="lazy">'
 
 
 def main(script, out=None):
