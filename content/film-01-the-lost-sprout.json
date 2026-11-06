@@ -389,7 +389,7 @@
         "BOT",
         "DAME NOBLE"
       ],
-      "action": "The heroes SPRINT out of the courtyard and along the wide crystal avenue following the glowing purple trail — the camera races alongside them. PIXEL vaults over a low crystal ledge, BOT glides fast on his feet, SIR SHIELDY's cape streams behind him, DAME NOBLE runs ahead scanning the floor. The trail SPLITS into two glowing paths. BOT skids to a stop, projects a cone of cyan scanning light down the left path, and states his conclusion with total flat confidence. The group starts to follow BOT — but DAME NOBLE stops, kneels, and touches the cubes on the right path: they PULSE brighter and warmer under her hand. She shakes her head, stands, and points firmly down the right path toward a narrow gap between two towers. BOT's eyes blink, recalculate, and he gives a small accepting nod. SIR SHIELDY puts a reassuring hand on BOT's shoulder. The group turns together and heads for the gap.",
+      "action": "The heroes SPRINT out of the courtyard and along the wide crystal avenue following the glowing purple trail — the camera races alongside them. PIXEL vaults over a low crystal ledge, BOT glides fast on his feet, SIR SHIELDY's cape streams behind him, DAME NOBLE runs ahead scanning the floor. The trail SPLITS into two glowing paths. BOT skids to a stop, projects a cone of cyan scanning light down the left path, and states his conclusion with total flat confidence (his first line). The group starts to follow BOT — but DAME NOBLE stops, kneels, and touches the cubes on the right path: they PULSE brighter and warmer under her hand. She shakes her head, stands, and points firmly down the right path toward a narrow gap between two towers. BOT's eyes blink, recalculate, and he gives a small accepting nod. SIR SHIELDY puts a reassuring hand on BOT's shoulder. The group turns together and heads for the gap.",
       "dialogue": [
         {
           "who": "BOT",
@@ -397,11 +397,7 @@
         },
         {
           "who": "DAME NOBLE",
-          "line": "Wait. Let me check."
-        },
-        {
-          "who": "DAME NOBLE",
-          "line": "The sparks are warmer on the right. They went this way."
+          "line": "Wait, let me check. The sparks are warmer on the right. This way."
         },
         {
           "who": "BOT",

@@ -204,8 +204,8 @@ def shot_prompt(film, shot):
     ]
     if shot.get("fx"):
         parts.append("VISUAL EFFECTS: " + shot["fx"])
-    parts.append("SPOKEN DIALOGUE, in this order, clear natural child-friendly English, lips in sync, each line "
-                 "fully audible:\n" + lines)
+    parts.append("SPOKEN DIALOGUE — exactly these lines, in this order, each spoken exactly ONCE and never repeated, "
+                 "clear natural child-friendly English, lips in sync, each line fully audible. No other speech:\n" + lines)
     parts.append("CAMERA: " + shot["camera"])
     if shot.get("sound"):
         parts.append("SOUND: " + shot["sound"])
