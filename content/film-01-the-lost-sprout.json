@@ -583,5 +583,47 @@
   ],
   "AUDIO_RULE": "AUDIO: clear lip-synced dialogue, vivid sound effects and ambience as described. NO background music and NO singing in this clip — the score is added afterwards.",
   "musicModel": "elevenlabs/music/v2.5",
-  "musicLevelDb": -13
+  "musicLevelDb": -13,
+  "shorts": [
+    {
+      "id": "our-secret",
+      "start": 38,
+      "end": 60,
+      "hook": "“Don't tell the others. It's our secret.”",
+      "lesson": "A gift plus a secret is the oldest trick there is. If someone online asks a child to keep something from their parents, that is the warning sign — not the gift.",
+      "note": "shot 2 — the lure"
+    },
+    {
+      "id": "why-so-quick",
+      "start": 98,
+      "end": 120,
+      "hook": "“Why do we have to be quick?”",
+      "lesson": "Being rushed is a red flag. Anything genuinely safe survives a pause, a question, and a trusted adult.",
+      "note": "shot 4 — the secret door"
+    },
+    {
+      "id": "i-was-wrong",
+      "start": 124,
+      "end": 150,
+      "hook": "“I was sure. I was also wrong.”",
+      "lesson": "Sounding certain is not the same as being right — the same reason a confident AI answer still needs checking.",
+      "note": "shot 5 — Bot is confidently wrong"
+    },
+    {
+      "id": "never-my-friend",
+      "start": 152,
+      "end": 178,
+      "hook": "“I said what you wanted to hear.”",
+      "lesson": "Online, someone can look friendly and still not be a friend. The mask slips the moment a child stops doing what they are told.",
+      "note": "shot 6 — the mask falls"
+    },
+    {
+      "id": "bravest-thing",
+      "start": 180,
+      "end": 206,
+      "hook": "“You called for us. That was the bravest thing you could do.”",
+      "lesson": "Calling for help is the brave move. No child is ever in trouble for asking — that sentence is the whole lesson.",
+      "note": "shot 7 — the rescue"
+    }
+  ]
 }
