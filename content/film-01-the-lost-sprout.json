@@ -283,7 +283,9 @@
           "mischievous",
           "comedic",
           "light suspense"
-        ]
+        ],
+        "silent": true,
+        "why": "the lure — Glitch's 'our secret' has to land with nothing under it"
       }
     },
     {
@@ -373,7 +375,9 @@
           "ambient",
           "tense",
           "atmospheric"
-        ]
+        ],
+        "silent": true,
+        "why": "the secret door — the 'why do we have to be quick?' beat"
       }
     },
     {
@@ -463,7 +467,9 @@
           "emotional",
           "brave",
           "hybrid orchestral"
-        ]
+        ],
+        "silent": true,
+        "why": "the mask falls — the emotional core of the film"
       }
     },
     {
@@ -576,5 +582,6 @@
     }
   ],
   "AUDIO_RULE": "AUDIO: clear lip-synced dialogue, vivid sound effects and ambience as described. NO background music and NO singing in this clip — the score is added afterwards.",
-  "musicModel": "elevenlabs/music/v2.5"
+  "musicModel": "elevenlabs/music/v2.5",
+  "musicLevelDb": -13
 }

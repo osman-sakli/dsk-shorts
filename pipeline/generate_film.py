@@ -395,6 +395,35 @@ def score(film, key, m):
 
 # ---------------------------------------------------------------- stitch
 
+def music_envelope(film, ramp=1.2):
+    """A per-shot gain curve for the score, as an ffmpeg volume expression.
+
+    Music is not a bed that runs under the whole film: shots marked
+    "silent" play with none at all, so the scenes where a child has to hear
+    what is actually being said land in silence. Gains cross-fade over
+    `ramp` seconds either side of a cut so the change reads as scoring, not
+    as a dropout."""
+    secs = film["shotSeconds"]
+    gains = []
+    for s in film["shots"]:
+        mu = s.get("music") or {}
+        level = mu.get("level", film.get("musicLevelDb", -20))
+        gains.append(0.0 if mu.get("silent") else 10 ** (level / 20))
+    regions = []
+    n = len(gains)
+    for i, g in enumerate(gains):
+        end = (i + 1) * secs
+        regions.append(((end - ramp) if i < n - 1 else end, f"{g:.5f}"))
+        if i < n - 1:
+            nxt = gains[i + 1]
+            regions.append((end + ramp,
+                            f"({g:.5f}+({nxt - g:+.5f})*(t-{end - ramp:.2f})/{2 * ramp:.2f})"))
+    expr = regions[-1][1]
+    for end, val in reversed(regions[:-1]):
+        expr = f"if(lt(t,{end:.2f}),{val},{expr})"
+    return expr
+
+
 def stitch(film, music=None, music_db=-16.0):
     d = outdir(film).resolve()
     parts = [d / "shots" / f"shot{s['n']:02d}.mp4" for s in film["shots"]]
@@ -413,14 +442,24 @@ def stitch(film, music=None, music_db=-16.0):
         return joined
     final = d / f"{film['id']}.mp4"
     total = len(parts) * film["shotSeconds"]
-    # Score sits well under the dialogue, fades in/out, and loops if short.
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(joined), "-stream_loop", "-1", "-i", str(pathlib.Path(music).resolve()),
-                    "-filter_complex",
-                    f"[1:a]volume={music_db}dB,afade=t=in:d=2,afade=t=out:st={total-4}:d=4[m];"
-                    f"[0:a][m]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[a]",
+    # The score follows a per-shot gain curve and is additionally ducked
+    # under the dialogue by a sidechain compressor, so a line is never
+    # competing with the music for the same moment.
+    chain = (
+        f"[0:a]asplit=2[dia][key];"
+        f"[1:a]volume='{music_envelope(film)}':eval=frame,"
+        f"afade=t=in:d=2,afade=t=out:st={total - 4}:d=4[mraw];"
+        f"[mraw][key]sidechaincompress=threshold=0.015:ratio=12:attack=12:release=420:makeup=1[mduck];"
+        f"[dia][mduck]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]"
+    )
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(joined),
+                    "-stream_loop", "-1", "-i", str(pathlib.Path(music).resolve()),
+                    "-filter_complex", chain,
                     "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
                     "-shortest", "-movflags", "+faststart", str(final)],
                    check=True)
+    silent = [s["n"] for s in film["shots"] if (s.get("music") or {}).get("silent")]
+    log(f"Score: ducked under dialogue; no music in shot(s) {silent or 'none'}")
     log(f"With music -> {final}")
     return final
 
