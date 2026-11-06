@@ -76,6 +76,20 @@ def write_manifest(film, m):
     manifest_path(film).write_text(json.dumps(m, indent=2))
 
 
+def record(film, m, section, key, value, cost):
+    """Merge one result into the manifest on disk. Re-reads first so several
+    shots rendering in parallel processes don't overwrite each other's
+    entries or the running total."""
+    fresh = read_manifest(film)
+    if key is None:
+        fresh[section] = value
+    else:
+        fresh.setdefault(section, {})[key] = value
+    fresh["spent_usd"] = round(fresh.get("spent_usd", 0) + cost, 2)
+    write_manifest(film, fresh)
+    m.clear(); m.update(fresh)
+
+
 def kf_by_id(film):
     return {k["id"]: k for k in film["keyframes"]}
 
@@ -292,9 +306,8 @@ def gen_keyframe(film, kf, key, m):
     res = fal_post(url, payload, key, timeout=600)
     img = res["images"][0]
     size = download(img["url"], out)
-    m["keyframes"][kf["id"]] = {"fal_url": img["url"], "file": str(out), "w": img.get("width"), "h": img.get("height")}
-    m["spent_usd"] = round(m.get("spent_usd", 0) + IMAGE_USD, 2)
-    write_manifest(film, m)
+    record(film, m, "keyframes", kf["id"],
+           {"fal_url": img["url"], "file": str(out), "w": img.get("width"), "h": img.get("height")}, IMAGE_USD)
     log(f"   done {int(time.time()-t0)}s -> {out.name} {img.get('width')}x{img.get('height')} ({size//1024} KB)")
 
 
@@ -329,9 +342,8 @@ def render_shot(film, shot, key, m):
     t0 = time.time()
     res = fal_post(VIDEO_URL, payload, key, timeout=2400)
     size = download(res["video"]["url"], out)
-    m["shots"][str(shot["n"])] = {"fal_url": res["video"]["url"], "file": str(out), "seed": res.get("seed")}
-    m["spent_usd"] = round(m.get("spent_usd", 0) + cost, 2)
-    write_manifest(film, m)
+    record(film, m, "shots", str(shot["n"]),
+           {"fal_url": res["video"]["url"], "file": str(out), "seed": res.get("seed")}, cost)
     log(f"   done {int(time.time()-t0)}s -> {out.name} ({size/1_000_000:.1f} MB)   spent so far ~${m['spent_usd']:.2f}")
 
 
@@ -376,9 +388,7 @@ def score(film, key, m):
         res = fal_post(MUSIC_URL, {"prompt": prompt, "music_length_ms": len(chunks) * film["shotSeconds"] * 1000,
                                    "force_instrumental": True, "output_format": "mp3_48000_192"}, key, timeout=900)
     size = download(res["audio"]["url"], out)
-    m["score"] = {"fal_url": res["audio"]["url"], "file": str(out)}
-    m["spent_usd"] = round(m.get("spent_usd", 0) + total_min * MUSIC_USD_PER_MIN, 2)
-    write_manifest(film, m)
+    record(film, m, "score", None, {"fal_url": res["audio"]["url"], "file": str(out)}, total_min * MUSIC_USD_PER_MIN)
     log(f"   done {int(time.time()-t0)}s -> {out.name} ({size/1_000_000:.1f} MB)")
     return out
 
