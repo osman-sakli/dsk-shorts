@@ -97,29 +97,72 @@ def cast_block(film, names):
     return "\n".join(lines)
 
 
-def keyframe_prompt(film, kf, location_ref_index):
+MAX_REFS = 5  # nano-banana-pro holds ~5 references faithfully; KF09 drifted badly with 7
+
+
+def keyframe_refs(film, kf, kfdir):
+    """Ordered references: the frame being edited first (if any), then only
+    the characters that need a reference, then the location still. Crowded
+    frames are built in two passes (editOf) so no single call exceeds
+    MAX_REFS — the pass with 7 references lost every character's design."""
+    refs = []
+    if kf.get("editOf"):
+        base = kfdir / f"{kf['editOf']}.png"
+        if not base.exists():
+            raise RuntimeError(f"{kf['id']} edits {kf['editOf']}, which is not generated yet")
+        refs.append((data_uri(base), "BASE"))
+    for n in kf.get("characterRefs", kf.get("onScreen", [])):
+        refs.append((ref_url(film, n), n))
+    if kf.get("locationRef"):
+        loc = kfdir / f"{kf['locationRef']}.png"
+        if not loc.exists():
+            raise RuntimeError(f"{kf['id']} needs {kf['locationRef']} first")
+        refs.append((data_uri(loc), "LOCATION"))
+    if len(refs) > MAX_REFS:
+        raise RuntimeError(f"{kf['id']} would send {len(refs)} references (max {MAX_REFS}) — split it with editOf")
+    return refs
+
+
+def keyframe_prompt(film, kf, refs):
+    labels = [label for _, label in refs]
     on = kf.get("onScreen", [])
-    parts = [
-        "Create ONE cinematic 16:9 film still — a single frame from a Pixar-style 3D animated feature film. "
-        "Soft cinematic lighting, high detail, shallow depth of field, rich colour.",
-    ]
-    if on:
+    parts = []
+    if kf.get("editOf"):
+        parts.append(
+            "Reference image 1 is an existing frame from this film. Reproduce it EXACTLY — same composition, "
+            "same characters in the same poses, same lighting and background, same style — and make ONLY the "
+            "change described under FRAME. Do not restyle, move or remove anything else."
+        )
+    else:
+        parts.append(
+            "Create ONE cinematic 16:9 film still — a single frame from a Pixar-style 3D animated feature film. "
+            "Soft cinematic lighting, high detail, shallow depth of field, rich colour."
+        )
+    char_lines = [f"Reference image {i} = {label}: {film['CAST'][label]}"
+                  for i, (_, label) in enumerate(refs, 1) if label in film["CAST"]]
+    if char_lines:
         parts.append(
             "CHARACTERS — use the attached reference images and keep every character's exact design, proportions, "
-            "colours and outfit, each appearing exactly once:\n" + cast_block(film, on)
+            "colours and outfit, each appearing exactly once:\n" + "\n".join(char_lines)
         )
-        absent = [c for c in film["castOrder"] if c not in on]
-        if absent:
-            parts.append("NOT in this frame (do not draw them): " + ", ".join(absent) + ".")
-    else:
+    text_only = [n for n in on if n not in labels and not kf.get("editOf")]
+    for n in text_only:
+        parts.append(f"{n} (no reference attached, draw from this description): {film['CAST'][n]}")
+    if not on:
         parts.append("No characters in this frame.")
-    parts.append(film["CANONICAL_WORLD"])
-    if location_ref_index:
+    absent = [c for c in film["castOrder"] if c not in on]
+    if absent:
+        parts.append("NOT in this frame (do not draw them): " + ", ".join(absent) + ".")
+    if not kf.get("editOf"):
+        parts.append(film["CANONICAL_WORLD"])
+    if "LOCATION" in labels:
+        idx = labels.index("LOCATION") + 1
         note = kf.get("locationNote") or (
             "the EXACT same location and lighting as this frame — keep the architecture, colours and "
             "light direction identical to it"
         )
-        parts.append(f"Reference image {location_ref_index} shows {note}.")
+        parts.append(f"Reference image {idx} shows {note}. Use it for the setting only — the characters in this "
+                     "frame are exactly those listed above, nobody else.")
     parts.append("FRAME: " + kf["frame"])
     parts.append(film["NO_TEXT_CLAUSE"])
     return "\n\n".join(parts)
@@ -228,16 +271,9 @@ def gen_keyframe(film, kf, key, m):
     if out.exists():
         log(f"[{kf['id']}] exists, skipping (delete the file to regenerate)")
         return
-    on = kf.get("onScreen", [])
-    image_urls = [ref_url(film, n) for n in on]
-    loc_index = None
-    if kf.get("locationRef"):
-        loc_file = d / f"{kf['locationRef']}.png"
-        if not loc_file.exists():
-            raise RuntimeError(f"{kf['id']} needs {kf['locationRef']} first")
-        image_urls.append(data_uri(loc_file))
-        loc_index = len(image_urls)
-    prompt = keyframe_prompt(film, kf, loc_index)
+    refs = keyframe_refs(film, kf, d)
+    image_urls = [src for src, _ in refs]
+    prompt = keyframe_prompt(film, kf, refs)
     payload = {"prompt": prompt, "aspect_ratio": "16:9", "resolution": "1K", "num_images": 1, "output_format": "png"}
     url = IMAGE_T2I_URL
     if image_urls:
@@ -342,7 +378,10 @@ if __name__ == "__main__":
     if args.print_prompt:
         if args.print_prompt.upper().startswith("KF"):
             k = kf_by_id(film)[args.print_prompt.upper()]
-            print(keyframe_prompt(film, k, 99 if k.get("locationRef") else None))
+            fake = ([("", "BASE")] if k.get("editOf") else []) + \
+                   [("", n) for n in k.get("characterRefs", k.get("onScreen", []))] + \
+                   ([("", "LOCATION")] if k.get("locationRef") else [])
+            print(keyframe_prompt(film, k, fake))
         else:
             s = next(x for x in film["shots"] if x["n"] == int(args.print_prompt))
             print(shot_prompt(film, s))
