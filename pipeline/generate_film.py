@@ -349,19 +349,32 @@ def score(film, key, m):
     if out.exists():
         log("score.mp3 exists, skipping (delete to regenerate)")
         return out
+    # In a composition plan, `text` is LYRICS — the first render sang the
+    # mood descriptions out loud. Instrumental sections carry an empty text
+    # and put the description into the style list instead.
     chunks = []
     for s in film["shots"]:
         mu = s.get("music") or {"text": "cinematic orchestral underscore", "styles": ["orchestral"]}
         chunks.append({
-            "text": mu["text"],
+            "text": "",
             "duration_ms": film["shotSeconds"] * 1000,
-            "positive_styles": ["instrumental", "film score"] + mu.get("styles", []),
-            "negative_styles": ["vocals", "singing", "lyrics", "spoken word", "harsh", "distorted"],
+            "positive_styles": ["instrumental film score, no vocals", mu["text"]] + mu.get("styles", []),
+            "negative_styles": ["vocals", "singing", "lyrics", "spoken word", "choir with words", "harsh", "distorted"],
         })
     total_min = len(chunks) * film["shotSeconds"] / 60
     log(f"[score] {len(chunks)} sections x {film['shotSeconds']}s  ~${total_min*MUSIC_USD_PER_MIN:.2f}")
     t0 = time.time()
-    res = fal_post(MUSIC_URL, {"composition_plan": {"chunks": chunks}, "output_format": "mp3_48000_192"}, key, timeout=900)
+    try:
+        res = fal_post(MUSIC_URL, {"composition_plan": {"chunks": chunks}, "output_format": "mp3_48000_192"}, key, timeout=900)
+    except RuntimeError as e:
+        log(f"   composition plan rejected ({str(e)[:120]}) — falling back to a single instrumental prompt")
+        timeline = " ".join(
+            f"{i*film['shotSeconds']//60}:{i*film['shotSeconds']%60:02d}-{(i+1)*film['shotSeconds']//60}:{(i+1)*film['shotSeconds']%60:02d} {s['music']['text']}"
+            for i, s in enumerate(film["shots"]) if s.get("music"))
+        prompt = ("Instrumental cinematic orchestral score for a children's animated adventure film, no vocals. "
+                  "The music follows this timeline exactly: " + timeline)
+        res = fal_post(MUSIC_URL, {"prompt": prompt, "music_length_ms": len(chunks) * film["shotSeconds"] * 1000,
+                                   "force_instrumental": True, "output_format": "mp3_48000_192"}, key, timeout=900)
     size = download(res["audio"]["url"], out)
     m["score"] = {"fal_url": res["audio"]["url"], "file": str(out)}
     m["spent_usd"] = round(m.get("spent_usd", 0) + total_min * MUSIC_USD_PER_MIN, 2)
