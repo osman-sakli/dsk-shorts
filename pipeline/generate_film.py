@@ -335,6 +335,41 @@ def render_shot(film, shot, key, m):
     log(f"   done {int(time.time()-t0)}s -> {out.name} ({size/1_000_000:.1f} MB)   spent so far ~${m['spent_usd']:.2f}")
 
 
+# ---------------------------------------------------------------- score
+
+MUSIC_URL = "https://fal.run/elevenlabs/music/v2.5"
+MUSIC_USD_PER_MIN = 0.6
+
+
+def score(film, key, m):
+    """One continuous instrumental score whose sections follow the shots:
+    each shot's `music` text becomes a 30s chunk of an ElevenLabs
+    composition plan, so the mood turns exactly where the film does."""
+    out = outdir(film) / "score.mp3"
+    if out.exists():
+        log("score.mp3 exists, skipping (delete to regenerate)")
+        return out
+    chunks = []
+    for s in film["shots"]:
+        mu = s.get("music") or {"text": "cinematic orchestral underscore", "styles": ["orchestral"]}
+        chunks.append({
+            "text": mu["text"],
+            "duration_ms": film["shotSeconds"] * 1000,
+            "positive_styles": ["instrumental", "film score"] + mu.get("styles", []),
+            "negative_styles": ["vocals", "singing", "lyrics", "spoken word", "harsh", "distorted"],
+        })
+    total_min = len(chunks) * film["shotSeconds"] / 60
+    log(f"[score] {len(chunks)} sections x {film['shotSeconds']}s  ~${total_min*MUSIC_USD_PER_MIN:.2f}")
+    t0 = time.time()
+    res = fal_post(MUSIC_URL, {"composition_plan": {"chunks": chunks}, "output_format": "mp3_48000_192"}, key, timeout=900)
+    size = download(res["audio"]["url"], out)
+    m["score"] = {"fal_url": res["audio"]["url"], "file": str(out)}
+    m["spent_usd"] = round(m.get("spent_usd", 0) + total_min * MUSIC_USD_PER_MIN, 2)
+    write_manifest(film, m)
+    log(f"   done {int(time.time()-t0)}s -> {out.name} ({size/1_000_000:.1f} MB)")
+    return out
+
+
 # ---------------------------------------------------------------- stitch
 
 def stitch(film, music=None, music_db=-16.0):
@@ -376,7 +411,8 @@ if __name__ == "__main__":
     ap.add_argument("--shot", type=int)
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--stitch", action="store_true")
-    ap.add_argument("--music")
+    ap.add_argument("--music", help="audio file to lay under the dialogue (default: out/<film>/score.mp3 if present)")
+    ap.add_argument("--score", action="store_true", help="generate the instrumental score from the shots' music cues")
     ap.add_argument("--print-prompt", metavar="KF_or_shotN")
     args = ap.parse_args()
 
@@ -395,9 +431,12 @@ if __name__ == "__main__":
             print(shot_prompt(film, s))
         sys.exit(0)
     if args.stitch:
-        stitch(film, args.music)
+        music = args.music
+        if not music and (outdir(film) / "score.mp3").exists():
+            music = outdir(film) / "score.mp3"
+        stitch(film, music)
         sys.exit(0)
-    if args.check or (args.keyframes is None and not args.shot and not args.all):
+    if args.check or (args.keyframes is None and not args.shot and not args.all and not args.score):
         sys.exit(0 if check(film) else 1)
     if not check(film):
         sys.exit("fix the problems above before spending anything")
@@ -405,6 +444,9 @@ if __name__ == "__main__":
     key = os.environ.get("FAL_API_KEY")
     if not key:
         sys.exit("FAL_API_KEY not set")
+
+    if args.score:
+        score(film, key, m)
 
     if args.keyframes is not None:
         wanted = {k.upper() for k in args.keyframes} or None

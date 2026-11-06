@@ -226,7 +226,17 @@
       ],
       "camera": "Fast aerial dive between the towers, then a smooth descending arc around the group, settling on the comfortable group composition of the final frame.",
       "fx": "Towers lighting up in sequence, lens flares, swirling light-motes, glowing light-birds, a glint off Dame Noble's shield, Bot's cyan scan rings.",
-      "sound": "Whoosh of the camera dive, bright crystalline chimes as each tower lights, light-birds fluttering, Sprout's giggle, calm morning ambience."
+      "sound": "Whoosh of the camera dive, bright crystalline chimes as each tower lights, light-birds fluttering, Sprout's giggle, calm morning ambience.",
+      "music": {
+        "text": "Calm, bright, magical dawn — gentle strings and glockenspiel with a soft harp, warm and hopeful, gradually opening up as the heroes are revealed; the realm waking.",
+        "styles": [
+          "orchestral",
+          "children's film",
+          "gentle",
+          "magical",
+          "hopeful"
+        ]
+      }
     },
     {
       "n": 2,
@@ -264,7 +274,17 @@
       ],
       "camera": "Static wide on the chatting heroes, then the camera slides low and right to follow Glitch's sneak, drifting with Sprout and Glitch toward the edge of frame for the final composition.",
       "fx": "Glitch's pixel-cube materialisation, sparkle burst as the orb appears, hypnotic pulsing orb, golden fireflies circling Sprout, a faint purple cube trail on the floor.",
-      "sound": "Soft chatter, a crackly digital shimmer as Glitch assembles, squeaky tiptoe steps, a magical shimmer when the orb appears, a low hypnotic hum from the orb."
+      "sound": "Soft chatter, a crackly digital shimmer as Glitch assembles, squeaky tiptoe steps, a magical shimmer when the orb appears, a low hypnotic hum from the orb.",
+      "music": {
+        "text": "Playful sneaky mischief — pizzicato strings, light bassoon and clarinet, a tiptoeing comedic suspense groove, with a shimmering hypnotic celesta motif when the golden orb appears.",
+        "styles": [
+          "orchestral",
+          "playful",
+          "mischievous",
+          "comedic",
+          "light suspense"
+        ]
+      }
     },
     {
       "n": 3,
@@ -300,7 +320,17 @@
       ],
       "camera": "Whip-pan to the empty floor, push-in on Dame Noble and the teddy bear, pull back as Bot's grid sweeps, snap to the rallying line for the final frame.",
       "fx": "Whip-pan, Bot's cyan scanning grid sweeping the floor, purple cube trail igniting cube by cube, Shieldy's crest flare, a soft golden pulse of light as he points.",
-      "sound": "A record-scratch-like stop as Dame Noble freezes, soft worried gasp, Bot's scanning beeps and a rising electronic hum, cubes chiming as they light, a determined whoosh on Shieldy's point."
+      "sound": "A record-scratch-like stop as Dame Noble freezes, soft worried gasp, Bot's scanning beeps and a rising electronic hum, cubes chiming as they light, a determined whoosh on Shieldy's point.",
+      "music": {
+        "text": "A sudden soft hit of worry, then rising urgency — building strings, a steady determined pulse, resolute horns as the heroes rally; concerned but brave, never scary.",
+        "styles": [
+          "orchestral",
+          "urgent",
+          "determined",
+          "cinematic",
+          "heroic"
+        ]
+      }
     },
     {
       "n": 4,
@@ -334,7 +364,17 @@
       ],
       "camera": "Tracking beside them through the narrowing passage, a dramatic low angle as the portal opens, then settling to the two-shot of the final frame as Sprout stops.",
       "fx": "Lantern-like orb glow, the portal spinning open from a crack with a vortex of violet light, light-motes being drawn into the swirl, cool volumetric rays.",
-      "sound": "Footsteps echoing in crystal, a deep rising hum and a whoosh as the portal opens, wind being pulled toward the vortex, Glitch's wheedling tone."
+      "sound": "Footsteps echoing in crystal, a deep rising hum and a whoosh as the portal opens, wind being pulled toward the vortex, Glitch's wheedling tone.",
+      "music": {
+        "text": "Mysterious and uneasy — a low sustained pad, sparse curious piano notes, cool shimmering textures, slow-building tension as a portal opens; curious, not frightening.",
+        "styles": [
+          "cinematic",
+          "mysterious",
+          "ambient",
+          "tense",
+          "atmospheric"
+        ]
+      }
     },
     {
       "n": 5,
@@ -374,7 +414,17 @@
       ],
       "camera": "Fast tracking shot alongside the running group, a skid-stop at the fork, a low close-up on Dame Noble's hand and the pulsing cubes, then rising as they turn toward the gap for the final frame.",
       "fx": "Speed streaks and light-motes whipping past, the trail splitting into two glowing paths, Bot's cyan scan cone, the warm cubes pulsing under Dame Noble's hand.",
-      "sound": "Rapid footsteps, whooshing wind, a skid, Bot's confident beeps, a warm pulsing tone as the cubes glow, a determined whoosh as they turn."
+      "sound": "Rapid footsteps, whooshing wind, a skid, Bot's confident beeps, a warm pulsing tone as the cubes glow, a determined whoosh as they turn.",
+      "music": {
+        "text": "Fast adventure chase — driving percussion, galloping strings, bright heroic brass stabs, high energy with a brief thoughtful pause mid-way, then back to the run.",
+        "styles": [
+          "orchestral",
+          "adventure",
+          "chase",
+          "energetic",
+          "heroic"
+        ]
+      }
     },
     {
       "n": 6,
@@ -408,7 +458,17 @@
       ],
       "camera": "Slow push-in on Sprout as they hold their ground, a quick reverse on Glitch as the mask slips, then back to Sprout standing tall for the final frame.",
       "fx": "Glitch's colours flickering like a broken screen with scattering pixel cubes, the orb cracking open as a hollow shell, a tiny golden spark on Sprout's chest emblem.",
-      "sound": "Digital static crackle as Glitch flickers, a glassy crack as the orb breaks, a soft brave chime as Sprout's emblem sparks."
+      "sound": "Digital static crackle as Glitch flickers, a glassy crack as the orb breaks, a soft brave chime as Sprout's emblem sparks.",
+      "music": {
+        "text": "Tension and realisation — tremolo strings and glitchy electronic pulses as the mask slips, then a small, brave solo-piano motif rising as the little hero stands tall.",
+        "styles": [
+          "cinematic",
+          "tense",
+          "emotional",
+          "brave",
+          "hybrid orchestral"
+        ]
+      }
     },
     {
       "n": 7,
@@ -450,7 +510,17 @@
       ],
       "camera": "Wide as the shout rings out, a rush along with the shockwave and back, the heroes slide in from the left, then settling to the protective group composition of the final frame.",
       "fx": "Golden shockwave rings from the shout, crystals ringing and glowing as the wave passes, speed streaks on the heroes' entrance, Shieldy's crest flaring a dome of light, the orb collapsing into sparkles.",
-      "sound": "Sprout's big shout with a long echo, bell-like crystal resonance rippling outward, running footsteps and a knee-slide, a triumphant whoosh as the shield light flares, a soft sparkle as the orb dissolves."
+      "sound": "Sprout's big shout with a long echo, bell-like crystal resonance rippling outward, running footsteps and a knee-slide, a triumphant whoosh as the shield light flares, a soft sparkle as the orb dissolves.",
+      "music": {
+        "text": "Triumphant rescue — a big heroic orchestral swell, soaring brass and full strings, a joyful release and a warm relieved melody as the friends reunite.",
+        "styles": [
+          "orchestral",
+          "triumphant",
+          "heroic",
+          "joyful",
+          "epic"
+        ]
+      }
     },
     {
       "n": 8,
@@ -496,8 +566,19 @@
       ],
       "camera": "Close on Glitch's pop, then a walking tracking shot home, rising into the warm hero wide shot of the final frame.",
       "fx": "Glitch's confetti-cube pop, the light warming from blue to gold, towers lighting up in a golden wave as the heroes pass, shields glowing in unison, the golden dome rising over the group.",
-      "sound": "A comic pop and bouncing confetti cubes, a warm swelling tone as the towers light, happy footsteps, a bright chime on the final line."
+      "sound": "A comic pop and bouncing confetti cubes, a warm swelling tone as the towers light, happy footsteps, a bright chime on the final line.",
+      "music": {
+        "text": "Warm, happy homecoming finale — full orchestra, uplifting and gentle, a playful comic flourish at the start, building to a bright, proud final chord that resolves completely.",
+        "styles": [
+          "orchestral",
+          "uplifting",
+          "warm",
+          "finale",
+          "children's film"
+        ]
+      }
     }
   ],
-  "AUDIO_RULE": "AUDIO: clear lip-synced dialogue, vivid sound effects and ambience as described. NO background music and NO singing in this clip — the score is added afterwards."
+  "AUDIO_RULE": "AUDIO: clear lip-synced dialogue, vivid sound effects and ambience as described. NO background music and NO singing in this clip — the score is added afterwards.",
+  "musicModel": "elevenlabs/music/v2.5"
 }
