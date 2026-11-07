@@ -330,6 +330,59 @@ def make_youtube_description(script, caption):
     return "\n".join(parts)
 
 
+def upload_filename(script, suffix=".mp4"):
+    """The name the file is uploaded UNDER, which is not what it is called
+    on disk.
+
+    On disk a short is "ai-058-a-hidden-account-is-a-heavy-secret.mp4" —
+    the "ai-058-" is our production counter and means nothing to anyone
+    else. This reads as a real sentence instead: the title as written,
+    then the thing people actually search for. YouTube treats the
+    filename as a weak relevance signal and pre-fills the title from it
+    on a manual upload, so it should be something a person would click,
+    not a row in our rotation.
+    """
+    title = (script.get("title") or script.get("id", "Video")).strip()
+    topic = next(iter(topical_tags(script)), "online safety for kids")
+    # Title Case the search phrase so the whole filename reads as one line
+    # rather than a title with a lowercase tail stapled on.
+    small = {"for", "a", "an", "the", "of", "to", "and", "or", "is", "in", "on"}
+    topic = " ".join(w if w in small else w.capitalize() for w in topic.split())
+    # "|" rather than a dash: titles already contain dashes and colons,
+    # and two dashes in a row read as a stutter.
+    name = f"{title} | {topic}"
+    # A colon is illegal in a filename on some systems but carries the
+    # title's meaning, so it becomes a dash rather than vanishing.
+    name = name.replace(":", " -")
+    # Strip only what an upload actually chokes on; spaces and the rest of
+    # the punctuation stay, because they are what make it read as a line.
+    name = re.sub(r'[\\/*?"<>]', "", name)
+    name = re.sub(r"\s*-\s*-\s*", " - ", name)
+    name = re.sub(r"\s{2,}", " ", name).strip()
+    return name[:110].strip(" -") + suffix
+
+
+def topical_tags(script):
+    """Tags matched against what this video is actually about. Empty if
+    nothing matched — callers decide whether to fall back."""
+    # Hyphens become spaces so "Pile-On" matches the needle "pile on".
+    haystack = (script.get("title", "") + " " + script.get("prompt", "")).lower()
+    haystack = haystack.replace("-", " ").replace("\u2019", "'")
+
+    # Match at a word START but not necessarily its end, so "bully" finds
+    # "bullying" and "pressure" finds "pressures". Short needles stay
+    # exact-word, because a prefix match on "ai" would fire on "aim" and
+    # "air" and put AI tags on every video regardless of topic.
+    out = []
+    for needles, tags in YT_TAGS_BY_TOPIC:
+        for n in needles:
+            edge = r"\b" if len(n) <= 3 else ""
+            if re.search(r"\b" + re.escape(n) + edge, haystack):
+                out += tags
+                break
+    return out
+
+
 def make_youtube_tags(script):
     """Tags this video's own topic, for both audiences, inside YouTube's
     500-character cap.
@@ -348,13 +401,7 @@ def make_youtube_tags(script):
     # "bullying" and "pressure" finds "pressures". Short needles stay
     # exact-word, because a prefix match on "ai" would fire on "aim" and
     # "air" and put AI tags on every video regardless of topic.
-    topical = []
-    for needles, tags in YT_TAGS_BY_TOPIC:
-        for n in needles:
-            edge = r"\b" if len(n) <= 3 else ""
-            if re.search(r"\b" + re.escape(n) + edge, haystack):
-                topical += tags
-                break
+    topical = topical_tags(script)
     topical += YT_TAGS_BY_CATEGORY[categorize_script(script)]
 
     # Interleave the two audiences so neither sits entirely at the weak end.
@@ -560,10 +607,14 @@ def publish_to_platforms(mp4_path, title, caption, script=None):
         data["youtube_description"] = make_youtube_description(script, caption)
         data["tags[]"] = make_youtube_tags(script)  # requests expands a list value into repeated form fields
     with open(mp4_path, "rb") as f:
+        # Name the upload after the title, not after the file on disk —
+        # see upload_filename(). Without the explicit tuple, requests
+        # sends the on-disk basename, which is our internal id.
+        name = upload_filename(script) if script is not None else pathlib.Path(mp4_path).name
         resp = requests.post(
             "https://api.upload-post.com/api/upload",
             headers={"Authorization": f"Apikey {UPLOAD_API_KEY}"},
-            files={"video": f},
+            files={"video": (name, f, "video/mp4")},
             data=data,
             timeout=300,
         )

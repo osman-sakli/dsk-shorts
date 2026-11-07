@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import pathlib
+import re
 import sys
 
 import requests
@@ -26,17 +27,31 @@ API = "https://api.upload-post.com/api/upload"
 UPLOAD_POST_PROFILE = os.environ.get("UPLOAD_POST_PROFILE", "DSK")
 
 
-def build(film, out):
-    title = f"{film['title']} — A Digital Safety Knights Film (Episode 1)"
-    lessons = "\n".join(f"• {l}" for l in film.get("lessons", []))
-    description = f"""{film['logline']}
+def upload_filename(film, suffix=".mp4"):
+    """The name the file is uploaded UNDER. On disk it is
+    "film-01-the-lost-sprout.mp4" — the "film-01-" is our production
+    counter, and the story name alone is not something anyone searches.
+    YouTube treats the filename as a weak relevance signal and pre-fills
+    the title from it on a manual upload, so it reads as a real line."""
+    name = f"{film['title']} | Online Safety Cartoon for Kids".replace(":", " -")
+    name = re.sub(r'[\\/*?"<>]', "", name)
+    name = re.sub(r"\s{2,}", " ", name).strip()
+    return name[:110].strip(" -|") + suffix
 
-{film['title']} is the first full-length Digital Safety Knights film — a {film['runtimeSeconds'] // 60}-minute animated story for children about one of the hardest things to teach: what it feels like when someone online is too friendly, too generous, and too keen to keep it secret.
+
+def build(film, out):
+    title = f"{film['title']} | Online Safety Cartoon for Kids (Stranger Danger)"
+    lessons = "\n".join(f"• {l}" for l in film.get("lessons", []))
+    description = f"""An online safety cartoon for kids about stranger danger — and the oldest trick online: someone who is a little too friendly, too generous, and too keen to keep it secret.
+
+{film['logline']}
+
+{film['title']} is the first full-length Digital Safety Knights film: a {film['runtimeSeconds'] // 60}-minute animated story for children aged {film.get('ages', '5-10').replace('Ages ', '')}, free to watch and free to share with a classroom.
 
 What the film teaches:
 {lessons}
 
-Digital Safety Knights is a free nonprofit that teaches children and families how to stay safe online — scams, AI chatbots and deepfakes, strangers, cyberbullying and privacy. Everything we make is free, in English, Spanish and Turkish: short videos, quizzes, printable guides for parents, and live workshops for schools and community organisations.
+Digital Safety Knights is a free nonprofit that teaches children and families how to stay safe online — scams, AI chatbots and deepfakes, online grooming and strangers, cyberbullying and privacy. Everything we make is free, in English, Spanish, French and Turkish: short videos, quizzes, printable internet safety guides for parents, and live workshops for schools and community organisations.
 
 Watch this film, the short episodes and the quizzes:
 https://digitalsafetyknights.org/films.html
@@ -49,11 +64,15 @@ If something ever happens online that worries a child: tell a trusted adult firs
 
 This film's animation and music are AI-generated; the story, the script and every safety message in it are written and reviewed by our team.
 
-#onlinesafety #digitalsafety #parenting #kidsafety #animation"""
-    tags = ["online safety", "digital safety", "kids safety", "internet safety for kids",
-            "stranger danger", "online predators", "parenting", "child safety",
-            "animated short film", "digital safety knights", "cyber safety", "online grooming",
-            "safety for children", "educational animation"]
+#onlinesafety #strangerdanger #cartoonforkids"""
+    tags = ["online safety for kids", "cartoon for kids", "internet safety for kids",
+            "animated story for kids", "stranger danger", "adventure cartoon",
+            "online predators", "knight cartoon", "grooming awareness", "roblox animation",
+            "how to talk to your kids about online safety", "roblox story",
+            "teaching kids internet safety", "short film for kids",
+            "internet safety video for classroom", "funny cartoon", "kids adventure",
+            "kids cartoon", "learning videos for kids", "3d animation", "online safety",
+            "kids videos", "digital safety knights"]
     return {
         "user": UPLOAD_POST_PROFILE,
         "platform[]": None,  # filled per run
@@ -116,9 +135,9 @@ def main():
         resp = requests.post(
             API,
             headers={"Authorization": f"Apikey {key}"},
-            files={"video": (mp4.name, v, "video/mp4"),
-                   "thumbnail": (thumb.name, t, "image/jpeg"),
-                   "youtube_subtitle_file": (srt.name, s, "text/plain")},
+            files={"video": (upload_filename(film), v, "video/mp4"),
+                   "thumbnail": (upload_filename(film, ".jpg"), t, "image/jpeg"),
+                   "youtube_subtitle_file": (upload_filename(film, ".srt"), s, "text/plain")},
             data=data,
             timeout=1800,
         )
