@@ -426,6 +426,11 @@ def publish_to_platforms(mp4_path, title, caption, script=None):
         # client has to pass TikTok's audit.
         "post_mode": "DIRECT_POST",
         "privacy_level": "PUBLIC_TO_EVERYONE",
+        # Instagram: Reels is the API default, but share_to_feed is a
+        # separate flag and an unset Reel can sit in the Reels tab without
+        # reaching the follower feed. Stated rather than assumed.
+        "media_type": "REELS",
+        "share_to_feed": "true",
         # These shorts are generated with Seedance. TikTok requires
         # AI-generated content to be disclosed, and labelling it here
         # is both the honest and the safer option for the account.
