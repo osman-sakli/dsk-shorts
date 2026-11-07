@@ -86,10 +86,11 @@ SITE_BUCKET = os.environ.get("SITE_BUCKET")
 SITE_VIDEO_PREFIX = "videos/"
 SITE_MANIFEST_KEY = "content/video-library.json"
 
-# upload-post.com has no per-video "made for kids" / COPPA field, but the
-# Digital Safety Knights YouTube channel has "Made for Kids" set at the
-# channel level (confirmed with the owner) — every upload inherits that
-# designation, so YouTube is safe to include here.
+# The YouTube channel used to be "Made for Kids" at the channel level, so
+# every upload inherited it. Osman changed that to per-video on
+# 2026-11-07, and publish_to_platforms now sends selfDeclaredMadeForKids
+# explicitly from each script's "audience" field — see the long note
+# there for why that setting was costing the channel almost all its reach.
 # Facebook connected on the upload-post.com "DSK" profile 2026-08-01 (page:
 # "Dig Knights") — moved from manual to auto.
 AUTO_PLATFORMS = ["tiktok", "instagram", "youtube", "facebook"]
@@ -208,14 +209,64 @@ NICHE_TAGS_BY_CATEGORY = {
 }
 
 # YouTube's backend "tags" field is a different surface than hashtags (plain
-# keywords, not shown on-screen, used for search/related-video matching) —
-# same category split as NICHE_TAGS_BY_CATEGORY, just without the "#".
+# keywords, not shown on-screen, used for search/related-video matching).
+#
+# These used to be chosen by which mascot appeared in the script, so the
+# "free Robux" short and the voice-cloning short got the same four words.
+# They are now driven by what the video is actually about, and by two
+# different audiences: a parent types a worry ("online predators"), a
+# child types a format or a game ("cartoon for kids", "roblox animation").
+# These shorts are Made for Kids, so they are served in kid contexts too —
+# tagging only for parents throws that half of the reach away.
+#
+# Deliberately absent: high-volume terms the video does not deliver on
+# (Minecraft, trending names). YouTube demotes for irrelevant tags and
+# flags channels that repeat it, and credibility is this org's only asset.
+
 YT_TAGS_BY_CATEGORY = {
-    "scam": ["online scam alert", "internet safety", "protect your kids online", "stranger danger"],
-    "ai": ["ai safety for kids", "media literacy", "parenting in the ai age", "deepfake awareness"],
+    "scam": ["online scam alert", "protect your kids online", "stranger danger", "roblox scam"],
+    "ai": ["ai safety for kids", "media literacy", "deepfake awareness", "ai chatbot safety"],
     "general": ["parenting tips", "screen time tips", "digital parenting", "family internet safety"],
 }
-YT_BASE_TAGS = ["digital safety knights", "kids online safety", "cyberbullying prevention"]
+
+# Matched against the script's title + prompt, longest phrase first so a
+# specific topic beats the generic word inside it.
+YT_TAGS_BY_TOPIC = [
+    (("robux", "v-bucks", "free skin", "loot box", "in-game purchase"),
+     ["free robux scam", "roblox safety for parents", "is free robux real", "roblox for kids"]),
+    (("grooming", "keep it secret", "our secret", "don't tell", "dont tell", "too friendly",
+      "private chat", "meet up", "meet in person", "stranger"),
+     ["online grooming", "what is grooming online", "online predators", "stranger danger for kids"]),
+    (("sextortion", "pressure", "nude", "blackmail"),
+     ["sextortion", "sextortion awareness for parents", "what to do if your child is being blackmailed"]),
+    (("deepfake", "voice clone", "fake image", "ai photo", "ai video"),
+     ["deepfake", "ai voice cloning scam", "how to spot a deepfake", "fake images online"]),
+    (("password", "login", "account", "two-factor", "2fa"),
+     ["password safety for kids", "how to make a strong password", "account security for families"]),
+    (("discord", "server", "dm", "direct message"),
+     ["discord safety for parents", "discord for kids", "is discord safe for kids"]),
+    (("snapchat", "snap map", "disappearing"),
+     ["snapchat safety for parents", "snap map location", "is snapchat safe for kids"]),
+    (("cyberbullying", "bully", "pile on", "mean", "group chat"),
+     ["cyberbullying", "cyberbullying help for parents", "what to do about cyberbullying"]),
+    (("screen time", "scrolling", "feed", "algorithm", "bedtime"),
+     ["screen time for kids", "how much screen time", "kids and social media"]),
+    (("privacy", "personal information", "real name", "address", "school name", "location"),
+     ["online privacy for kids", "what not to share online", "digital footprint for kids"]),
+    (("parental control", "settings", "restriction", "filter"),
+     ["parental controls", "how to set up parental controls", "phone settings for kids"]),
+    (("ai", "chatbot", "bot", "always agrees", "never disagrees"),
+     ["ai chatbot for kids", "is ai safe for kids", "ai companion apps"]),
+    (("fake", "edited photo", "not real", "doctored", "manipulated"),
+     ["fake images online", "how to spot a fake", "media literacy for kids"]),
+]
+
+# Always present. Brand name last, because nobody is searching it yet and
+# YouTube weights earlier tags more heavily.
+YT_BASE_TAGS = ["online safety for kids", "internet safety for kids", "kids online safety"]
+YT_KID_TAGS = ["cartoon for kids", "animated story for kids", "kids educational video", "kids cartoon"]
+YT_BRAND_TAGS = ["digital safety knights"]
+YT_TAGS_MAX_CHARS = 500
 
 
 def _script_characters(script):
@@ -280,8 +331,54 @@ def make_youtube_description(script, caption):
 
 
 def make_youtube_tags(script):
-    category = categorize_script(script)
-    return YT_BASE_TAGS + YT_TAGS_BY_CATEGORY[category]
+    """Tags this video's own topic, for both audiences, inside YouTube's
+    500-character cap.
+
+    Parent terms and kid terms are interleaved rather than concatenated:
+    YouTube weights earlier tags more, so putting one audience's whole
+    list after the other's buries it. Order within the result is
+    topic-specific first (what makes THIS video findable), then the
+    always-on terms, then the brand.
+    """
+    # Hyphens become spaces so "Pile-On" matches the needle "pile on".
+    haystack = (script.get("title", "") + " " + script.get("prompt", "")).lower()
+    haystack = haystack.replace("-", " ").replace("’", "'")
+
+    # Match at a word START but not necessarily its end, so "bully" finds
+    # "bullying" and "pressure" finds "pressures". Short needles stay
+    # exact-word, because a prefix match on "ai" would fire on "aim" and
+    # "air" and put AI tags on every video regardless of topic.
+    topical = []
+    for needles, tags in YT_TAGS_BY_TOPIC:
+        for n in needles:
+            edge = r"\b" if len(n) <= 3 else ""
+            if re.search(r"\b" + re.escape(n) + edge, haystack):
+                topical += tags
+                break
+    topical += YT_TAGS_BY_CATEGORY[categorize_script(script)]
+
+    # Interleave the two audiences so neither sits entirely at the weak end.
+    parent = topical + YT_BASE_TAGS
+    kid = list(YT_KID_TAGS)
+    ordered = []
+    for i in range(max(len(parent), len(kid))):
+        if i < len(parent):
+            ordered.append(parent[i])
+        if i < len(kid):
+            ordered.append(kid[i])
+    ordered += YT_BRAND_TAGS
+
+    out, used, seen = [], 0, set()
+    for t in ordered:
+        if t in seen:
+            continue
+        cost = len(t) + (1 if out else 0)
+        if used + cost > YT_TAGS_MAX_CHARS:
+            continue
+        out.append(t)
+        used += cost
+        seen.add(t)
+    return out
 
 
 def make_thumbnail(mp4_path, out_path):
