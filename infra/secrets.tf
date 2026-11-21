@@ -18,6 +18,13 @@ resource "aws_secretsmanager_secret" "github_token" {
 resource "aws_secretsmanager_secret_version" "github_token" {
   secret_id     = aws_secretsmanager_secret.github_token.id
   secret_string = var.github_token
+
+  # The real token is put straight into Secrets Manager (it was a placeholder
+  # here until 2026-11-21). Without this, any later `terraform apply` would
+  # write the placeholder back over it and new-script commits would 401 again.
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
 }
 
 resource "aws_secretsmanager_secret" "fal_api_key" {
