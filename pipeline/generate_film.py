@@ -9,11 +9,13 @@ Workflow (the order is the whole point — nothing is generated twice):
                    in the same place, so sets and lighting stay identical.
   2. (review)      Look at out/<film>/keyframes/*.png. Fix a still by deleting
                    it and re-running --keyframes KFnn. Cheap (~$0.15 each).
-  3. --shot N      Render one 30s shot with Seedance 2.5 image-to-video using
+  3. --shot N      Render one 30s shot with Kling 4.0 image-to-video using
      --all         the approved stills as first AND last frame. Because shot N's
                    last frame IS shot N+1's first frame (same file), the cut
                    lands on an identical image — continuity by construction,
-                   not by prompt luck.
+                   not by prompt luck. A shot may also list up to 8 "middle"
+                   keyframe ids, handed to Kling as in-between frames — use
+                   them to hold a crowded action shot on-model.
   4. --stitch      Concatenate, then optionally lay a DSK song under the
                    dialogue with --music.
 
@@ -38,12 +40,22 @@ import requests
 
 IMAGE_EDIT_URL = "https://fal.run/fal-ai/nano-banana-pro/edit"
 IMAGE_T2I_URL = "https://fal.run/fal-ai/nano-banana-pro"
-VIDEO_URL = "https://fal.run/bytedance/seedance-2.5/us/image-to-video"
+# Long films render on Kling 4.0. Film 1 was Seedance 2.5; on 2026-11-25 its
+# shot 5 was re-rendered on Kling from the same keyframes and prompt: all four
+# lines spoken in one take (Seedance needed three takes and an audio splice),
+# first/last frames landed tighter (mean-diff 3.5/2.5 vs 7.1/13.0), at a third
+# of the price. Kling is weaker when four characters sprint together (bodies
+# overlap) — keep crowded action to 2-3 characters or give it middle frames.
+# The daily shorts stay on Seedance; that path is fal_video.py.
+VIDEO_MODEL = "kling/v4/image-to-video"
+VIDEO_QUEUE_URL = "https://queue.fal.run/" + VIDEO_MODEL
 
 # fal list prices, 2026-11 (per the model pages): nano-banana-pro $0.15/image,
-# seedance 2.5 $0.2205/s @480p, $0.4730/s @720p, $1.164/s @1080p.
+# kling 4.0 $0.157/s @720p, $0.235/s @1080p, $0.549/s @4k. There is no 480p,
+# and fal's default is 1080p, so the resolution is always sent explicitly.
 IMAGE_USD = 0.15
-VIDEO_USD_PER_SEC = {"480p": 0.2205, "720p": 0.4730, "1080p": 1.164}
+VIDEO_USD_PER_SEC = {"720p": 0.157, "1080p": 0.235, "4k": 0.549}
+MAX_MIDDLE_FRAMES = 8
 
 
 def log(msg):
@@ -192,12 +204,17 @@ def shot_prompt(film, shot):
     presence += " Each character appears exactly once."
     cast = "\n".join(f"{n}: {film['CAST'][n]}" for n in on)
     parts = [
-        "Pixar-style 3D animated feature film, one continuous 30-second shot. Energetic, expressive character "
+        f"Pixar-style 3D animated feature film, one continuous {film['shotSeconds']}-second shot. Energetic, expressive character "
         "acting, fluid dynamic camera, rich visual effects — every second has movement.",
         "CAST (exact appearance, unchanged):\n" + cast,
         film["CANONICAL_WORLD"],
         film["CANONICAL_VOICES"],
         presence,
+        # From the Kling test: in a 4-character sprint bodies overlapped,
+        # "glides" was read as flying, and anime speed-lines appeared.
+        "STAGING: every character keeps their own body and their own space — characters never overlap, merge "
+        "or pass through each other. Nobody flies unless the action says so. No speed lines, motion streaks "
+        "or other drawn-on effects.",
         "The video begins exactly on the provided first frame and must arrive naturally at and end exactly on the "
         "provided last frame — same positions, poses and lighting as that final image.",
         "ACTION: " + shot["action"],
@@ -219,10 +236,23 @@ def shot_prompt(film, shot):
 def check(film):
     kfs = kf_by_id(film)
     problems = []
+    if film["resolution"] not in VIDEO_USD_PER_SEC:
+        problems.append(f"resolution {film['resolution']} not offered by {VIDEO_MODEL} "
+                        f"(choose {', '.join(VIDEO_USD_PER_SEC)})")
+    if not 3 <= int(film["shotSeconds"]) <= 30:
+        problems.append(f"shotSeconds {film['shotSeconds']} outside {VIDEO_MODEL}'s 3-30s")
+    if film.get("videoModel") and film["videoModel"] != VIDEO_MODEL:
+        log(f"note: {film['_path'].name} says videoModel {film['videoModel']}; shots render on {VIDEO_MODEL}")
     for s in film["shots"]:
         for key in ("start", "end"):
             if s[key] not in kfs:
                 problems.append(f"shot {s['n']}: {key} keyframe {s[key]} not defined")
+        mids = s.get("middle", [])
+        if len(mids) > MAX_MIDDLE_FRAMES:
+            problems.append(f"shot {s['n']}: {len(mids)} middle frames, max {MAX_MIDDLE_FRAMES}")
+        for k in mids:
+            if k not in kfs:
+                problems.append(f"shot {s['n']}: middle keyframe {k} not defined")
         for d in s["dialogue"]:
             if d["who"] not in s["onScreen"]:
                 problems.append(f"shot {s['n']}: {d['who']} speaks but is not onScreen")
@@ -245,12 +275,13 @@ def check(film):
             problems.append(f"{k['id']}: locationRef {lr} not defined")
 
     secs = film["shotSeconds"]
-    vid = VIDEO_USD_PER_SEC[film["resolution"]] * secs * len(film["shots"])
+    rate = VIDEO_USD_PER_SEC.get(film["resolution"], 0)
+    vid = rate * secs * len(film["shots"])
     img = IMAGE_USD * len(film["keyframes"])
     log(f"Title      : {film['title']}")
     log(f"Shots      : {len(film['shots'])} x {secs}s = {len(film['shots'])*secs}s ({len(film['shots'])*secs/60:.1f} min) @ {film['resolution']}")
     log(f"Keyframes  : {len(film['keyframes'])}  (~${img:.2f})")
-    log(f"Video est. : ~${vid:.2f}   (${VIDEO_USD_PER_SEC[film['resolution']]}/s)")
+    log(f"Video est. : ~${vid:.2f}   ({VIDEO_MODEL}, ${rate}/s)")
     log(f"TOTAL est. : ~${vid+img:.2f}")
     log("")
     log("Chain:")
@@ -273,6 +304,46 @@ def fal_post(url, payload, key, timeout):
                       json=payload, timeout=timeout)
     if not r.ok:
         raise RuntimeError(f"{r.status_code}: {r.text[:500]}")
+    return r.json()
+
+
+class StillRunning(RuntimeError):
+    """The render is still going at fal; the request stays recorded so the
+    next run collects it."""
+
+
+def fal_queue(url, payload, key, on_submit, pending=None, max_wait=3000):
+    """Submit to fal's queue and poll until done. A 30s Kling shot takes ~6
+    minutes; going through the queue means a dropped connection or a killed
+    run does not lose a paid render — on_submit records the request, and the
+    next run passes it back as `pending` to collect it instead of paying again."""
+    h = {"Authorization": f"Key {key}", "Content-Type": "application/json"}
+    if pending:
+        j = pending
+        log(f"   collecting earlier request {j['request_id']}")
+    else:
+        r = requests.post(url, headers=h, json=payload, timeout=120)
+        if not r.ok:
+            raise RuntimeError(f"{r.status_code}: {r.text[:500]}")
+        j = r.json()
+        on_submit({k: j[k] for k in ("request_id", "status_url", "response_url")})
+    t0 = time.time()
+    while True:
+        try:
+            st = requests.get(j["status_url"], headers=h, timeout=60).json().get("status")
+        except (requests.RequestException, ValueError):
+            st = "IN_PROGRESS"  # a blip while polling is not a failed render
+        if st == "COMPLETED":
+            break
+        if st not in ("IN_QUEUE", "IN_PROGRESS"):
+            raise RuntimeError(f"fal request {j['request_id']} ended with status {st}")
+        if time.time() - t0 > max_wait:
+            raise StillRunning(f"fal request {j['request_id']} still running after {max_wait}s — "
+                               "re-run the same command later to collect it")
+        time.sleep(15)
+    r = requests.get(j["response_url"], headers=h, timeout=120)
+    if not r.ok:
+        raise RuntimeError(f"fal request {j['request_id']} failed — {r.status_code}: {r.text[:500]}")
     return r.json()
 
 
@@ -332,16 +403,36 @@ def render_shot(film, shot, key, m):
     log(f"[shot {shot['n']}] {shot['act']}  {shot['start']} -> {shot['end']}  ~${cost:.2f}")
     payload = {
         "prompt": shot_prompt(film, shot),
-        "image_url": frame_source(film, m, shot["start"]),
+        "start_image_url": frame_source(film, m, shot["start"]),
         "end_image_url": frame_source(film, m, shot["end"]),
         "resolution": film["resolution"],
-        "duration": str(film["shotSeconds"]),
-        "generate_audio": True,
-        "bitrate_mode": "high",
+        "duration": int(film["shotSeconds"]),
     }
+    if shot.get("middle"):
+        payload["middle_image_urls"] = [frame_source(film, m, k) for k in shot["middle"]]
+    # Kling always returns audio (the spoken dialogue); there is no toggle.
+    # The in-flight request goes through record() like everything else, so
+    # parallel --shot runs merge into the manifest instead of overwriting it.
+    sid = str(shot["n"])
     t0 = time.time()
-    res = fal_post(VIDEO_URL, payload, key, timeout=2400)
+
+    def forget():
+        fresh = read_manifest(film)
+        fresh.get("pending", {}).pop(sid, None)
+        write_manifest(film, fresh)
+        m.clear(); m.update(fresh)
+
+    try:
+        res = fal_queue(VIDEO_QUEUE_URL, payload, key,
+                        on_submit=lambda req: record(film, m, "pending", sid, req, 0),
+                        pending=read_manifest(film).get("pending", {}).get(sid))
+    except StillRunning:
+        raise
+    except Exception:
+        forget()  # a failed request must not be "collected" again on every re-run
+        raise
     size = download(res["video"]["url"], out)
+    forget()
     record(film, m, "shots", str(shot["n"]),
            {"fal_url": res["video"]["url"], "file": str(out), "seed": res.get("seed")}, cost)
     log(f"   done {int(time.time()-t0)}s -> {out.name} ({size/1_000_000:.1f} MB)   spent so far ~${m['spent_usd']:.2f}")
@@ -450,7 +541,9 @@ def stitch(film, music=None, music_db=-16.0):
         f"[1:a]volume='{music_envelope(film)}':eval=frame,"
         f"afade=t=in:d=2,afade=t=out:st={total - 4}:d=4[mraw];"
         f"[mraw][key]sidechaincompress=threshold=0.015:ratio=12:attack=12:release=420:makeup=1[mduck];"
-        f"[dia][mduck]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]"
+        f"[dia][mduck]amix=inputs=2:duration=first:dropout_transition=0:normalize=0,"
+        # Kling's dialogue peaks near 0 dBFS; without a limiter the sum clips.
+        f"alimiter=limit=0.89:level=0[a]"
     )
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(joined),
                     "-stream_loop", "-1", "-i", str(pathlib.Path(music).resolve()),

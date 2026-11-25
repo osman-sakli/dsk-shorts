@@ -12,7 +12,7 @@ import json
 import pathlib
 import sys
 
-VIDEO_USD_PER_SEC = {"480p": 0.2205, "720p": 0.4730, "1080p": 1.164}
+from generate_film import IMAGE_USD, VIDEO_MODEL, VIDEO_USD_PER_SEC  # one price table, not two
 
 
 _cache = {}
@@ -87,12 +87,10 @@ def main(script, out=None):
 </style></head><body>
 <div class="hero"><h1>🎬 {html.escape(film['title'])} — storyboard</h1>
 <p>{html.escape(film.get('logline',''))}</p>
-<p>{n} shots × {secs}s = {n*secs//60} min · {film['aspectRatio']} · keyframes by {html.escape(film['imageModel'])} · video by {html.escape(film['videoModel'])}</p></div>
+<p>{n} shots × {secs}s = {n*secs//60} min · {film['aspectRatio']} · keyframes by {html.escape(film['imageModel'])} · video by {html.escape(VIDEO_MODEL)}</p></div>
 <div class="wrap">
-<div class="budget"><b>Budget</b> — keyframes ~${0.15*len(film['keyframes']):.2f} (done once). Video, 8 × 30s:
-<table><tr><th>480p</th><td>${cost['480p']:.2f}</td><td>fits the $100 with margin</td></tr>
-<tr><th>720p</th><td>${cost['720p']:.2f}</td><td>needs ~$20 more, or 7 shots (3.5 min) for ~$99</td></tr>
-<tr><th>1080p</th><td>${cost['1080p']:.2f}</td><td>out of reach for now</td></tr></table></div>
+<div class="budget"><b>Budget</b> — keyframes ~${IMAGE_USD*len(film['keyframes']):.2f} (done once). Video on {VIDEO_MODEL}, {n} × {secs}s:
+<table>{''.join(f"<tr><th>{r}</th><td>${c:.2f}</td><td>{'← this film' if r == film['resolution'] else ''}</td></tr>" for r, c in cost.items())}</table></div>
 {''.join(rows)}
 </div></body></html>"""
     out.write_text(page)
